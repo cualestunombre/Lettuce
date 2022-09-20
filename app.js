@@ -4,8 +4,10 @@ const morgan  = require('morgan');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const {sequelize} = require("./models");
+const port = 8000;
 const db = require("./models");
 dotenv.config();//환경 변수용
+app.use("/static", express.static(__dirname + "/static"));
 const app = express();
 app.set("view engine", "ejs")
 app.use(morgan('dev')); // 패킷 정보 공개
@@ -41,6 +43,7 @@ sequelize.sync({force:true})
 app.use((err,req,res,next)=>{
     res.render('error',{error:err.message});
 });
-app.listen(8040);
-
+app.listen(port, ()=>{
+    console.log( "Server Port : ", port );
+});
 

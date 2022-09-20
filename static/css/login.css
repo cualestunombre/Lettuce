@@ -14,7 +14,7 @@
 }
 .container {
     width: 400px !important;
-    height: 460px !important;
+    height: 480px !important;
     background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -52,6 +52,14 @@
     border-radius: 5px;
     border: none;
 }
+.birthDay {
+    font-size: 13px;
+}
+.birthDay select {
+    border: none;
+    border-radius: 3px;
+    padding: 1px;
+}
 .loginBtn, .signupBtn {
     width: 180px;
     height: 30px;
@@ -63,6 +71,10 @@
 }
 .signupBtn {
     margin-bottom: 30px;
+}
+.signupBtn a {
+    text-decoration: none;
+    color: black;
 }
 .loginBtn:hover, .signupBtn:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -87,6 +99,7 @@
 }
 .registered {
     margin-top: 20px;
+    font-size: 13px;
 }
 .loginLink {
     color: #87C228;

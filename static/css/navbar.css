@@ -3,14 +3,17 @@
     display: flex;
 }
 .container-fluid {
-    display: flex;
+    align-items: center !important;
     justify-content: space-between !important;
 }
 .navbar-brand{
     margin-left: 10px;
 }
+.d-flex {
+    margin: 0;
+}
 .navbar-brand img {
-    width: 100px;
+    width: 110px;
     height: 50px;
 }
 .navbar-collapse{

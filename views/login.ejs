@@ -16,7 +16,7 @@
             <div class="title"><img src="/static/image/logo.png"></div>
             <div style="font-size: 13px;">LET US WELCOME YOU</div>
             <form class="form">
-                <input class="idInput" name="email" type="email" placeholder="  이메일 또는 전화번호를 입력하세요"><br>
+                <input class="idInput" name="email" type="email" placeholder="  이메일을 입력하세요"><br>
                 <input class="pwInput" name="password" type="password" placeholder="  비밀번호를 입력하세요"><br>
                 <button class="loginBtn" type="button" onclick="dynamicForm()">로그인</button><br>
                 <button class="signupBtn" type="button"><a href="/auth/join">회원가입</a></button>
@@ -32,6 +32,15 @@
                 email : form.email.value,
                 password : form.password.value,
             }
+            var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            if(data.email.match(regExp) == null){
+                alert("이메일 형식이 맞는지 확인해 주세요");
+                return ;
+            }
+            if(data.password.length==0){
+                alert("비밀번호를 입력해주세요");
+                return;
+            }
             axios ({
                 url:"/auth/login",
                 method:"post",
@@ -39,7 +48,7 @@
             }).then((response) => {
                 if(response.data.code == 200) window.location = "/"
                 else{
-                    alert("id또는 비밀번호가 잘못 되었습니다.");
+                    alert("유효하지 않은 이메일 또는 비밀번호 입니다");
                 }
             })
         }

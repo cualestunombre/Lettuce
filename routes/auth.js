@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const bcrypt = require("bcrypt");
 const {isLoggedIn, isNotLoggedIn} = require('./middlewares');
 const {User} = require("../models");
 
@@ -13,10 +14,12 @@ router.post('/signup',isNotLoggedIn,async(req,res,next)=>{
         if (exUser){
             return res.send({code:400});// 실패
         }
+        const hash = await bcrypt.hash(password,12);
+        console.log(hash,password);
         await User.create({
             email,
             nickName,
-            password,
+            password:hash,
             birthday
         });
         return res.send({code:200}); //성공

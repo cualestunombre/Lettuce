@@ -33,7 +33,6 @@ router.get("/profile", async (req, res) => {
         nickName: userinfo.nickName,
         profile: userinfo.profile
     }
-    console.log(data);
     res.render('profile', { data });
 });
 

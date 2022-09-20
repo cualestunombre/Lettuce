@@ -12,18 +12,39 @@
 
 <body>
   <form>
-
-    <img src="<%=data.profile%> " style="width: 200px; height: 200px;"><br>
-    <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button>
-    <input type="file" name="userfile" id="file_upload" onchange="fileUpload();">
+    <img id="profile_img" src="<%=data.profile%> " style="width: 200px; height: 200px;"><br>
+    <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
+    <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload();">
     이름<input type="text" name="name" value="<%=data.nickName %>"><br>
-    생년월일<input type="text" name="birth" value="<%=data.birthday %>"><br>
     소개<input type="text" name="comment" value="<%=data.comment %>"><br>
-    이메일<input type="text" name="email" value="<%=data.email %>"><br>
-    <button type="submit">제출</button>
+    생년월일<input type="date" name="birth" value="<%=data.birthday %>"><br>
+    이메일<input type="text" name="email" value="<%=data.email %>" disabled><br>
+    <button type="button" onclick="updateUser();">제출</button>
+    <button type="button" onclick="deleteUser();">회원탈퇴</button>
   </form>
 
   <script>
+    function updateUser() {
+      var form = document.querySelector("form");
+      var data = {
+        name: form.name.value,
+        comment: form.comment.value,
+        birthday: form.birth.value
+      }
+
+      axios({
+        url: "/mypage/update",
+        method: "post",
+        data: data
+      }).then((response) => {
+        console.log(response);
+        alert("프로필 업데이트 완료");
+        $('input[name=name').attr('value', response.data.name);
+        $('input[name=comment').attr('value', response.data.comment);
+        $('input[name=birthday').attr('value', response.data.birthday);
+      })
+    }
+
     function img_load() {
       $("#file_upload").click();
     }
@@ -36,13 +57,22 @@
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        url: "/profile_upload",
+        url: "/mypage/fileupload",
         method: "post",
         data: formData // formData 전송
       }).then((response) => {
-        var img_path = response.data.path;
-        sendImg(img_path);
-        $("#file_upload").val('');
+        var img_url = response.data.path;
+        $("#profile_img").attr("src", img_url);
+      })
+    }
+
+    function deleteUser() {
+      axios({
+        url: "/deleteUser",
+        method: "post",
+      }).then((response) => {
+        alert("삭제가 완료되었습니다.");
+        location.href = "/"
       })
     }
   </script>

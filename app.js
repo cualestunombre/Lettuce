@@ -1,9 +1,9 @@
-const express = require('express'); 
-const cookieParser = require('cookie-parser');
-const morgan  = require('morgan');
-const session = require('express-session');
-const dotenv = require('dotenv');
-const {sequelize} = require("./models");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+const session = require("express-session");
+const dotenv = require("dotenv");
+const { sequelize } = require("./models");
 const port = 8000;
 const db = require("./models");
 dotenv.config();//환경 변수용
@@ -44,20 +44,12 @@ sequelize.sync({force:false})
         console.error(err);
     }); // DB연결
 
- 
-
-
 app.use("/",indexRouter); // index router 로 이동
 app.use("/auth",authRouter); // auth router 사용
 
-
-
-
-
-app.use((err,req,res,next)=>{
-    res.render('error',{error:err.message});
+app.use((err, req, res, next) => {
+  res.render("error", { error: err.message });
 });
-app.listen(port, ()=>{
-    console.log( "Server Port : ", port );
+app.listen(port, () => {
+  console.log("Server Port : ", port);
 });
-

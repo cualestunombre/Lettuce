@@ -8,31 +8,33 @@
     font-family: 'HallymGothic-Regular';
 }
 .wrap {
-    height: 98vh;
+    height: 90vh;
     display: flex;
     align-items: center;
 }
 .container {
-    width: 400px;
-    height: 450px;
-    background-color: #e8ffca;
+    width: 400px !important;
+    height: 460px !important;
+    background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin: auto;
     text-align: center;
 }
 .signupContainer {
-    width: 400px;
-    height: 600px;
-    background-color: #e8ffca;
+    width: 400px !important;
+    height: 600px !important;
+    background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin: auto;
     text-align: center;
 }
-.title {
-    font-size: 45px;
-    padding: 30px;
+.title img{
+    width: 200px !important;
+    height: 120px !important;
+    padding-top: 20px;
+    padding-bottom: 15px;
 }
 .idInput, .nameInput, .nicknameInput {
     width: 250px;
@@ -57,7 +59,7 @@
     border: none;
     border-radius: 5px;
     margin-bottom: 10px;
-    background-color: #71BE54;
+    background-color: #87C228;
 }
 .signupBtn {
     margin-bottom: 30px;
@@ -76,7 +78,7 @@
     width: 250px;
     height: 30px;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-bottom: 20px;
     border: none;
 }
@@ -87,7 +89,7 @@
     margin-top: 20px;
 }
 .loginLink {
-    color: #70BE55;
+    color: #87C228;
     text-decoration: none;
     font-weight: bold;
 }

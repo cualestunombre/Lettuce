@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <%-include("navbar.ejs")%>
     <div class="wrap">
         <div class="container">
-            <div class="title">LETTUCE</div>
+            <div class="title"><img src="/static/image/logo.png"></div>
+            <div style="font-size: 13px;">LET US WELCOME YOU</div>
             <form class="form">
                 <input class="idInput" name="email" type="email" placeholder="  이메일 또는 전화번호를 입력하세요"><br>
                 <input class="pwInput" name="password" type="password" placeholder="  비밀번호를 입력하세요"><br>

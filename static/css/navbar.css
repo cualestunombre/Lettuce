@@ -1,0 +1,32 @@
+.navbar {
+    background-color: #F9F4D9;
+    display: flex;
+}
+.container-fluid {
+    display: flex;
+    justify-content: space-between !important;
+}
+.navbar-brand{
+    margin-left: 10px;
+}
+.navbar-brand img {
+    width: 100px;
+    height: 50px;
+}
+.navbar-collapse{
+    flex-grow: 0;
+}
+.nav-item {
+    text-align: center;
+}
+.nav-link > i:hover {
+    color: #87C228;
+    transition: 0.5s;
+}
+.nav-link > i {
+    font-size: 25px;
+    padding: 0 10px;
+}
+.form-control {
+    width: 500px;
+}

@@ -4,7 +4,7 @@ const morgan  = require('morgan');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const {sequelize} = require("./models");
-
+const db = require("./models");
 dotenv.config();//환경 변수용
 const app = express();
 app.set("view engine", "ejs")

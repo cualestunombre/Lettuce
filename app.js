@@ -3,22 +3,28 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const session = require('express-session');
 const dotenv = require('dotenv');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+const session = require("express-session");
+const dotenv = require("dotenv");
 const { sequelize } = require("./models");
 const port = 8000;
 const db = require("./models");
 dotenv.config();//환경 변수용
-
+const webSocket = require("./socket.js");
 const app = express();
-app.use(session({
-    resave: false,
+const sessionMiddleware = session({
+    resave:false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
         secure: false,
-        maxAge: 1000000,
-    },
-})); // 세션객체 설정
+        maxAge:1000000,
+    }, 
+})
+app.use(sessionMiddleware); // 세션객체 설정
 
 const passport = require('passport'); // js에서 index.js파일은 파일명을 생략할 수 가 있다
 const passportConfig = require('./passport');
@@ -45,21 +51,15 @@ sequelize.sync({ force: false })
         console.error(err);
     }); // DB연결
 
-
-
-
-app.use("/", indexRouter); // index router 로 이동
-app.use("/auth", authRouter); // auth router 사용
+app.use("/",indexRouter); // index router 로 이동
+app.use("/auth",authRouter); // auth router 사용
 app.use("/", profileRouter);
 
-
-
-
-
 app.use((err, req, res, next) => {
-    res.render('error', { error: err.message });
+  res.render("error", { error: err.message });
 });
-app.listen(port, () => {
-    console.log("Server Port : ", port);
+const server = app.listen(port, () => {
+  console.log("Server Port : ", port);
 });
 
+webSocket(server,app,sessionMiddleware);

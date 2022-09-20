@@ -23,7 +23,7 @@
 }
 .signupContainer {
     width: 400px !important;
-    height: 620px !important;
+    height: 640px !important;
     background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -53,6 +53,7 @@
     border: none;
 }
 #pwInfo{
+    margin-top: 10px;
     height: 40px;
 }
 .pwCheckFalse{
@@ -92,7 +93,7 @@
     width: 250px;
     height: 30px;
     border-radius: 5px;
-    margin-top: 15px;
+    margin-top: 20px;
     margin-bottom: 20px;
     border: none;
 }
@@ -121,4 +122,8 @@ a{
 button:hover{
     cursor:pointer;
 }
-
+#passwordInfo{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 15px;
+}

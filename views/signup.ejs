@@ -21,7 +21,7 @@
                 <input class="nicknameInput" name="nickName" placeholder="  닉네임을 입력하세요" required><br>
                 <input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" required><br>
                 <input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" required><br>
-                <div id="pwInfo"></div>
+                <div id="pwInfo"><p id="passwordInfo">8~16자 영문 대소문자, 숫자를 사용하세요</p></div>
                 생년월일:<select name="year" required>
                     <%for(var year=1950; year <=2022; year++){%>
                     <option value="<%=year%>"><%=year%></option>
@@ -54,6 +54,9 @@
                     if(document.querySelector(".pwCheckTrue")){
                         document.querySelector(".pwCheckTrue").remove();
                     }
+                    if(document.querySelector("#passwordInfo")){
+                        document.querySelector("#passwordInfo").remove();
+                    }
                     const p = document.createElement("p");
                     p.innerText="비밀번호가 같지 않아요";
                     p.classList.add("pwCheckFalse")
@@ -66,6 +69,9 @@
                         document.querySelector(".pwCheckFalse").remove();
                     }
                     if(pw1.length!=0 && $(this).val().length!=0){
+                        if(document.querySelector("#passwordInfo")){
+                            document.querySelector("#passwordInfo").remove();
+                        }
                         const p = document.createElement("p");
                         p.innerText="비밀번호가 같아요";
                         p.classList.add("pwCheckTrue")
@@ -78,6 +84,10 @@
                         if(document.querySelector(".pwCheckFalse")){
                             document.querySelector(".pwCheckFalse").remove();
                         }
+                        const info = document.createElement("p");
+                        info.setAttribute("id","passwordInfo");
+                        info.innerText="8~16자 영문 대소문자, 숫자를 사용하세요";
+                        document.querySelector("#pwInfo").appendChild(info);
                     }
                 }
             }
@@ -89,10 +99,14 @@
                     if(document.querySelector(".pwCheckTrue")){
                         document.querySelector(".pwCheckTrue").remove();
                     }
+                    if(document.querySelector("#passwordInfo")){
+                        document.querySelector("#passwordInfo").remove();
+                    }
                     const p = document.createElement("p");
                     p.innerText="비밀번호가 같지 않아요";
                     p.classList.add("pwCheckFalse")
                     document.querySelector("#pwInfo").appendChild(p);
+                    
                 }
             }
             else{
@@ -101,6 +115,9 @@
                         document.querySelector(".pwCheckFalse").remove();
                     }
                     if(pw2.length!=0 && $(this).val().length!=0){
+                        if(document.querySelector("#passwordInfo")){
+                            document.querySelector("#passwordInfo").remove();
+                        }
                         const p = document.createElement("p");
                         p.innerText="비밀번호가 같아요";
                         p.classList.add("pwCheckTrue")
@@ -113,6 +130,10 @@
                         if(document.querySelector(".pwCheckFalse")){
                             document.querySelector(".pwCheckFalse").remove();
                         }
+                        const info = document.createElement("p");
+                        info.setAttribute("id","passwordInfo");
+                        info.innerText="8~16자 영문 대소문자, 숫자를 사용하세요";
+                        document.querySelector("#pwInfo").appendChild(info);
                     }
                 
                 }
@@ -152,6 +173,7 @@
 
             var email = $(".idInput").val();
             var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var regExpSecond = /^[A-Za-z0-9]{8,16}$/;
             var password = $("#check1").val();
             var password1 = $("#check2").val();
 
@@ -167,7 +189,28 @@
                 alert("비밀번호를 다시 확인해 주세요");
                 return;
             }
-
+            if(password.match(regExpSecond)){
+                let alphaCount=0;
+                let numCount= 0;
+                for(let i=0;i<password.length;i++){
+                    if(!isNaN(password[i])){
+                        numCount+=1;
+                    }
+                }
+                if(numCount==0){
+                    alert("최소 하나의 숫자를 비밀번호에 포함해 주세요");
+                    return;
+                    
+                }
+                if(password.length-numCount==0){
+                    alert("최소 하나의 영문 대소문자를 비밀번호에 포함해 주세요");
+                    return;
+                }
+            }
+            else{
+                alert("8~16자 영문 대소문자, 숫자를 사용하세요");
+                return;
+            }
             var form = document.querySelector("form");
             var birthday = form.year.value+"-"+form.month.value+"-"+form.day.value;
             

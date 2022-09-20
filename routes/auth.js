@@ -56,6 +56,20 @@ router.post('/login',isNotLoggedIn,(req,res,next)=>{
 
 
 
+//중복체크
+router.post('/emailCheck',(req,res)=>{
+    User.findAll({
+        where:{email:req.body.email}
+    }).then((result)=>{
+        if(result.length>0){
+            res.send({code:400});
+        }
+        else{
+            res.send({code:200});
+        }
+    })
+})
+
 
 
 

@@ -16,7 +16,7 @@
             <div class="title"><img src="/static/image/logo.png"></div>
             <div style="font-size: 13px;">LET US WELCOME YOU</div>
             <form class="form">
-                <input class="idInput" name="email" type="email" placeholder="  이메일 또는 전화번호를 입력하세요"><br>
+                <input class="idInput" name="email" type="email" placeholder="  이메일을 입력하세요"><button type="button" onclick="emailCheck()">중복검사</button><br>
                 <input class="nicknameInput" name="nickName" placeholder="  닉네임을 입력하세요"><br>
                 <input class="pwInput" name="password" type="password" placeholder="  비밀번호를 입력하세요"><br>
                 생년월일:<select name="year" required>
@@ -34,16 +34,48 @@
                         <option value="<%=day%>"><%=day%></option>
                         <% }%>
                 </select>일<br><br>
-                <button class="signupBtn" type="button" onclick="join()">회원가입</button>
+                <button class="signupBtn" type="button" disabled="false" onclick="join()">회원가입</button>
             </form>
             <div class="line"></div>
             <button class="kakaoBtn"><i class="fa-sharp fa-solid fa-comment"></i> 카카오톡 계정으로 로그인</button>
-            <div class="registered">이미 ID가 있으신가요? <a href="/login" class="loginLink">로그인</a></div>
+            <div class="registered">이미 ID가 있으신가요? <a href="/auth/login" class="loginLink">로그인</a></div>
         </div>
     </div>
 
 
     <script>
+
+        function emailCheck(){
+            
+            var email = $(".idInput").val();
+            var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+            console.log(email)
+            if(email.match(regExp) == null){
+                alert("이메일 형식이 맞는지 확인해 주세요.");
+                return false;
+            }
+            var form = document.querySelector("form");
+            var data = {email:form.email.value}
+            
+            
+
+            axios({
+                url:"/auth/emailCheck",
+                method:"post",
+                data:data
+            }).then((response)=>{
+                if(response.data.code == 400){
+                    alert("중복된 닉네임 입니다.");
+                }
+                else{
+                    alert("사용 가능한 닉네임 입니다.");
+                    $(".signupBtn").removeAttr("disabled");
+                }
+            })
+        }
+
+
         function join(){
             var form = document.querySelector("form");
             var birthday = form.year.value+"-"+form.month.value+"-"+form.day.value;

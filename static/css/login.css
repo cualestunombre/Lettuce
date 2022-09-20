@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'HallymGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+* {
+    font-family: 'HallymGothic-Regular';
+}
+.wrap {
+    height: 98vh;
+    display: flex;
+    align-items: center;
+}
+.container {
+    width: 400px;
+    height: 450px;
+    background-color: #e8ffca;
+    border-radius: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin: auto;
+    text-align: center;
+}
+.signupContainer {
+    width: 400px;
+    height: 600px;
+    background-color: #e8ffca;
+    border-radius: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin: auto;
+    text-align: center;
+}
+.title {
+    font-size: 45px;
+    padding: 30px;
+}
+.idInput, .nameInput, .nicknameInput {
+    width: 250px;
+    height: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+}
+.pwInput {
+    width: 250px;
+    height: 35px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    border: none;
+}
+.loginBtn, .signupBtn {
+    width: 180px;
+    height: 30px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #71BE54;
+}
+.signupBtn {
+    margin-bottom: 30px;
+}
+.loginBtn:hover, .signupBtn:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.line {
+    background-color: black;
+    width: 300px;
+    height: 1px;
+    margin: auto;
+}
+.kakaoBtn {
+    background-color: #FEE501;
+    width: 250px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+}
+.kakaoBtn:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.registered {
+    margin-top: 20px;
+}
+.loginLink {
+    color: #70BE55;
+    text-decoration: none;
+    font-weight: bold;
+}

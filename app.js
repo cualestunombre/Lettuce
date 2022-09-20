@@ -46,10 +46,7 @@ sequelize.sync({force:false})
 
  
 
-app.use((req,res,next)=>{
-    console.log(req.user);
-    next();
-})
+
 app.use("/",indexRouter); // index router 로 이동
 app.use("/auth",authRouter); // auth router 사용
 

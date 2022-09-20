@@ -7,9 +7,9 @@ const { sequelize } = require("./models");
 const port = 8000;
 const db = require("./models");
 dotenv.config();//환경 변수용
-
+const webSocket = require("./socket.js");
 const app = express();
-app.use(session({
+const sessionMiddleware = session({
     resave:false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
@@ -18,7 +18,8 @@ app.use(session({
         secure: false,
         maxAge:1000000,
     }, 
-})); // 세션객체 설정
+})
+app.use(sessionMiddleware); // 세션객체 설정
 
 const passport = require('passport'); // js에서 index.js파일은 파일명을 생략할 수 가 있다
 const passportConfig = require('./passport');
@@ -50,6 +51,8 @@ app.use("/auth",authRouter); // auth router 사용
 app.use((err, req, res, next) => {
   res.render("error", { error: err.message });
 });
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log("Server Port : ", port);
 });
+
+webSocket(server,app,sessionMiddleware);

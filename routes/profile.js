@@ -7,7 +7,7 @@ const upload = multer({
         },
         filename(req, file, done) {
             const ext = path.extname(file.originalname);
-            done(null, path.basename(file.originalname) + ext);
+            done(null, path.basename(file.originalname) + Date.now() + ext);
         },
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
@@ -27,7 +27,6 @@ router.get("/profile", async (req, res) => {
             email: req.query.email
         }
     })
-    console.log(userinfo);
     var data = {
         email: userinfo.email,
         nickName: userinfo.nickName,
@@ -41,13 +40,32 @@ router.post("/mypage", async (req, res) => {
     res.render('mypage', { data });
 })
 
-router.post("/upload", upload.single("userfile"), (req, res) => {
+router.post("/deleteUser", async (req, res) => {
+    const deleteUser = await User.destroy({
+        where: { id: req.user.id }
+    })
+    res.send(true);
+})
+
+router.post("/mypage/fileupload", upload.single("userfile"), async (req, res) => {
+    const imgModify = await User.update({
+        profile: req.file.path
+    },
+        { where: { id: req.user.id } }
+    )
     res.send(req.file);
 })
-// router.post("/write", visitor.post_comment);
-// router.get("/get", visitor.get_visitor);
-// router.patch("/edit", visitor.patch_comment);   // post와 같은 기능
-// router.delete("/delete", visitor.delete_comment);   // post와 같은 기능
+
+router.post("/mypage/update", async (req, res) => {
+    const profileUpdate = await User.update({
+        nickName: req.body.name,
+        comment: req.body.comment,
+        birthday: req.body.birthday
+    },
+        { where: { id: req.user.id } }
+    )
+    res.send(req.body);
+})
 
 // GET /${email} : 해당하는 유저의 개인 페이지로 이동함.
 // 본인 페이지 일 경우 css 다르게 처리
@@ -58,36 +76,3 @@ router.post("/upload", upload.single("userfile"), (req, res) => {
 // GET /bookmark : 내가 북마크 표시한 게시글들을 불러옴
 // POST /mypage : 개인정보 수정 페이지 렌더
 module.exports = router;
-
-
-
-/* cotnroller */
-
-// exports.post_comment = (req, res) => {
-//     console.log(req.body);
-
-//     Visitor.insert(req.body.name, req.body.comment, function (result) {
-//         res.send({ id: result });
-//     });
-// }
-
-// exports.get_visitor = (req, res) => {
-//     Visitor.get_visitor(req.query.id, function (result) {
-//         console.log("result : ", result);
-//         res.send({ result: result[0] });
-//     })
-// }
-
-// exports.patch_comment = (req, res) => {
-//     Visitor.update(req.body, function (result) {
-//         console.log(result);
-//         res.send("수정 성공");
-//     });
-// }
-
-// exports.delete_comment = (req, res) => {
-//     Visitor.delete(req.body.id, function (result) {
-//         console.log(result);
-//         res.send("삭제 성공");
-//     });
-// }

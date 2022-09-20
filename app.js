@@ -10,14 +10,14 @@ dotenv.config();//환경 변수용
 const webSocket = require("./socket.js");
 const app = express();
 const sessionMiddleware = session({
-    resave:false,
+    resave: false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
         secure: false,
-        maxAge:1000000,
-    }, 
+        maxAge: 1000000,
+    },
 })
 app.use(sessionMiddleware); // 세션객체 설정
 
@@ -38,7 +38,7 @@ app.use(express.json());//json파싱
 app.use(express.urlencoded({ extended: false }));//인코딩된 url파싱
 app.use(cookieParser(process.env.COOKIE_SECRET));//쿠키에 암호 넣고 파싱함
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(() => {
         console.log("데이터베이스 연결 성공");
     })
@@ -46,15 +46,15 @@ sequelize.sync({ force: true })
         console.error(err);
     }); // DB연결
 
-app.use("/",indexRouter); // index router 로 이동
-app.use("/auth",authRouter); // auth router 사용
+app.use("/", indexRouter); // index router 로 이동
+app.use("/auth", authRouter); // auth router 사용
 app.use("/", profileRouter);
 
 app.use((err, req, res, next) => {
-  res.render("error", { error: err.message });
+    res.render("error", { error: err.message });
 });
 const server = app.listen(port, () => {
-  console.log("Server Port : ", port);
+    console.log("Server Port : ", port);
 });
 
-webSocket(server,app,sessionMiddleware);
+webSocket(server, app, sessionMiddleware);

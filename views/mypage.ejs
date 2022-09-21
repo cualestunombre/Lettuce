@@ -15,7 +15,7 @@
   <form>
     <img id="profile_img" src="<%=data.profile%>" style="width: 200px; height: 200px;"><br>
     <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
-    <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload();">
+    <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload()" accept="image/gif,image/jpeg,image/png,image/jpg">
     이름<input type="text" name="name" value="<%=data.nickName %>"><br>
     소개<input type="text" name="comment" value="<%=data.comment %>"><br>
     생년월일<input type="date" name="birth" value="<%=data.birthday %>"><br>
@@ -102,7 +102,7 @@
       })
     }
   </script>
-  
+
   <script src="../static/js/searchUser.js"></script>
 </body>
 

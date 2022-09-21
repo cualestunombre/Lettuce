@@ -22,7 +22,7 @@
           <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-comment-dots"></i></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-square-plus"></i></a>
+          <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-square-plus"></i></a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page"><i class="fa-solid fa-compass"></i></a>
@@ -37,3 +37,23 @@
     </div>
   </div>
 </nav>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">새 게시글 만들기</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="postFile" id="postingFile"><br>
+        <div></div><br><br>
+        <textarea class="form-control" rows="5" id="content"
+        name="contents" placeholder="내용 입력."></textarea>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" onclick="posting()">게시하기</button>
+      </div>
+  </div>
+  </div>
+</div>

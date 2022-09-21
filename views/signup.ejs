@@ -194,6 +194,10 @@
                 swal("","비밀번호를 다시 확인해 주세요","warning");
                 return;
             }
+            if(document.querySelector("form").nickName.value.length==0){
+                swal("","닉네임을 입력해 주세요","warning");
+                return;
+            }
             if(password.match(regExpSecond)){
                 let alphaCount=0;
                 let numCount= 0;

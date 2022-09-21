@@ -11,10 +11,13 @@
 </head>
 
 <body>
-  <form action="/profile" method="get">
-    <input type="text" name="email">
-    <button type="submit">프로필 이동</button>
-  </form>
+  <%-include('navbar.ejs') %>
+
+  <div>
+    <a href="/profile?id=1">나</a><br>
+    <a href="/profile?id=2">상대1</a><br>
+    <a href="/profile?id=3">상대2</a>
+  </div>
 
   <script>
   </script>

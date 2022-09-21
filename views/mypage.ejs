@@ -12,28 +12,50 @@
 
 <body>
   <form>
-    <img id="profile_img" src="<%=data.profile%> " style="width: 200px; height: 200px;"><br>
+    <img id="profile_img" src="/<%=data.profile%>" style="width: 200px; height: 200px;"><br>
     <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
     <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload();">
     이름<input type="text" name="name" value="<%=data.nickName %>"><br>
     소개<input type="text" name="comment" value="<%=data.comment %>"><br>
     생년월일<input type="date" name="birth" value="<%=data.birthday %>"><br>
     이메일<input type="text" name="email" value="<%=data.email %>" disabled><br>
-    <button type="button" onclick="updateUser();">제출</button>
+    변경비밀번호<input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" required><br>
+    변경비밀번호확인<input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" oninput="checkPw();" required><br>
+    <input id="originalPw" type="password" value="<%=data.password%>" style="display: none;">
+    <div id="checkMsg"></div>
+
+    <button id="submitBtn" type="button" onclick="updateUser();">제출</button>
     <button type="button" onclick="deleteUser();">회원탈퇴</button>
   </form>
 
   <script>
+    function checkPw() {
+      var pw1 = $('#check1').val();
+      var pw2 = $('#check2').val();
+      console.log(pw1);
+      console.log(pw2);
+      var msg = $('#checkMsg');
+
+      if (pw1 == pw2) {
+        msg.text('비밀번호가 일치합니다.');
+        $('#submitBtn').prop("disabled", false);
+      } else {
+        msg.text('비밀번호가 일치하지않습니다.');
+        $('#submitBtn').prop("disabled", true);
+      }
+    }
+
     function updateUser() {
       var form = document.querySelector("form");
       var data = {
         name: form.name.value,
         comment: form.comment.value,
-        birthday: form.birth.value
+        birthday: form.birth.value,
+        password: form.passwordCheck.value
       }
 
       axios({
-        url: "/mypage/update",
+        url: "/profile/mypage/update",
         method: "post",
         data: data
       }).then((response) => {
@@ -42,6 +64,7 @@
         $('input[name=name').attr('value', response.data.name);
         $('input[name=comment').attr('value', response.data.comment);
         $('input[name=birthday').attr('value', response.data.birthday);
+
       })
     }
 
@@ -57,18 +80,18 @@
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        url: "/mypage/fileupload",
+        url: "/profile/mypage/fileupload",
         method: "post",
         data: formData // formData 전송
       }).then((response) => {
         var img_url = response.data.path;
-        $("#profile_img").attr("src", img_url);
+        $("#profile_img").attr("src", '/' + img_url);
       })
     }
 
     function deleteUser() {
       axios({
-        url: "/deleteUser",
+        url: "/profile/deleteUser",
         method: "post",
       }).then((response) => {
         alert("삭제가 완료되었습니다.");

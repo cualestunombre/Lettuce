@@ -15,7 +15,6 @@ router.post("/signup", isNotLoggedIn, async (req, res, next) => {
       return res.send({ code: 400 }); // 실패
     }
     const hash = await bcrypt.hash(password, 12);
-    console.log(hash, password);
     await User.create({
       email,
       nickName,
@@ -56,11 +55,11 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
 });
 
 //중복체크
-router.post("/emailCheck",isLoggedIn, (req, res) => {
+router.post("/emailCheck",isNotLoggedIn, (req, res) => {
   User.findAll({
     where: { email: req.body.email },
   }).then((result) => {
-    if (result.length > 0) {
+    if (result) {
       res.send({ code: 400 });
     } else {
       res.send({ code: 200 });

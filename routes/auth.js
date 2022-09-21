@@ -29,10 +29,10 @@ router.post("/signup", isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-router.get("/login", (req, res) => {
+router.get("/login", isNotLoggedIn,(req, res) => {
   res.render("login");
 });
-router.get("/join", (req, res) => {
+router.get("/join", isNotLoggedIn,(req, res) => {
   res.render("signup");
 });
 

@@ -53,8 +53,11 @@ app.use("/auth", authRouter); // auth router 사용
 app.use("/profile", profileRouter);
 app.use("/user",userRouter);
 app.use("/posting",postRouter);
+app.use((req,res,next)=>{
+    res.render("nonmatch");
+});
 app.use((err, req, res, next) => {
-    res.send(err.message);
+    res.render('error',{error:err.message});
 });
 const server = app.listen(port, () => {
     console.log("Server Port : ", port);

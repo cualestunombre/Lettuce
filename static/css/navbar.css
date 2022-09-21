@@ -8,7 +8,7 @@
     background-color: #F9F4D9;
     display: flex;
 }
-.container-fluid {
+.nav-container {
     display: flex;
     justify-content: space-between !important;
 }

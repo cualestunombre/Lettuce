@@ -31,6 +31,7 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
 const postRouter = require("./routes/posting");
+const testRouter = require("./routes/test");
 
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
@@ -53,9 +54,11 @@ app.use("/auth", authRouter); // auth router 사용
 app.use("/profile", profileRouter);
 app.use("/user",userRouter);
 app.use("/posting",postRouter);
+app.use("/test",testRouter);
 app.use((req,res,next)=>{
     res.render("nonmatch");
 });
+
 app.use((err, req, res, next) => {
     res.render('error',{error:err.message});
 });

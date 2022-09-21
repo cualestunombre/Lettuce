@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            display: block;
+            width: 100px;
+            height:100px
+        }
+    </style>
+</head>
+<body>
+    <% for (let i=0 ; i < data.length ; i++) { %>
+        <span><%= data[i]['User.nickName'] %></span>
+        <img src="<%= data[i]['User.profile'] %>" alt="">
+        <img src="<%= data[i]['Postmedia.src'] %>" alt="">
+        <span><%= data[i].content %></span>
+        <br>
+        <br>
+    <% } %>
+
+</body>
+</html>

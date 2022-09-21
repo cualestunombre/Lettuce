@@ -30,7 +30,7 @@ router.post("/uploads",isLoggedIn,upload.single("postFile"), async(req,res)=>{
     const postMeidaCreat = await PostMedia.create({
         
         PostId: postCreat.dataValues.id,
-        src: req.file.path,
+        src: '/'+req.file.path,
         type: "img"
     })
 

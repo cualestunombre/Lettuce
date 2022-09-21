@@ -47,13 +47,23 @@
                 method:"post",
                 data : data
             }).then((response) => {
-                if(response.data.code == 200) window.location = "/"
+                if(response.data.code == 200){
+                    swal("","로그인 되었습니다.","success");
+                    return window.location = "/";
+                } 
                 else{
                     swal("","유효하지 않은 이메일 또는 비밀번호 입니다","warning");
                 }
             })
         }
 
+        $(document).ready(function(){
+            $("#loginPwInput").keydown(function(key){
+            if(key.keyCode ==  13){
+                $(".loginBtn").click();
+            }
+            })
+        })
     </script>
 </body>
 </html>

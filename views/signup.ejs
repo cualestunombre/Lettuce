@@ -236,7 +236,9 @@
                 console.log(response.data.code);
                 if(response.data.code == 200){
                     swal("","회원 가입을 축하해요!","success")
-                    window.location = "/";
+                    .then((value) => {
+                        window.location = "/";
+                    });
                 }
                 else{
                     swal("","이미 존재하는 이메일을 입력하셨어요","warning");

@@ -3,6 +3,7 @@ const router = require('.');
 const multer = require("multer");
 const path = require("path");
 const {Post,PostMedia} = require("../models");
+const { isLoggedIn } = require('./middlewares');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -19,7 +20,7 @@ const upload = multer({
 
 
 
-router.post("/uploads",upload.single("postFile"), async(req,res)=>{
+router.post("/uploads",isLoggedIn,upload.single("postFile"), async(req,res)=>{
     const postCreat = await Post.create({
         UserId: req.user.id,
         content: req.body.content    

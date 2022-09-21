@@ -1,7 +1,8 @@
 const express= require("express");
 const router = express.Router();
 const {User} = require("../models");
-router.get("/",async (req,res,next)=>{
+const { isLoggedIn } = require("./middlewares");
+router.get("/",isLoggedIn,async (req,res,next)=>{
     const info = req.query.search;
     const arr=[];
     console.log(info);

@@ -54,7 +54,7 @@ app.use("/profile", profileRouter);
 app.use("/user",userRouter);
 app.use("/posting",postRouter);
 app.use((err, req, res, next) => {
-    res.render("error", { error: err.message });
+    res.send(err.message);
 });
 const server = app.listen(port, () => {
     console.log("Server Port : ", port);

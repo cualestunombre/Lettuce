@@ -16,27 +16,29 @@
             <div class="title"><img src="/static/image/logo.png"></div>
             <div style="font-size: 13px;">LET US WELCOME YOU</div>
             <form class="form">
-                <input class="idInput" name="email" type="email" placeholder="  이메일을 입력하세요" required><br>
+                <input class="idInput" name="email" type="email" placeholder="  이메일을 입력하세요" required>
                 <button id="emailCheckBtn" type="button" onclick="emailCheck()">중복확인</button><br>
                 <input class="nicknameInput" name="nickName" placeholder="  닉네임을 입력하세요" required><br>
                 <input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" required><br>
                 <input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" required><br>
                 <div id="pwInfo"><p id="passwordInfo">8~16자 영문 대소문자, 숫자를 사용하세요</p></div>
-                생년월일:<select name="year" required>
-                    <%for(var year=1950; year <=2022; year++){%>
-                    <option value="<%=year%>"><%=year%></option>
-                        <% }%>
-                </select>년
-                <select name="month" required>
-                    <%for(var month=1; month<=12; month++){%>
-                        <option value="<%=month%>"><%=month%></option>
-                        <% }%>
-                </select>월
-                <select name="day" required>
-                    <%for(var day=1; day<=32; day++){%>
-                        <option value="<%=day%>"><%=day%></option>
-                        <% }%>
-                </select>일<br><br>
+                <div class="birthDay">
+                    생년월일 : <select name="year" required>
+                        <%for(var year=1950; year <=2022; year++){%>
+                        <option value="<%=year%>"><%=year%></option>
+                            <% }%>
+                    </select>년
+                    <select name="month" required>
+                        <%for(var month=1; month<=12; month++){%>
+                            <option value="<%=month%>"><%=month%></option>
+                            <% }%>
+                    </select>월
+                    <select name="day" required>
+                        <%for(var day=1; day<=32; day++){%>
+                            <option value="<%=day%>"><%=day%></option>
+                            <% }%>
+                    </select>일<br><br>
+                </div>
                 <button class="signupBtn" type="button" disabled="false" onclick="join()">회원가입</button>
             </form>
             <div class="line"></div>
@@ -59,6 +61,8 @@
                     }
                     const p = document.createElement("p");
                     p.innerText="비밀번호가 같지 않아요";
+                    p.style.fontSize="13px";
+                    p.style.color="grey";
                     p.classList.add("pwCheckFalse")
                     document.querySelector("#pwInfo").appendChild(p);
                 }

@@ -29,7 +29,7 @@ app.use(passport.session());// req.session에 passport 정보를 저장한다 {e
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
-
+const userRouter = require("./routes/user");
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
 app.use("/static", express.static("static"));
@@ -49,7 +49,7 @@ sequelize.sync({ force: false })
 app.use("/", indexRouter); // index router 로 이동
 app.use("/auth", authRouter); // auth router 사용
 app.use("/profile", profileRouter);
-
+app.use("/user",userRouter);
 app.use((err, req, res, next) => {
     res.render("error", { error: err.message });
 });

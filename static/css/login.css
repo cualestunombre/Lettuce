@@ -8,13 +8,13 @@
     font-family: 'HallymGothic-Regular';
 }
 .wrap {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     align-items: center;
 }
 .container {
     width: 400px !important;
-    height: 460px !important;
+    height: 470px !important;
     background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -23,7 +23,7 @@
 }
 .signupContainer {
     width: 400px !important;
-    height: 640px !important;
+    height: 670px !important;
     background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -44,27 +44,43 @@
     border-radius: 5px;
     border: none;
 }
+.nameInput, .nicknameInput {
+    width: 330px;
+}
 .pwInput {
-    width: 250px;
+    width: 330px;
     height: 35px;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     border: none;
 }
+#loginPwInput {
+    width: 250px;
+}
 #pwInfo{
-    margin-top: 10px;
     height: 40px;
 }
 .pwCheckFalse{
     color:red;
     margin-bottom: 0px;
     margin-top: 0px;
+    font-size: 13px;
+    color: grey;
 }
 .pwCheckTrue{
     color:#87C228;
     margin-bottom: 0px;
     margin-top: 0px;
+    font-size: 13px;
+    color: grey;
+}
+.birthDay {
+    font-size: 14px;
+}
+.birthDay select {
+    border: none;
+    border-radius: 3px;
 }
 .loginBtn, .signupBtn {
     width: 180px;
@@ -104,6 +120,7 @@
 }
 .registered {
     margin-top: 20px;
+    font-size: 14px;
 }
 .loginLink {
     color: #87C228;
@@ -119,13 +136,16 @@ a{
     background-color: #87C228;
     border-radius: 3px;
     width: 70px;
-    height: 25px;
+    height: 35px;
+}
+#emailCheckBtn:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 button:hover{
     cursor:pointer;
 }
 #passwordInfo{
-    margin-top: 0px;
-    margin-bottom: 0px;
-    font-size: 15px;
+    font-size: 12px;
+    color: grey;
+    margin: 0;
 }

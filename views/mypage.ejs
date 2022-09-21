@@ -12,7 +12,7 @@
 
 <body>
   <%-include('navbar.ejs') %>
-  <form>
+  <form id="updateForm">
     <img id="profile_img" src="<%=data.profile%>" style="width: 200px; height: 200px;"><br>
     <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
     <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload()" accept="image/gif,image/jpeg,image/png,image/jpg">
@@ -49,13 +49,14 @@
     }
 
     function updateUser() {
-      var form = document.querySelector("form");
+      var form = document.getElementById('updateForm');
       var data = {
         name: form.name.value,
         comment: form.comment.value,
         birthday: form.birth.value,
         password: form.passwordCheck.value
       }
+      console.log("data", data);
 
       axios({
         url: "/profile/mypage/update",

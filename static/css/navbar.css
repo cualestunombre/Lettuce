@@ -40,9 +40,11 @@
     margin: 0;
 }
 #searchUserForm{
+    z-index: 1000;
     position: relative;
 }
 .searchUserInfo{
+    
     overflow: auto;
     background-color: rgb(251,251,251);
     border-radius: 10px;

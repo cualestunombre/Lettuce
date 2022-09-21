@@ -13,7 +13,7 @@
 <body>
   <%-include('navbar.ejs') %>
   <form>
-    <img id="profile_img" src="/<%=data.profile%>" style="width: 200px; height: 200px;"><br>
+    <img id="profile_img" src="<%=data.profile%>" style="width: 200px; height: 200px;"><br>
     <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
     <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload();">
     이름<input type="text" name="name" value="<%=data.nickName %>"><br>

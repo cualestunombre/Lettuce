@@ -30,3 +30,8 @@
 .form-control {
     width: 500px;
 }
+
+.modal-body{
+    height: 400px !important;
+    
+}

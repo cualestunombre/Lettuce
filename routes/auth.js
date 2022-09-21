@@ -28,7 +28,9 @@ router.post("/signup", isNotLoggedIn, async (req, res, next) => {
     return next(error);
   }
 });
-
+router.get("/nav", (req, res) => {
+  res.render("navbar");
+});
 router.get("/login", (req, res) => {
   res.render("login");
 });

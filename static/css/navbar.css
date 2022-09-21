@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'HallymGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
 .navbar {
     background-color: #F9F4D9;
     display: flex;
@@ -32,4 +38,56 @@
 }
 .d-flex {
     margin: 0;
+}
+#searchUserForm{
+    position: relative;
+}
+.searchUserInfo{
+    overflow: auto;
+    background-color: rgb(251,251,251);
+    border-radius: 10px;
+    height: 300px;
+    width: 500px;
+    top:55px;
+   
+    position: absolute;
+}
+.noResult{
+    left:185px;
+    top:120px;
+    position: absolute;
+    font-family: 'HallymGothic-Regular';
+    text-align: center;
+}
+.userLink{
+    height: 40px;
+    display:block;
+    margin-top: 10px;
+    margin-left: 10px;
+    position: relative;
+}
+.userProfile{
+    position:absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+.userEmail{
+    right:30px;
+    position:absolute;
+    margin-right: 10px;
+    font-family: 'HallymGothic-Regular';;
+    color:rgb(140,140,140);
+}
+.userName{
+    left:100px;
+    position: absolute;
+    font-family: 'HallymGothic-Regular';;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+a:hover{
+    color:black;
 }

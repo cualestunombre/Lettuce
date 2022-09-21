@@ -7,12 +7,14 @@ const upload = multer({
         },
         filename(req, file, done) {
             const ext = path.extname(file.originalname);
-            done(null, path.basename(file.originalname) + Date.now() + ext);
+            done(null, path.basename(file.originalname, ext) + Date.now() + ext);
         },
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
 })
 const express = require("express");
+const bcrypt = require("bcrypt");
+
 const router = express.Router();
 const User = require("../models/user");
 
@@ -20,26 +22,42 @@ router.get("/test", async (req, res) => {
     res.render('test');
 });
 
-router.get("/profile", async (req, res) => {
+// 프로필 라우터
+router.get("/", async (req, res) => {
+    var id;
+
+    // 내 프로필인지 아닌지
+    if (req.query.id) {
+        id = req.query.id;
+        isMyprofile = false;
+    } else {
+        id = req.user.id;
+        isMyprofile = true;
+    }
+
+    // 프로필에 나타날 정보 쿼리로 불러옴
     const userinfo = await User.findOne({
         attributes: ['email', 'nickName', 'profile'],
         where: {
-            email: req.query.email
+            id: id
         }
     })
     var data = {
         email: userinfo.email,
         nickName: userinfo.nickName,
-        profile: userinfo.profile
+        profile: userinfo.profile,
+        isMyprofile: isMyprofile
     }
     res.render('profile', { data });
 });
 
+// 개인정보수정 페이지(마이페이지) 렌더링
 router.post("/mypage", async (req, res) => {
     var data = req.user;
     res.render('mypage', { data });
 })
 
+// 회원탈퇴
 router.post("/deleteUser", async (req, res) => {
     const deleteUser = await User.destroy({
         where: { id: req.user.id }
@@ -47,6 +65,7 @@ router.post("/deleteUser", async (req, res) => {
     res.send(true);
 })
 
+// 프로필사진 수정
 router.post("/mypage/fileupload", upload.single("userfile"), async (req, res) => {
     const imgModify = await User.update({
         profile: req.file.path
@@ -56,11 +75,14 @@ router.post("/mypage/fileupload", upload.single("userfile"), async (req, res) =>
     res.send(req.file);
 })
 
+// 개인정보수정
 router.post("/mypage/update", async (req, res) => {
+    const hash = await bcrypt.hash(req.body.password, 12);
     const profileUpdate = await User.update({
         nickName: req.body.name,
         comment: req.body.comment,
-        birthday: req.body.birthday
+        birthday: req.body.birthday,
+        password: hash
     },
         { where: { id: req.user.id } }
     )

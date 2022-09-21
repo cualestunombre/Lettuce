@@ -11,10 +11,12 @@
 <body>
   <!-- 상단부 -->
   <div>
-    <img src="<%=data.profile%> " style="width: 200px; height: 200px;">
-    <form action="/mypage" method="post">
+    <img src="<%=data.profile%>" style="width: 200px; height: 200px;">
+    <% if (data.isMyprofile == true) { %>
+    <form action="/profile/mypage" method="post">
       <button>프로필편집</button>
     </form>
+    <% } %>
     <div><%=data.nickName %> </div>
     <div>
       <div><span>게시물</span><span>1</span></div>

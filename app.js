@@ -48,7 +48,7 @@ sequelize.sync({ force: false })
 
 app.use("/", indexRouter); // index router 로 이동
 app.use("/auth", authRouter); // auth router 사용
-app.use("/", profileRouter);
+app.use("/profile", profileRouter);
 
 app.use((err, req, res, next) => {
     res.render("error", { error: err.message });

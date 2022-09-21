@@ -1,4 +1,7 @@
 
+document.querySelector("#searchUserForm").addEventListener("submit",(event)=>{
+    event.preventDefault();
+});
 $('#searchUser').bind("input",async (event)=>{   
     if(event.target.value.length==0){
         if (document.querySelectorAll(".searchUserInfo")){

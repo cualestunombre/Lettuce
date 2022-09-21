@@ -11,6 +11,7 @@
 </head>
 
 <body>
+  <%-include('navbar.ejs') %>
   <form>
     <img id="profile_img" src="/<%=data.profile%>" style="width: 200px; height: 200px;"><br>
     <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
@@ -27,6 +28,8 @@
     <button id="submitBtn" type="button" onclick="updateUser();">제출</button>
     <button type="button" onclick="deleteUser();">회원탈퇴</button>
   </form>
+
+  <%-include('footer.ejs') %>
 
   <script>
     function checkPw() {
@@ -99,6 +102,7 @@
       })
     }
   </script>
+  <script src="../static/js/searchUser.js"></script>
 </body>
 
 </html>

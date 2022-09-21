@@ -14,7 +14,6 @@ const upload = multer({
 })
 const express = require("express");
 const bcrypt = require("bcrypt");
-
 const router = express.Router();
 const User = require("../models/user");
 
@@ -29,7 +28,11 @@ router.get("/", async (req, res) => {
     // 내 프로필인지 아닌지
     if (req.query.id) {
         id = req.query.id;
-        isMyprofile = false;
+        if (req.query.id == req.user.id) {
+            isMyprofile = true;
+        } else {
+            isMyprofile = false;
+        }
     } else {
         id = req.user.id;
         isMyprofile = true;

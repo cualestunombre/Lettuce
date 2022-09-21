@@ -16,6 +16,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const User = require("../models/user");
+const { Follow } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
@@ -45,14 +46,56 @@ router.get("/", async (req, res) => {
             id: id
         }
     })
+
+    const followingCnt = await Follow.count({
+        where: {
+            follower: id
+        }
+    })
+    const followerCnt = await Follow.count({
+        where: {
+            followed: id
+        }
+    })
+    const followCheck = await Follow.count({
+        where: {
+            follower: req.user.id,
+            followed: id
+        }
+    })
+
     var data = {
+        id: id,
         email: userinfo.email,
         nickName: userinfo.nickName,
         profile: userinfo.profile,
-        isMyprofile: isMyprofile
+        isMyprofile: isMyprofile,
+        following: followingCnt,
+        follower: followerCnt,
+        isFollow: followCheck
     }
     res.render('profile', { data });
 });
+
+// 팔로우 처리
+router.post("/follow", async (req, res) => {
+    const follow = await Follow.create({
+        follower: req.user.id,
+        followed: req.body.id
+    })
+    res.redirect('/');
+})
+
+// 언팔로우 처리
+router.post("/unfollow", async (req, res) => {
+    const follow = await Follow.destroy({
+        where: {
+            follower: req.user.id,
+            followed: req.body.id
+        }
+    })
+    res.redirect('/');
+})
 
 // 개인정보수정 페이지(마이페이지) 렌더링
 router.post("/mypage", async (req, res) => {
@@ -73,7 +116,7 @@ router.post("/deleteUser", async (req, res) => {
 router.post("/mypage/fileupload", upload.single("userfile"), async (req, res) => {
     console.log(req.file.path);
     const imgModify = await User.update({
-        profile: '/'+req.file.path
+        profile: '/' + req.file.path
     },
         { where: { id: req.user.id } }
     )

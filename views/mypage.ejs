@@ -24,16 +24,16 @@
       </div>
       <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload()" accept="image/gif,image/jpeg,image/png,image/jpg">
       <div>
-        이름 <input type="text" name="name" value="<%=data.nickName %>">
+        이름 <input style="margin-left: 32px;" type="text" name="name" value="<%=data.nickName %>">
         <div style="font-size: 12px; color:#8e8e8e; margin-left: 30px">귀하의 전체 이름, 닉네임 또는 회사 이름과 같이 알려진 이름을 사용하여 사람들이 귀하의 계정을 찾도록 돕습니다.</div>
         <div style="font-size: 12px; color:#8e8e8e; margin-left: 30px">이름은 14일 이내에 두 번만 변경할 수 있습니다</div>
       </div>
       
       
-      소개<input type="text" name="comment" value="<%=data.comment %>"><br>
-      생년월일<input type="date" name="birth" value="<%=data.birthday %>"><br>
-      이메일<input type="text" name="email" value="<%=data.email %>" disabled><br>
-      변경비밀번호<input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" required><br>
+      소개<input style="margin-left: 32px;" type="text" name="comment" value="<%=data.comment %>"><br>
+      생년월일<input style="margin-left: 32px;" type="date" name="birth" value="<%=data.birthday %>"><br>
+      이메일<input style="margin-left: 32px;" type="text" name="email" value="<%=data.email %>" disabled><br>
+      변경비밀번호<input style="margin-left: 32px;" class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" required><br>
       변경비밀번호확인<input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" oninput="checkPw();" required><br>
       <input id="originalPw" type="password" value="<%=data.password%>" style="display: none;">
       <div id="checkMsg"></div>

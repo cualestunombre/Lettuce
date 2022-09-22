@@ -16,7 +16,7 @@ const upload = multer({
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const { User, Follow,Post,PostMedia } = require("../models");
+const { User, Follow, Post, PostMedia } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
@@ -83,12 +83,12 @@ router.get("/", isLoggedIn, async (req, res) => {
 router.get("/getFollowList", async (req, res) => {
     const getFollowingList = await User.findAll({
         raw: true,
-        attributes: ['profile', 'email'],
+        attributes: ['id', 'nickName', 'profile', 'email'],
         include: [{ model: User, as: 'followings', where: { id: req.query.id } }]
     })
     const getFollowerList = await User.findAll({
         raw: true,
-        attributes: ['profile', 'email'],
+        attributes: ['id', 'nickName', 'profile', 'email'],
         include: [{ model: User, as: 'followers', where: { id: req.query.id } }]
     })
     var data = {
@@ -158,8 +158,8 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
     res.send(req.body);
 })
 //내 게시물 불러오기
-router.get("/inpost", async(req,res)=>{
-    const data = await Post.findAll({raw:true,where:{UserId:req.user.id}, include:[{model:PostMedia},{model:User,attributes:['nickName','email','profile']}]});
+router.get("/inpost", async (req, res) => {
+    const data = await Post.findAll({ raw: true, where: { UserId: req.user.id }, include: [{ model: PostMedia }, { model: User, attributes: ['nickName', 'email', 'profile'] }] });
     console.log(data);
     res.send(data);
 })
@@ -168,7 +168,7 @@ router.get("/logout", isLoggedIn, (req, res) => {
     req.logout();
     req.session.destroy();
     res.redirect("/");
-  });
+});
 // GET /${email} : 해당하는 유저의 개인 페이지로 이동함.
 // 본인 페이지 일 경우 css 다르게 처리
 // POST /${email}/follow : 이 페이지의 유저를 내가 팔로우 함

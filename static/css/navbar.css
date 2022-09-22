@@ -4,6 +4,9 @@
     font-weight: 400;
     font-style: normal;
 }
+* {
+    font-family: 'HallymGothic-Regular';
+}
 .navbar {
     background-color: #F9F4D9;
     display: flex;
@@ -34,7 +37,7 @@
     padding: 0 10px;
 }
 .nav-input {
-    width: 250px;
+    width: 400px;
     margin: 0;
     padding: 6px 12px;
     border: none;

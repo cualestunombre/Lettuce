@@ -27,11 +27,13 @@
               <button id="profileEditBtn">프로필 편집</button>
             </form>
           </div>
-        <% } else if(data.isFollow != 0){%>
-          <button onclick="unfollow();">언팔로우</button>
-        <% } else { %>
-          <button onclick="follow();">팔로우</button>
-        <% } %>
+          <div>
+            <% } else if(data.isFollow != 0){%>
+              <button id="followBtn" onclick="unfollow();">언팔로우</button>
+            <% } else { %>
+              <button id="followBtn" onclick="follow();">팔로우</button>
+            <% } %>
+          </div>
         <div id="id" style="display: none;"><%=data.id%></div>
         <div style="display: flex; justify-content: space-around; margin-bottom: 25px;">
           <div>

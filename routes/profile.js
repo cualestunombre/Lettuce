@@ -157,7 +157,7 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
     )
     res.send(req.body);
 })
-
+//내 게시물 불러오기
 router.get("/inpost", async(req,res)=>{
     const data = await Post.findAll({raw:true,where:{UserId:req.user.id}, include:[{model:PostMedia},{model:User,attributes:['nickName','email','profile']}]});
     console.log(data);

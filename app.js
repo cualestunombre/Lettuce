@@ -54,7 +54,7 @@ app.use("/auth", authRouter); // auth router 사용
 app.use("/profile", profileRouter);
 app.use("/user",userRouter);
 app.use("/posting",postRouter);
-app.use("/test",testRouter);
+// app.use("/test",testRouter);
 app.use((req,res,next)=>{
     res.render("nonmatch");
 });

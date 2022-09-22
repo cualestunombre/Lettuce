@@ -17,11 +17,12 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const User = require("../models/user");
-const { Follow } = require("../models");
+const { Follow,Post,PostMedia } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
 });
+
 
 // 프로필 라우터
 router.get("/", isLoggedIn,async (req, res) => {
@@ -32,6 +33,7 @@ router.get("/", isLoggedIn,async (req, res) => {
         id = req.query.id;
         if (req.query.id == req.user.id) {
             isMyprofile = true;
+
         } else {
             isMyprofile = false;
         }
@@ -136,6 +138,12 @@ router.post("/mypage/update", isLoggedIn,async (req, res) => {
         { where: { id: req.user.id } }
     )
     res.send(req.body);
+})
+
+router.get("/inpost", async(req,res)=>{
+    const data = await Post.findAll({raw:true,where:{UserId:req.user.id}, include:[{model:PostMedia},{model:User,attributes:['nickName','email','profile']}]});
+    console.log(data);
+    res.send(data);
 })
 
 // GET /${email} : 해당하는 유저의 개인 페이지로 이동함.

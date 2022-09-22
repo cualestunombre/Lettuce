@@ -20,6 +20,7 @@ router.get("/",async(req,res) =>{
         for (let i=0; i<FollowingList.length ;i++){
             const FollowingPost = await Post.findAll({
                 raw:true,
+                where:{UserId: FollowingList[i].id},
                 include: [{model:PostMedia},{model:User,attributes:['nickName','profile']}]
             })
             FollowingPost.forEach(ele=>{
@@ -43,7 +44,9 @@ router.get("/",async(req,res) =>{
                 list[list.length-1].src=[{src:arr[i]['Postmedia.src'],type:arr[i]['Postmedia.type']}];
             }
         }
+        console.log(list);
          res.render('main',{data:list});
+
           
     }
     else{

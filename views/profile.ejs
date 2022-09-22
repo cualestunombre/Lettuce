@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="/static/css/profile.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <a href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"></a>
 </head>
 
 <body>
@@ -56,18 +58,52 @@
   </div>
 
   <!-- 게시글 본문 -->
-  <h1>게시물</h1>
-  <div class="im" style="width: 100px; height: 100px;">
-    
-  </div>
+  <div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#followModal" onclick="getFollowList();">
+      팔로우 목록
+    </button>
+  </div>ll
 
+  <!-- 팔로잉 모달 -->
+  <div class="modal" id="followModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
+    function getFollowList() {
+      var id = $('#id').text();
+      var data = {
+        id: id
+      }
+      axios({
+          url: "/profile/getFollowList",
+          method: "get",
+          params: data
+        })
+        .then((response) => {
+          console.log("rd", response.data);
+        })
+    }
+
     function follow() {
       var id = $('#id').text();
       var data = {
         id: id
       }
-      console.log(id);
       axios({
           url: "/profile/follow",
           method: "post",

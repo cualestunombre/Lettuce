@@ -3,14 +3,13 @@ function posting(){
     
     const file = document.getElementById("postingFile");
     const content = $("#content").val();
-
-    console.log(+file.value);
+    console.log(file.files);
     if(file.value == ""){
         alert("사진을 등록해 주세요");
         
     }
     else{
-    formData.append("postFile",file.files[0]);
+    formData.append("files",file.files);
     formData.append("content",content);
     axios({
       headers:{

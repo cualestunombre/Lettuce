@@ -59,7 +59,7 @@ router.post("/emailCheck",isNotLoggedIn, (req, res) => {
   User.findAll({
     where: { email: req.body.email },
   }).then((result) => {
-    if (result) {
+    if (result.email) {
       res.send({ code: 400 });
     } else {
       res.send({ code: 200 });

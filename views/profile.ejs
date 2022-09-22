@@ -90,6 +90,13 @@
       <div id="email"><i class="fa-regular fa-envelope"></i> <%=data.email%></div>
     </div>
   </div>
+
+  <!-- 로그아웃 -->
+  <% if (data.isMyprofile == true) { %>
+  <a href="/profile/logout"><button type="button">로그아웃</button></a>
+  <% } %>
+
+
   <div class="seperator"></div>
   <!-- 게시글 탭  게시글 본문 -->
   <section class="post-area">

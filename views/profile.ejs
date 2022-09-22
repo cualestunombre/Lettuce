@@ -40,13 +40,18 @@
 
   <!-- 게시글 탭 -->
   <div>
-    <div><span>🏠</span><span>📚</span></div>
+    <div>
+      <span>🏠</span>
+      <span>📚</span>
+    </div>
   </div>
 
   <!-- 게시글 본문 -->
-  <div>
-
+  <h1>게시물</h1>
+  <div class="im" style="width: 100px; height: 100px;">
+    
   </div>
+
   <script>
     function follow() {
       var id = $('#id').text();
@@ -79,8 +84,28 @@
           window.location.href = `http://localhost:8000/profile?id=${id}`
         })
     }
+    
+    window.onload = function()
+    {
+
+      axios({
+        url:"/profile/inpost",
+        method: "get"
+
+      })
+      .then((response)=>{
+        var img = ``
+        for (let i=0 ; i < response.data.length ; i++){
+          img +=`<img src ="${response.data[i]["Postmedia.src"]}" >`
+          
+        }
+        $(".im").append(img);
+        console.log(response.data);
+      })
+      
+    }
+  
   </script>
   <script src="../static/js/searchUser.js"></script>
 </body>
-
 </html>

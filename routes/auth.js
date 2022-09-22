@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.post("/signup", isNotLoggedIn, async (req, res, next) => {
   const { email, nickName, password, birthday } = req.body;
-  console.log(req.body);
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {

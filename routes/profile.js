@@ -121,7 +121,6 @@ router.post("/unfollow", async (req, res) => {
 // 개인정보수정 페이지(마이페이지) 렌더링
 router.post("/mypage", isLoggedIn, async (req, res) => {
     var data = req.user;
-    console.log(data);
     res.render('mypage', { data });
 })
 
@@ -135,7 +134,6 @@ router.post("/deleteUser", isLoggedIn, async (req, res) => {
 
 // 프로필사진 수정
 router.post("/mypage/fileupload", isLoggedIn, upload.single("userfile"), async (req, res) => {
-    console.log(req.file.path);
     const imgModify = await User.update({
         profile: '/' + req.file.path
     },
@@ -160,7 +158,6 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
 //내 게시물 불러오기
 router.get("/inpost", async (req, res) => {
     const data = await Post.findAll({ raw: true, where: { UserId: req.user.id }, include: [{ model: PostMedia }, { model: User, attributes: ['nickName', 'email', 'profile'] }] });
-    console.log(data);
     res.send(data);
 })
 

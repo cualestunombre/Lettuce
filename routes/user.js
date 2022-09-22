@@ -5,7 +5,6 @@ const { isLoggedIn } = require("./middlewares");
 router.get("/",isLoggedIn,async (req,res,next)=>{
     const info = req.query.search;
     const arr=[];
-    console.log(info);
     const data = await User.findAll({where:{email:info},attributes:['id','nickName','email','profile']});
     const data2 = await User.findAll({where:{nickName:info},attributes:['id','nickName','email','profile']});
     data.forEach(ele=>{

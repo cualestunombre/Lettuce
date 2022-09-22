@@ -16,24 +16,27 @@ router.get("/",async(req,res) =>{
             raw: true,
             attributes: ['id'],
             include: [{ model: User, as: 'followings', where: { id: req.user.id } }]
-        })
+        }); // 자기가 팔로우하는 사람을 찾는 코드
         for (let i=0; i<FollowingList.length ;i++){
             const FollowingPost = await Post.findAll({
                 raw:true,
+                attributes:['content','createdAt'],
                 where:{UserId: FollowingList[i].id},
-                include: [{model:PostMedia},{model:User,attributes:['nickName','profile']}]
+                include: [{model:PostMedia,attributes:['createdAt','type','src']},{model:User,attributes:['id','nickName','profile']}]
             })
             FollowingPost.forEach(ele=>{
                 arr.push(ele);
             });
-        }arr.sort((a,b)=>{
-            return a['Postmedia.createdAt'] -b['Postmedia.createdAt'];
-        })
+        }// arr배열에 쿼리 결과를 담음
+        arr.sort((a,b)=>{
+            return a['Postmedia.createdAt'] - b['Postmedia.createdAt'];
+        }); // 시간순 정렬
         for(let i =0;i<arr.length;i++){
             let flag = true;
             for(let j=0;j<list.length;j++){
                 if(list[j].id==arr[i].id){
                     flag=false;
+                    break;
                 }
             }
             if(flag==false){
@@ -44,7 +47,25 @@ router.get("/",async(req,res) =>{
                 list[list.length-1].src=[{src:arr[i]['Postmedia.src'],type:arr[i]['Postmedia.type']}];
             }
         }
-        console.log(list);
+        for(let i=0;i<list.length;i++){
+            delete list[i]['Postmedia.createdAt'];
+            delete list[i]['Postmedia.type'];
+            delete list[i]['Postmedia.src'];
+        }
+        // 데이터 가공
+        /* 데이터 형식
+        {   
+
+            content: , 
+            createdAt: ,
+            'User.nickName': , 
+            'User.profile': ,
+            'User.id',
+            src: [{src: , type},]
+        }
+
+        */
+       console.log(list);
          res.render('main',{data:list});
 
           

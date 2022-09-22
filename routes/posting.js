@@ -34,7 +34,6 @@ router.post("/uploads",isLoggedIn,upload.array("files"), async(req,res)=>{
 
     for (let i=0 ; i<req.files.length;i++){
         let type='img';
-        console.log(path.extname(req.files[i].path));
         if(path.extname(req.files[i].path)=='.jpeg'||path.extname(req.files[i].path)=='.jpg'||path.extname(req.files[i].path)=='.png'||path.extname(req.files[i].path)=='.gif'){
             type='img';
         }

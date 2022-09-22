@@ -43,7 +43,7 @@ router.get("/",async(req,res) =>{
                 list[list.length-1].src=[{src:arr[i]['Postmedia.src'],type:arr[i]['Postmedia.type']}];
             }
         }
-         res.send(list);
+         res.render('main',{data:list});
           
     }
     else{

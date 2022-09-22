@@ -4,7 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const {Post,PostMedia} = require("../models");
 const { isLoggedIn } = require('./middlewares');
-
+const {v4:uuidv4}=require('uuid');
 const upload = multer({
     storage: multer.diskStorage({
         destination(req, file, done) {
@@ -12,7 +12,7 @@ const upload = multer({
         },
         filename(req, file, done) {
             const ext = path.extname(file.originalname);
-            done(null, path.basename(file.originalname) + Date.now() + ext);
+            done(null, uuidv4() + ext);
         },
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
@@ -20,19 +20,29 @@ const upload = multer({
 
 
 
-router.post("/uploads",isLoggedIn,upload.single("postFile"), async(req,res)=>{
-    const postCreat = await Post.create({
+router.post("/uploads",isLoggedIn,upload.array("files"), async(req,res)=>{
+    const data = await Post.create({
         UserId: req.user.id,
         content: req.body.content    
-    })
-    console.log(postCreat);
-    console.log(req.file.path);
-    const postMeidaCreat = await PostMedia.create({
-        
-        PostId: postCreat.dataValues.id,
-        src: '/'+req.file.path,
-        type: "img"
-    })
+    });
+    
+
+    for (let i=0 ; i<req.files.length;i++){
+        let type='img';
+        console.log(path.extname(req.files[i].path));
+        if(path.extname(req.files[i].path)=='.jpeg'||path.extname(req.files[i].path)=='.jpg'||path.extname(req.files[i].path)=='.png'||path.extname(req.files[i].path)=='.gif'){
+            type='img';
+        }
+        else{
+            type="video";
+        }
+        await PostMedia.create({
+            PostId: data.dataValues.id,
+            src: '/'+req.files[i].path,
+            type:type
+        });
+    }
+   
 
     res.send({code:200});
 })

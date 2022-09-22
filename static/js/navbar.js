@@ -3,14 +3,13 @@ function posting(){
     
     const file = document.getElementById("postingFile");
     const content = $("#content").val();
-
-    console.log(+file.value);
     if(file.value == ""){
         alert("사진을 등록해 주세요");
         
     }
-    else{
-    formData.append("postFile",file.files[0]);
+    for(let i=0;i<file.files.length;i++){
+        formData.append("files",file.files[i]);
+    }
     formData.append("content",content);
     axios({
       headers:{
@@ -30,4 +29,4 @@ function posting(){
         }
     })
     }
-  }
+  

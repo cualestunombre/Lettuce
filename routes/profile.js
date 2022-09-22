@@ -16,11 +16,12 @@ const upload = multer({
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const { User, Follow } = require("../models");
+const { User, Follow,Post,PostMedia } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
 });
+
 
 // 프로필 라우터
 router.get("/", isLoggedIn, async (req, res) => {
@@ -31,6 +32,7 @@ router.get("/", isLoggedIn, async (req, res) => {
         id = req.query.id;
         if (req.query.id == req.user.id) {
             isMyprofile = true;
+
         } else {
             isMyprofile = false;
         }
@@ -156,6 +158,17 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
     res.send(req.body);
 })
 
+router.get("/inpost", async(req,res)=>{
+    const data = await Post.findAll({raw:true,where:{UserId:req.user.id}, include:[{model:PostMedia},{model:User,attributes:['nickName','email','profile']}]});
+    console.log(data);
+    res.send(data);
+})
+
+router.get("/logout", isLoggedIn, (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect("/");
+  });
 // GET /${email} : 해당하는 유저의 개인 페이지로 이동함.
 // 본인 페이지 일 경우 css 다르게 처리
 // POST /${email}/follow : 이 페이지의 유저를 내가 팔로우 함

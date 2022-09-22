@@ -41,7 +41,7 @@ app.use(express.json());//json파싱
 app.use(express.urlencoded({ extended: false }));//인코딩된 url파싱
 app.use(cookieParser(process.env.COOKIE_SECRET));//쿠키에 암호 넣고 파싱함
 
-sequelize.sync({ force: false })
+sequelize.sync({ alter: true })
     .then(() => {
         console.log("데이터베이스 연결 성공");
     })
@@ -54,7 +54,7 @@ app.use("/auth", authRouter); // auth router 사용
 app.use("/profile", profileRouter);
 app.use("/user",userRouter);
 app.use("/posting",postRouter);
-app.use("/test",testRouter);
+// app.use("/test",testRouter);
 app.use((req,res,next)=>{
     res.render("nonmatch");
 });

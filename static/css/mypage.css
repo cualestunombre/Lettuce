@@ -3,15 +3,26 @@
     display: flex;
     justify-content: center;
 }
+input {
+    margin-left: 32px;
+}
+#imgDiv {
+padding: 20px;
+}
 #profile_img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
 }
+#nickname {
+    font-size: 20px;
+}
 #uploadBtn {
     border: none;
     color: #87C228;
     background-color: transparent;
+    padding: 0;
+    font-size: 14px;
 }
 #uploadBtn:hover {
     font-weight: bolder;

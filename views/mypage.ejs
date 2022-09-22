@@ -15,15 +15,21 @@
   <%-include('navbar.ejs') %>
   <div class="wrap">
     <form id="updateForm">
-      <div style="display: flex;">
-        <div><img id="profile_img" src="<%=data.profile%>"></div>
+      <div style="display: flex; align-items: center;">
+        <div id="imgDiv"><img id="profile_img" src="<%=data.profile%>"></div>
         <div>
-          <div><%=data.nickName%></div>
+          <div id="nickname"><%=data.nickName%></div>
           <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
         </div>
       </div>
       <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload()" accept="image/gif,image/jpeg,image/png,image/jpg">
-      이름<input type="text" name="name" value="<%=data.nickName %>"><br>
+      <div>
+        이름 <input type="text" name="name" value="<%=data.nickName %>">
+        <div style="font-size: 12px; color:#8e8e8e; margin-left: 30px">귀하의 전체 이름, 닉네임 또는 회사 이름과 같이 알려진 이름을 사용하여 사람들이 귀하의 계정을 찾도록 돕습니다.</div>
+        <div style="font-size: 12px; color:#8e8e8e; margin-left: 30px">이름은 14일 이내에 두 번만 변경할 수 있습니다</div>
+      </div>
+      
+      
       소개<input type="text" name="comment" value="<%=data.comment %>"><br>
       생년월일<input type="date" name="birth" value="<%=data.birthday %>"><br>
       이메일<input type="text" name="email" value="<%=data.email %>" disabled><br>

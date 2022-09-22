@@ -11,16 +11,26 @@
             width: 100px;
             height:100px
         }
+        video{
+            width: 100px;
+            height: 100px;
+        }
     </style>
 </head>
 <body>
     <%-include('navbar.ejs') %>
-    <% for (let i=0 ; i < data.length ; i++) { %>
-        
+    <% for (let i=0 ; i < data.length ; i++) { %>     
         <span><%= data[i]['User.nickName'] %></span>
         <p><%= data[i]['User.email'] %></p>
         <img src="<%= data[i]['User.profile'] %>" alt="">
-        <img src="<%= data[i]['Postmedia.src'] %>" alt="">
+        <% for (let j=0; j < data[i].src.length; j++) { %>
+            <% if(data[i].src[j].type == "img"){ %>
+        <img src="<%= data[i].src[j].src %>" alt="">
+        <% } else {%>
+            <video muted autoplay loop>
+                <source src="<%= data[i].src[j].src %>" type="mov">
+            </video>
+        <% } } %>
         <span><%= data[i].content %></span>
         <br>
         <br>

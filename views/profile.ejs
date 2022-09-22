@@ -19,6 +19,7 @@
     <form action="/profile/mypage" method="post">
       <button>프로필편집</button>
     </form>
+    <button><a href="/profile/logout">로그아웃</a></button>
     <% } else if(data.isFollow != 0){%>
     <button onclick="unfollow();">언팔로우</button>
     <% } else { %>

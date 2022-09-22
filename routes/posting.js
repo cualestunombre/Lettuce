@@ -2,7 +2,7 @@
 const router = require('.');
 const multer = require("multer");
 const path = require("path");
-const {Post,PostMedia} = require("../models");
+const {Post,PostMedia,HashTag} = require("../models");
 const { isLoggedIn } = require('./middlewares');
 const {v4:uuidv4}=require('uuid');
 const upload = multer({
@@ -25,7 +25,12 @@ router.post("/uploads",isLoggedIn,upload.array("files"), async(req,res)=>{
         UserId: req.user.id,
         content: req.body.content    
     });
-    
+    const hashtags = req.body.content.match(/#[^\s#]+/g);
+    if(hashtags){
+        for (let i=0;i<hashtags.length;i++){
+            await HashTag.create({hashtag:hashtags[i],PostId:data.dataValues.id});
+        }
+    }
 
     for (let i=0 ; i<req.files.length;i++){
         let type='img';

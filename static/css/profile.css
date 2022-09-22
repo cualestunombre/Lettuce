@@ -1,18 +1,66 @@
-.wrap {
+@font-face {
+    font-family: 'HallymGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+* {
+    font-family: 'HallymGothic-Regular';
+}
+.head-wrap {
     display: flex;
+    justify-content: space-around;
+    align-items: center;
     padding: 20px 50px;
 }
 .profileDiv {
-    width: 292px;
-    height: 152px;
-    margin: 0 0 30px 0;
+    /* width: 292px;
+    height: 152px; */
+    text-align: center;
 }
 #profilePic {
-    width: 200px; 
-    height: 200px;
+    width: 150px; 
+    height: 150px;
     border-radius: 50%;
 }
 .infoDiv {
     width: 613px;
     height: 152px;
+    align-items: center;
+}
+#nickname {
+    font-size: 28px;
+}
+#profileEditBtn {
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 5px 9px;
+    font-size: 14px;
+}
+#email {
+    text-align: center;
+}
+.seperator {
+    height: 1px;
+    background-color: #DBDBDB;
+}
+.tabs { 
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+}
+.tabs div { 
+    padding: 1em;
+    cursor: pointer;
+}
+#line {
+    height: 3px;
+    background-color: black;
+    position: absolute;
+    width: 0;
+    left: 0;
+    top: 52;
+    padding: 0px;
+    transition: 0.5s;
 }

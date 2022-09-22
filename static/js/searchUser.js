@@ -46,6 +46,8 @@ $('#searchUser').bind("input",async (event)=>{
                 const a = document.createElement("a");
                 const span = document.createElement("span");
                 const email = document.createElement("span");
+                const info = document.createElement("div");
+                info.classList.add("userInfo");
                 email.classList.add("userEmail");
                 email.innerText=ele.email;
                 span.classList.add("userName");
@@ -55,9 +57,10 @@ $('#searchUser').bind("input",async (event)=>{
                 const img = document.createElement("img");
                 img.classList.add("userProfile");
                 img.setAttribute("src",ele.profile);
+                info.appendChild(email);
+                info.appendChild(span);
                 a.appendChild(img);
-                a.appendChild(span);
-                a.appendChild(email);
+                a.appendChild(info);
                 div.appendChild(a);
             });
         }

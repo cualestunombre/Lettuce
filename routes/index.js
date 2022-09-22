@@ -20,7 +20,7 @@ router.get("/",async(req,res) =>{
         for (let i=0; i<FollowingList.length ;i++){
             const FollowingPost = await Post.findAll({
                 raw:true,
-                attributes:['content','createdAt'],
+                attributes:['content','createdAt','id'],
                 where:{UserId: FollowingList[i].id},
                 include: [{model:PostMedia,attributes:['createdAt','type','src']},{model:User,attributes:['id','nickName','profile']}]
             })
@@ -29,7 +29,7 @@ router.get("/",async(req,res) =>{
             });
         }// arr배열에 쿼리 결과를 담음
         arr.sort((a,b)=>{
-            return a['Postmedia.createdAt'] - b['Postmedia.createdAt'];
+            return b['Postmedia.createdAt'] - a['Postmedia.createdAt'];
         }); // 시간순 정렬
         for(let i =0;i<arr.length;i++){
             let flag = true;

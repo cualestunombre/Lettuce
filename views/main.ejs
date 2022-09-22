@@ -15,27 +15,37 @@
             width: 100px;
             height: 100px;
         }
+        .temp{
+            display: inline-block;
+        }
+        #temp{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <%-include('navbar.ejs') %>
-    <% for (let i=0 ; i < data.length ; i++) { %>     
-        <span><%= data[i]['User.nickName'] %></span>
-        <p><%= data[i]['User.email'] %></p>
-        <img src="<%= data[i]['User.profile'] %>" alt="">
+    <% for (let i=0 ; i < data.length ; i++) { %> 
+        <div id="temp">
+        <span class="temp"><%= data[i]['User.nickName'] %></span><br>
+        <p class="temp"><%= data[i]['User.email'] %></p><br>
+        <img class="temp" src="<%= data[i]['User.profile'] %>" alt=""><br>
         <% for (let j=0; j < data[i].src.length; j++) { %>
             <% if(data[i].src[j].type == "img"){ %>
-        <img src="<%= data[i].src[j].src %>" alt="">
+        <img class="temp" src="<%= data[i].src[j].src %>" alt=""><br>
         <% } else {%>
-            <video muted autoplay loop>
+            <video class="temp" muted autoplay loop>
                 <source src="<%= data[i].src[j].src %>" type="mov">
-            </video>
+            </video><br>
         <% } } %>
         <span><%= data[i].content %></span>
         <br>
         <br>
+        </div>
     <% } %>
+
     <script src="../static/js/searchUser.js"></script>
+
 </body>
 
 </html>

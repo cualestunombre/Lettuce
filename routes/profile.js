@@ -1,6 +1,6 @@
 const multer = require("multer");
 const path = require("path");
-const {isLoggedIn,isNotLoggedIn}=  require("./middlewares.js");
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares.js");
 const upload = multer({
     storage: multer.diskStorage({
         destination(req, file, done) {
@@ -16,15 +16,14 @@ const upload = multer({
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const User = require("../models/user");
-const { Follow } = require("../models");
+const { User, Follow } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
 });
 
 // 프로필 라우터
-router.get("/", isLoggedIn,async (req, res) => {
+router.get("/", isLoggedIn, async (req, res) => {
     var id;
 
     // 내 프로필인지 아닌지
@@ -78,6 +77,25 @@ router.get("/", isLoggedIn,async (req, res) => {
     res.render('profile', { data });
 });
 
+// 팔로우 명단 불러오기
+router.get("/getFollowList", async (req, res) => {
+    const getFollowingList = await User.findAll({
+        raw: true,
+        attributes: ['profile', 'email'],
+        include: [{ model: User, as: 'followings', where: { id: req.query.id } }]
+    })
+    const getFollowerList = await User.findAll({
+        raw: true,
+        attributes: ['profile', 'email'],
+        include: [{ model: User, as: 'followers', where: { id: req.query.id } }]
+    })
+    var data = {
+        following: getFollowingList,
+        follower: getFollowerList
+    }
+    res.send(data);
+})
+
 // 팔로우 처리
 router.post("/follow", async (req, res) => {
     const follow = await Follow.create({
@@ -99,14 +117,14 @@ router.post("/unfollow", async (req, res) => {
 })
 
 // 개인정보수정 페이지(마이페이지) 렌더링
-router.post("/mypage", isLoggedIn,async (req, res) => {
+router.post("/mypage", isLoggedIn, async (req, res) => {
     var data = req.user;
     console.log(data);
     res.render('mypage', { data });
 })
 
 // 회원탈퇴
-router.post("/deleteUser", isLoggedIn,async (req, res) => {
+router.post("/deleteUser", isLoggedIn, async (req, res) => {
     const deleteUser = await User.destroy({
         where: { id: req.user.id }
     })
@@ -114,7 +132,7 @@ router.post("/deleteUser", isLoggedIn,async (req, res) => {
 })
 
 // 프로필사진 수정
-router.post("/mypage/fileupload", isLoggedIn,upload.single("userfile"), async (req, res) => {
+router.post("/mypage/fileupload", isLoggedIn, upload.single("userfile"), async (req, res) => {
     console.log(req.file.path);
     const imgModify = await User.update({
         profile: '/' + req.file.path
@@ -125,7 +143,7 @@ router.post("/mypage/fileupload", isLoggedIn,upload.single("userfile"), async (r
 })
 
 // 개인정보수정
-router.post("/mypage/update", isLoggedIn,async (req, res) => {
+router.post("/mypage/update", isLoggedIn, async (req, res) => {
     const hash = await bcrypt.hash(req.body.password, 12);
     const profileUpdate = await User.update({
         nickName: req.body.name,

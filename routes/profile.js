@@ -146,6 +146,11 @@ router.get("/inpost", async(req,res)=>{
     res.send(data);
 })
 
+router.get("/logout", isLoggedIn, (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect("/");
+  });
 // GET /${email} : 해당하는 유저의 개인 페이지로 이동함.
 // 본인 페이지 일 경우 css 다르게 처리
 // POST /${email}/follow : 이 페이지의 유저를 내가 팔로우 함

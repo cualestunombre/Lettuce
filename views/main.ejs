@@ -15,7 +15,6 @@
 </head>
 <body>
     <%-include('navbar.ejs') %>
-    <button><a href="/auth/logout">로그아웃</a></button>
     <% for (let i=0 ; i < data.length ; i++) { %>
         
         <span><%= data[i]['User.nickName'] %></span>

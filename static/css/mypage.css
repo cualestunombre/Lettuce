@@ -1,0 +1,18 @@
+.wrap{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+#profile_img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#uploadBtn {
+    border: none;
+    color: #87C228;
+    background-color: transparent;
+}
+#uploadBtn:hover {
+    font-weight: bolder;
+}

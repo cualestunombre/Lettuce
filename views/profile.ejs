@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="/static/css/profile.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
@@ -13,29 +14,37 @@
 <body>
   <%-include('navbar.ejs') %>
   <!-- 상단부 -->
-  <div>
-    <img src="<%=data.profile%>" style="width: 200px; height: 200px;">
-    <% if (data.isMyprofile == true) { %>
-    <form action="/profile/mypage" method="post">
-      <button>프로필편집</button>
-    </form>
-    <% } else if(data.isFollow != 0){%>
-    <button onclick="unfollow();">언팔로우</button>
-    <% } else { %>
-    <button onclick="follow();">팔로우</button>
-    <% } %>
-    <div id="email"><%=data.email%></div>
-    <div id="id" style="display: none;"><%=data.id%></div>
-    <div><%=data.nickName %></div>
-    <div>
-      <div><span>게시물</span><span>1</span></div>
+  <div class="wrap">
+    <div class="profileDiv">
+      <img id="profilePic" src="<%=data.profile%>">
     </div>
-    <div>
-      <div><span>팔로잉</span><span><%=data.following%></span></div>
-    </div>
-    <div>
-      <div><span>팔로워</span><span><%=data.follower%></span></div>
-    </div>
+    <div class="infoDiv">
+      <div style="display: flex;">
+        <div><%=data.nickName %></div>
+          <% if (data.isMyprofile == true) { %>
+            <form action="/profile/mypage" method="post">
+              <button>프로필편집</button>
+            </form>
+          </div>
+      
+        <% } else if(data.isFollow != 0){%>
+          <button onclick="unfollow();">언팔로우</button>
+        <% } else { %>
+          <button onclick="follow();">팔로우</button>
+        <% } %>
+        <div id="email"><%=data.email%></div>
+        <div id="id" style="display: none;"><%=data.id%></div>
+        
+        <div>
+          <div><span>게시물</span><span>1</span></div>
+        </div>
+        <div>
+          <div><span>팔로잉</span><span><%=data.following%></span></div>
+        </div>
+        <div>
+          <div><span>팔로워</span><span><%=data.follower%></span></div>
+        </div>
+      </div>
   </div>
 
   <!-- 게시글 탭 -->

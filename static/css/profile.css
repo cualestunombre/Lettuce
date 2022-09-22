@@ -1,0 +1,18 @@
+.wrap {
+    display: flex;
+    padding: 20px 50px;
+}
+.profileDiv {
+    width: 292px;
+    height: 152px;
+    margin: 0 0 30px 0;
+}
+#profilePic {
+    width: 200px; 
+    height: 200px;
+    border-radius: 50%;
+}
+.infoDiv {
+    width: 613px;
+    height: 152px;
+}

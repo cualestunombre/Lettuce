@@ -30,5 +30,6 @@ module.exports = class Post extends Sequelize.Model {
             "TargetKey": "id"
             , onDelete: "cascade", onUpdate: "cascade"
         });
+        db.Post.hasMany(db.Comment,{ foreignKey: "PostId", targetKey: "id", onDelete: "cascade", onUpdate: "cascade" });
     }
 };

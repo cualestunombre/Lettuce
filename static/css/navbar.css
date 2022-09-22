@@ -33,8 +33,12 @@
     font-size: 25px;
     padding: 0 10px;
 }
-.form-control {
-    width: 500px;
+.nav-input {
+    width: 250px;
+    margin: 0;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
 }
 .d-flex {
     margin: 0;
@@ -92,4 +96,32 @@ a{
 }
 a:hover{
     color:black;
+}
+.modal-header {
+    background-color: #F9F4D9;
+}
+.modal-title {
+    font-size: 16px;
+    margin:auto
+}
+.form-control {
+    width: 465px;
+}
+.modal-footer {
+    background-color: #F9F4D9;
+}
+.btn {
+    background-color: #87C228;
+    border: none;
+    color: #ffffff;
+}
+.btn:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    background-color: #87C228;
+    color: #ffffff;
+}
+.btn:not(:hover) {
+    background-color: #87C228;
+    border: none;
+    color: #ffffff;
 }

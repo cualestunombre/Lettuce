@@ -18,12 +18,10 @@
             font-family: 'HallymGothic-Regular';
         }
         h1{
-            margin-top: 150px;
             text-align: center;
             margin-bottom: 0px;
         }
         h2{
-            margin-top: 0px;
             text-align: center;
         }
         a{
@@ -31,21 +29,31 @@
             text-align: center;
             text-decoration: none;
             color:#87C228;;
+            font-size: 20px;
+            font-weight: bolder;
         }
         div{
             text-align: center;
         }
         img{
-            margin-top: 20px;
+            margin-top: 50px;
             height: 100px;
-            width:150px;
+            width:200px;
+        }
+        .errorMsg {
+            margin-top: 240px;
         }
     </style>
 </head>
 <body>
-    <div><a href="/"><img src="/static/image/logo.png" alt=""></a></div>
-    <h1>에러가 발생했어요!</h1>
-   <h2><%=error%></h2>
-   <a href="/">홈으로</a>
+    <div>
+        <a href="/"><img src="/static/image/logo.png" alt=""></a>
+    </div>
+    <div class="errorMsg">
+        <h1>에러가 발생했어요!</h1>
+        <h2><%=error%></h2>
+        <a href="/">홈으로</a>
+    </div>
+    
 </body>
 </html>

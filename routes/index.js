@@ -1,4 +1,4 @@
-const { application } = require("express");
+
 const express = require("express");
 const router = express.Router();
 const {User,Post,PostMedia,Follow} = require("../models");
@@ -11,6 +11,7 @@ const {User,Post,PostMedia,Follow} = require("../models");
 router.get("/",async(req,res) =>{
     if(req.isAuthenticated()){
         const arr=[];
+        const list = []; 
         const FollowingList = await User.findAll({
             raw: true,
             attributes: ['id'],
@@ -27,8 +28,22 @@ router.get("/",async(req,res) =>{
         }arr.sort((a,b)=>{
             return a['Postmedia.createdAt'] -b['Postmedia.createdAt'];
         })
-
-         console.log(arr);
+        for(let i =0;i<arr.length;i++){
+            let flag = true;
+            for(let j=0;j<list.length;j++){
+                if(list[j].id==arr[i].id){
+                    flag=false;
+                }
+            }
+            if(flag==false){
+                list[list.length-1].src.push({src:arr[i]['Postmedia.src'],type:arr[i]['Postmedia.type']});
+            }
+            else{
+                list.push(arr[i]);
+                list[list.length-1].src=[{src:arr[i]['Postmedia.src'],type:arr[i]['Postmedia.type']}];
+            }
+        }
+         res.send(list);
           
     }
     else{

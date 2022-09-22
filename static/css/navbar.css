@@ -48,46 +48,57 @@
     position: relative;
 }
 .searchUserInfo{
-    
-    overflow: auto;
+    overflow-x: none;
+    overflow-y: auto;
     background-color: rgb(251,251,251);
     border-radius: 10px;
     height: 300px;
-    width: 500px;
+    width: 250px;
     top:55px;
    
     position: absolute;
 }
 .noResult{
-    left:185px;
+    left:60px;
     top:120px;
     position: absolute;
     font-family: 'HallymGothic-Regular';
     text-align: center;
 }
 .userLink{
+    display: block;
     height: 40px;
-    display:block;
     margin-top: 10px;
     margin-left: 10px;
     position: relative;
 }
 .userProfile{
+    
+    top:10px;
     position:absolute;
     width: 30px;
     height: 30px;
     border-radius: 100%;
 }
-.userEmail{
-    right:30px;
+.userInfo{
+    width:140px;
+    top:10px;
     position:absolute;
+    left:70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.userEmail{
+    
     margin-right: 10px;
     font-family: 'HallymGothic-Regular';;
     color:rgb(140,140,140);
+    font-size: 11px;
 }
 .userName{
+    font-size: 11px;
     left:100px;
-    position: absolute;
     font-family: 'HallymGothic-Regular';;
 }
 a{

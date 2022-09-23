@@ -15,14 +15,13 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
     const arr = [];
     const list = [];
     const query = req.query.cnt;
-    const tag = req.query.tag;
-    console.log(tag);
+    const tag = '#' + req.query.tag;
     const del = query * 20 - 1;
     const UserList = await User.findAll({
         raw: true,
         attributes: ['id']
     }); // 모든 유저를 찾는 코드
-    if (tag == "no") {
+    if (tag == "#no") {
         for (let i = 0; i < UserList.length; i++) {
             const PostAll = await Post.findAll({
                 raw: true,
@@ -57,7 +56,6 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
     arr.sort((a, b) => {
         return b['Postmedia.createdAt'] - a['Postmedia.createdAt'];
     }); // 시간순 정렬
-    console.log("arr", arr);
     for (let i = 0; i < arr.length; i++) {
         let flag = true;
         for (let j = 0; j < list.length; j++) {
@@ -74,7 +72,6 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
             list[list.length - 1].src = [{ src: arr[i]['Postmedia.src'], type: arr[i]['Postmedia.type'] }];
         }
     }
-    console.log("list1", list);
     for (let i = 0; i < list.length; i++) {
         delete list[i]['Postmedia.createdAt'];
         delete list[i]['Postmedia.type'];
@@ -86,7 +83,6 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
     while (list.length > 20) {
         list.pop();
     }
-    console.log("list2", list);
     // 데이터 가공
     /* 데이터 형식
     {   

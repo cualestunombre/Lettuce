@@ -70,7 +70,10 @@ router.get("/users",async(req,res,next)=>{
          if(list.length==0){
              res.send({code:400}); 
          }
-         res.send({data:list,code:200});
+         else{
+            res.send({data:list,code:200});
+         }
+         
 });
 
 module.exports = router;

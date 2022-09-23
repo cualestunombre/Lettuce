@@ -74,7 +74,11 @@ function loadItems(number) {
         const html = data.data.map((item) => `<span>${item['User.nickName']}</span><br><img id="yeah" src="${item.src[0].src}">`);
     $list.innerHTML += html.join("");
     }
+    else{
+        intersectionObserver.unobserve(document.querySelector(".virtual"));
+    }
     document.querySelector(".square").classList.add("dnone");
+
   });
 }
 

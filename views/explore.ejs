@@ -7,52 +7,120 @@
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <title>Document</title>
   <style>
-    img {
-      display: block;
-      width: 300px;
-      height: 300px
-    }
-
-    video {
-      width: 300px;
-      height: 300px;
-    }
-
-    .container {
+    .list {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-    }
-
-
-    #temp {
-      text-align: center;
-      width: 30%;
-    }
-
-    .temp {
       width: 80%;
+      margin: auto;
+    }
+
+    .list img {
+      width: 33%;
       height: auto;
+    }
+
+    .dnone {
+      display: none;
+    }
+
+
+    .square {
+      border: 0;
+      width: 80px;
+      padding: 0px;
+      margin-top: 40px;
+      margin-left: calc(50% - 40px);
+      margin-left: -webkit-calc(50% - 40px);
+      margin-left: -moz-calc(50% - 40px);
+    }
+
+    .spin {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: dashed 5px #F9F4D9;
+      -webkit-animation-name: spin;
+      -webkit-animation-duration: 1.5s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+    }
+
+    @-webkit-keyframes spin {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
     }
   </style>
 </head>
 
 <body>
   <%-include('navbar.ejs') %>
-
-  <div class="container">
-    <% for (let i=0 ; i < data.length ; i++) { %>
-    <div id="temp">
-      <% if(data[i].src[0].type == "img"){ %>
-      <img class="temp" src="<%= data[i].src[0].src %>" alt=""><br>
-      <% } else {%>
-      <video class="temp" muted autoplay loop>
-        <source src="<%= data[i].src[0].src %>" type="mov">
-      </video><br>
-      <% } %>
-    </div>
-    <% } %>
+  <!--  -->
+  <div class="tagSearch">
+    <input id="tag" type="text">
+    <button type="button" onclick="loadItems(true)">제출</button>
   </div>
+  <div class="container">
+    <div class="list"></div>
+  </div>
+  <div class="more">
+    <p class="virtual"></p>
+    <div class="square dnone">
+      <div class="spin"></div>
+    </div>
+  </div>
+  <script>
+    let cnt = 0;
+    let t_cnt = 0;
+    let isHash = false;
+    const $list = document.querySelector(".list");
+
+
+    // Simulate a request to load data and render it to the list element;
+    function loadItems(isHash) {
+      new Promise((resolve) => {
+        document.querySelector(".square").classList.remove("dnone");
+        setTimeout(async () => {
+          let data;
+          if (isHash) {
+            let tag = $("#tag").val();
+            console.log(tag);
+            data = await axios.get(`/explore/list?tag=${tag}&cnt=${t_cnt}`);
+          } else {
+            data = await axios.get(`/explore/list?tag=no&cnt=${cnt}`);
+          }
+          cnt += 1;
+          t_cnt += 1;
+          console.log(isHash);
+          resolve(data.data);
+        }, 1000);
+      }).then((data) => {
+        if (data.code == 200) {
+          const html = data.data.map((item) => `<img id="yeah" src="${item.src[0].src}">`);
+          $list.innerHTML += html.join("");
+        } else {
+          intersectionObserver.unobserve(document.querySelector(".virtual"));
+        }
+        document.querySelector(".square").classList.add("dnone");
+
+      });
+    }
+
+    const intersectionObserver = new IntersectionObserver(function(entries) {
+      // If intersectionRatio is 0, the target is out of view
+      // and we do not need to do anything.
+      if (entries[0].intersectionRatio <= 0) return;
+      loadItems(isHash);
+      console.log("Loaded new items");
+    });
+    // start observing
+    intersectionObserver.observe(document.querySelector(".virtual"));
+  </script>
 
   <script src="../static/js/searchUser.js"></script>
 

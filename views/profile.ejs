@@ -13,43 +13,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
   <a href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"></a>
 </head>
-<style>
-  #following img {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-  }
-
-  #follower img {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-  }
-
-  .followUser {
-    height: 40px;
-    display: block;
-    margin-top: 10px;
-    margin-left: 10px;
-    position: relative;
-  }
-
-  .userEmail {
-    right: 30px;
-    position: absolute;
-    margin-right: 10px;
-    font-family: 'HallymGothic-Regular';
-    color: rgb(140, 140, 140);
-  }
-
-  .userName {
-    left: 100px;
-    position: absolute;
-    font-family: 'HallymGothic-Regular';
-  }
-</style>
 
 <body>
   <%-include('navbar.ejs') %>
@@ -65,37 +28,40 @@
         <form action="/profile/mypage" method="post">
           <button id="profileEditBtn">프로필 편집</button>
         </form>
+        <% } else if(data.isFollow != 0){%>
+          <button id="followBtn" onclick="unfollow();">언팔로우</button>
+          <% } else { %>
+          <button id="followBtn" onclick="follow();">팔로우</button>
+          <% } %>
       </div>
-      <% } else if(data.isFollow != 0){%>
-      <button onclick="unfollow();">언팔로우</button>
-      <% } else { %>
-      <button onclick="follow();">팔로우</button>
-      <% } %>
+      
       <div id="id" style="display: none;"><%=data.id%></div>
       <div style="display: flex; justify-content: space-around; margin-bottom: 25px;">
         <div>
           <div><span>게시물</span><span style="font-weight: bolder;"> 1</span></div>
         </div>
         <div>
-          <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="getFollowList();">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="followList('following');">
             <div><span>팔로잉</span><span style="font-weight: bolder;"> <%=data.following%></span></div>
           </a>
         </div>
         <div>
-          <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="getFollowList();">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="followList('follower');">
             <div><span>팔로워</span><span style="font-weight: bolder;"> <%=data.follower%></span></div>
           </a>
         </div>
       </div>
-      <div id="email"><i class="fa-regular fa-envelope"></i> <%=data.email%></div>
+      <div style="display: flex; align-items: center; justify-content: space-around; margin-bottom: 25px;">
+        <div id="email"><i class="fa-regular fa-envelope"></i> <%=data.email%></div>
+       
+          <% if (data.isMyprofile) { %>
+            <div id="logoutDiv">
+              <a href="/profile/logout"><button id="logoutBtn" type="button">로그아웃</button></a>
+            </div>
+            <% } %>
+      </div>
     </div>
   </div>
-
-  <!-- 로그아웃 -->
-  <% if (data.isMyprofile == true) { %>
-  <a href="/profile/logout"><button type="button">로그아웃</button></a>
-  <% } %>
-
 
   <div class="seperator"></div>
   <!-- 게시글 탭  게시글 본문 -->
@@ -117,15 +83,10 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">팔로우 목록</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title" id="follow-title"></h5>
+          <button type="button" class="btn-close" style="margin: 0; padding: 0;" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div id="following">
-          </div>
-          <div id="follower">
-          </div>
-        </div>
+        <div class="modal-body" id="followList"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
@@ -135,10 +96,15 @@
 
   <script type="text/javascript" defer src="/static/js/profile.js"></script>
   <script>
-    function getFollowList() {
-      var id = $('#id').text();
-      var followingForm = document.querySelector("#following");
-      var followerForm = document.querySelector("#follower");
+    function followList(mode){
+      var id = "<%=data.id%>";
+      var modalBody = document.querySelector("#followList");
+      var modalTitle = $("#follow-title");
+      if (mode == 'following') {
+        modalTitle.html("팔로잉 목록")
+      } else if (mode == "follower") {
+        modalTitle.html("팔로워 목록")
+      }
       var data = {
         id: id
       }
@@ -147,28 +113,24 @@
           method: "get",
           params: data
         })
+        
         .then((response) => {
-          var html = '<div>팔로잉목록</div>';
-          for (var i = 0; i < response.data.following.length; i++) {
-            html += `<a class="followUser" href="profile?id=${response.data.following[i].id}"><div>
-              <img src="${response.data.following[i].profile}" alt="">
-              <span class="userName">${response.data.following[i].nickName}</span>
-              <span class="userEmail">${response.data.following[i].email}</span>
-            </div></a>`;
+          var html = '';
+          var tmp = document.createElement("div");
+          var followMode = response.data[mode];
+          for (var i = 0; i < followMode.length; i++) {
+            html += `<div style="cursor: pointer">
+                      <div class="followUser" onclick="location.href='profile?id=${followMode[i].id}';">
+                        <img class="followProfile" src="${followMode[i].profile}" alt="">
+                        <span class="userName">${followMode[i].nickName}</span>
+                        <span class="userEmail">${followMode[i].email}</span>
+                      </div>
+                    </div>`;
           }
-          followingForm.innerHTML = html;
-
-          var html = '<div>팔로워목록</div>';
-          for (var i = 0; i < response.data.follower.length; i++) {
-            html += `<a class="followUser" href="profile?id=${response.data.follower[i].id}"><div>
-              <img src="${response.data.follower[i].profile}" alt="">
-              <span class="userName">${response.data.follower[i].nickName}</span>
-              <span class="userEmail">${response.data.follower[i].email}</span>
-            </div></a>`;
-          }
-          followerForm.innerHTML = html;
+          modalBody.innerHTML = html;
+          // modalBody.appendChild(tmp);
         })
-    }
+    }   
 
     function follow() {
       var id = $('#id').text();

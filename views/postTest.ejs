@@ -10,17 +10,83 @@
             width: 100px;
             height:100px
         }
+        .dnone{
+            display:none;
+        }
+
+          
+          .square{
+            border:0;
+            width:80px;
+            padding:0px;
+            margin-top: 40px;
+            margin-left: calc(50% - 40px);
+            margin-left: -webkit-calc(50% - 40px);
+            margin-left: -moz-calc(50% - 40px);
+          }
+          
+          .spin {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            border:dashed 5px #F9F4D9;
+            -webkit-animation-name: spin;
+            -webkit-animation-duration: 1.5s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: linear;
+          }
+          
+          @-webkit-keyframes spin {
+            from   {  -webkit-transform: rotate(0deg); }
+            to   {  -webkit-transform: rotate(360deg); }
+          }
+          #yeah{
+              width:500px;
+              height:500px;
+          }
+
+
     </style>
 </head>
 <body>
-    <% for (let i=0 ; i < data.length ; i++) { %>
-        <span><%= data[i]['User.nickName'] %></span>
-        <img src="<%= data[i]['User.profile'] %>" alt="">
-        <img src="<%= data[i]['Postmedia.src'] %>" alt="">
-        <span><%= data[i].content %></span>
-        <br>
-        <br>
-    <% } %>
+    <ol class="list"></ol>
+<div class="more">
+  <p class="virtual"></p>
+  <div class="square dnone">
+    <div class="spin"></div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    let cnt=0;
+        const $list = document.querySelector(".list");
+// Simulate a request to load data and render it to the list element;
+function loadItems(number) {
+  new Promise((resolve) => {
+    document.querySelector(".square").classList.remove("dnone");
+    setTimeout(async() => {
+        const data = await axios.get(`/test/users?cnt=${cnt}`);
+        cnt+=1;
+      resolve(data.data);
+    }, 1000);
+  }).then((data) => {
+    if(data.code==200){
+        const html = data.data.map((item) => `<span>${item['User.nickName']}</span><br><img id="yeah" src="${item.src[0].src}">`);
+    $list.innerHTML += html.join("");
+    }
+    document.querySelector(".square").classList.add("dnone");
+  });
+}
 
+const intersectionObserver = new IntersectionObserver(function (entries) {
+  // If intersectionRatio is 0, the target is out of view
+  // and we do not need to do anything.
+  if (entries[0].intersectionRatio <= 0) return;
+  loadItems(20);
+  console.log("Loaded new items");
+});
+// start observing
+intersectionObserver.observe(document.querySelector(".virtual"));
+    </script>
 </body>
 </html>

@@ -43,14 +43,13 @@
   <div class="container">
     <% for (let i=0 ; i < data.length ; i++) { %>
     <div id="temp">
-      <% for (let j=0; j < data[i].src.length; j++) { %>
-      <% if(data[i].src[j].type == "img"){ %>
-      <img class="temp" src="<%= data[i].src[j].src %>" alt=""><br>
+      <% if(data[i].src[0].type == "img"){ %>
+      <img class="temp" src="<%= data[i].src[0].src %>" alt=""><br>
       <% } else {%>
       <video class="temp" muted autoplay loop>
-        <source src="<%= data[i].src[j].src %>" type="mov">
+        <source src="<%= data[i].src[0].src %>" type="mov">
       </video><br>
-      <% } } %>
+      <% } %>
     </div>
     <% } %>
   </div>

@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 20px 50px;
+    padding: 30px 50px;
 }
 .profileDiv {
     /* width: 292px;
@@ -45,6 +45,13 @@
     padding: 5px 9px;
     font-size: 14px;
 }
+#logoutBtn {
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 5px 9px;
+    font-size: 14px;
+}
 #email {
     text-align: center;
 }
@@ -71,3 +78,28 @@
     padding: 0px;
     transition: 0.5s;
 }
+/* modal css */
+#follow-title{
+    margin-left: 201px;
+}
+.followUser {
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .followProfile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .userEmail {
+    font-family: 'HallymGothic-Regular';
+    color: rgb(140, 140, 140);
+  }
+
+  .userName {
+    font-weight: bolder;
+    font-family: 'HallymGothic-Regular';
+  }

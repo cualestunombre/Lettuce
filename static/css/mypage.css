@@ -1,13 +1,12 @@
 .wrap{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+    margin: auto;
+    width: 550px;
 }
 input {
-    margin-left: 32px;
+    width: 400px;
 }
 #imgDiv {
-padding: 20px;
+padding: 20px 80px 20px 0;
 }
 #profile_img {
     width: 50px;
@@ -26,4 +25,44 @@ padding: 20px;
 }
 #uploadBtn:hover {
     font-weight: bolder;
+}
+#paragraph {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-top: 16px;
+    margin-left: 130px;
+}
+.inputName{
+    width: 194px;
+    padding: 0 32px;
+    text-align: right;
+}
+#checkMsg {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-top: 16px;
+    margin-left: 130px;
+}
+#btnDiv {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+#submitBtn{
+    border: none;
+    border-radius: 5px;
+    background-color: #87C228;
+    color: white;
+    padding: 5px 9px;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+#quitBtn {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 5px 9px;
+    font-size: 14px;
+    color: grey;
 }

@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="/static/css/mypage.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
@@ -13,20 +14,56 @@
 <body>
   <%-include('navbar.ejs') %>
   <form>
-    <img id="profile_img" src="<%=data.profile%>" style="width: 200px; height: 200px;"><br>
-    <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button><br>
-    <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload()" accept="image/gif,image/jpeg,image/png,image/jpg">
-    이름<input type="text" name="name" value="<%=data.nickName %>"><br>
-    소개<input type="text" name="comment" value="<%=data.comment %>"><br>
-    생년월일<input type="date" name="birth" value="<%=data.birthday %>"><br>
-    이메일<input type="text" name="email" value="<%=data.email %>" disabled><br>
-    변경비밀번호<input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" required><br>
-    변경비밀번호확인<input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" oninput="checkPw();" required><br>
-    <input id="originalPw" type="password" value="<%=data.password%>" style="display: none;">
-    <div id="checkMsg"></div>
+    <div class="wrap">
+      <div style="display: flex; align-items: center; height: 140px;">
+        <div id="imgDiv">
+          <img id="profile_img" src="<%=data.profile%>">
+        </div>
+        <div>
+          <div><%=data.nickName %></div>
+          <button type="button" id="uploadBtn" onclick="img_load();">프로필 사진 변경하기</button>
+          <input style="display: none;" type="file" name="userfile" id="file_upload" onchange="fileUpload()" accept="image/gif,image/jpeg,image/png,image/jpg">
+        </div>
+      </div>
 
-    <button id="submitBtn" type="button" onclick="updateUser();">제출</button>
-    <button type="button" onclick="deleteUser();">회원탈퇴</button>
+        <div>
+          이름 <input type="text" name="name" value="<%=data.nickName %>" style="margin-left: 95px;">
+          <div id="paragraph">
+            <p>귀하의 전체 이름, 닉네임 또는 회사 이름과 같이 알려진 이름을 사용하여 사람들이 귀하의 계정을 찾도록 돕습니다. <br>
+              이름은 14일 이내에 두 번만 변경할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 50px;">
+          소개 <input type="text" name="comment" value="<%=data.comment %>" style="margin-left: 95px;">
+        </div>
+
+        <div style="margin-bottom: 50px;">
+          생년월일<input type="date" name="birth" value="<%=data.birthday %>" style="margin-left: 70px;">
+        </div>
+        
+
+        <div style="margin-bottom: 50px;">
+          이메일<input type="text" name="email" value="<%=data.email %>" style="margin-left: 84px;" disabled>
+        </div>
+
+        <div style="margin-bottom: 50px;">
+          변경비밀번호<input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" style="margin-left: 38px;" required>
+        </div>
+
+        <div style="margin-bottom: 50px;">
+          변경비밀번호확인<input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" style="margin-left: 8px;" oninput="checkPw();" required>
+          <input id="originalPw" type="password" value="<%=data.password%>" style="display: none;">
+          <div id="checkMsg"></div>
+        </div>
+
+        <div id="btnDiv">
+          <button id="submitBtn" type="button" onclick="updateUser();">제출</button>
+          <button id="quitBtn" type="button" onclick="deleteUser();">회원탈퇴</button>
+        </div>
+      </div>
+    </div>
+    
   </form>
 
   <%-include('footer.ejs') %>

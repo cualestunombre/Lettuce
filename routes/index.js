@@ -48,6 +48,21 @@ router.get("/",async(req,res) =>{
             }
         }
         for(let i=0;i<list.length;i++){
+            let date = list[i].createdAt;
+            let sendDate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();         
+            if(String(date.getHours()).length==1){
+                sendDate+='  '+'0'+date.getHours();
+            }
+            else{
+                sendDate+='  '+date.getHours();
+            }
+            if(String(date.getMinutes()).length==1){
+                sendDate+=':'+'0'+date.getMinutes();
+            }
+            else{
+                sendDate+=":"+date.getMinutes();
+            }
+            list[i].createdAt=sendDate;
             delete list[i]['Postmedia.createdAt'];
             delete list[i]['Postmedia.type'];
             delete list[i]['Postmedia.src'];

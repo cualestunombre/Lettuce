@@ -16,7 +16,7 @@ const sessionMiddleware = session({
     cookie: {
         httpOnly: true,
         secure: false,
-        maxAge: 1000000,
+        maxAge: 100000000,
     },
 })
 app.use(sessionMiddleware); // 세션객체 설정

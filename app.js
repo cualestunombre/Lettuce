@@ -32,6 +32,7 @@ const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
 const postRouter = require("./routes/posting");
 const testRouter = require("./routes/test");
+const exploreRouter = require("./routes/explore");
 
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
@@ -52,15 +53,16 @@ sequelize.sync({ force: false })
 app.use("/", indexRouter); // index router 로 이동
 app.use("/auth", authRouter); // auth router 사용
 app.use("/profile", profileRouter);
-app.use("/user",userRouter);
-app.use("/posting",postRouter);
-app.use("/test",testRouter);
-app.use((req,res,next)=>{
+app.use("/user", userRouter);
+app.use("/posting", postRouter);
+app.use("/test", testRouter);
+app.use("/explore", exploreRouter);
+app.use((req, res, next) => {
     res.render("nonmatch");
 });
 
 app.use((err, req, res, next) => {
-    res.render('error',{error:err.message});
+    res.render('error', { error: err.message });
 });
 const server = app.listen(port, () => {
     console.log("Server Port : ", port);

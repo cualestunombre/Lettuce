@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <title>Document</title>
+  <style>
+    img {
+      display: block;
+      width: 300px;
+      height: 300px
+    }
+
+    video {
+      width: 300px;
+      height: 300px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+
+    #temp {
+      text-align: center;
+      width: 30%;
+    }
+
+    .temp {
+      width: 80%;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <%-include('navbar.ejs') %>
+
+  <div class="container">
+    <% for (let i=0 ; i < data.length ; i++) { %>
+    <div id="temp">
+      <% for (let j=0; j < data[i].src.length; j++) { %>
+      <% if(data[i].src[j].type == "img"){ %>
+      <img class="temp" src="<%= data[i].src[j].src %>" alt=""><br>
+      <% } else {%>
+      <video class="temp" muted autoplay loop>
+        <source src="<%= data[i].src[j].src %>" type="mov">
+      </video><br>
+      <% } } %>
+    </div>
+    <% } %>
+  </div>
+
+  <script src="../static/js/searchUser.js"></script>
+
+</body>
+
+</html>

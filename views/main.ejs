@@ -3,49 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://kit.fontawesome.com/db7bfd8989.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/main.css">
     <title>Document</title>
-    <style>
-        img{
-            display: block;
-            width: 100px;
-            height:100px
-        }
-        video{
-            width: 100px;
-            height: 100px;
-        }
-        .temp{
-            display: inline-block;
-        }
-        #temp{
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
     <%-include('navbar.ejs') %>
-    <% for (let i=0 ; i < data.length ; i++) { %> 
-        <div id="temp">
-        <span class="temp"><%= data[i]['User.nickName'] %></span><br>
-        <p class="temp"><%= data[i]['User.email'] %></p><br>
-        <img class="temp" src="<%= data[i]['User.profile'] %>" alt=""><br>
-        <% for (let j=0; j < data[i].src.length; j++) { %>
-            <% if(data[i].src[j].type == "img"){ %>
-        <img class="temp" src="<%= data[i].src[j].src %>" alt=""><br>
-        <% } else {%>
-            <video class="temp" muted autoplay loop>
-                <source src="<%= data[i].src[j].src %>" type="mov">
-            </video><br>
-        <% } } %>
-        <span><%= data[i].content %></span>
-        <br>
-        <br>
-        </div>
-    <% } %>
+    
 
+    <div class="main">
+
+        <% for (let i=0 ; i < data.length ; i++) { %> 
+        <div class="card">
+            <header>
+                <img src="<%= data[i]['User.profile'] %>" alt="">  <%= data[i]['User.nickName'] %><%= data[i]['createdAt'] %>
+            </header>
+            <% for (let j=0; j < data[i].src.length; j++) { %>
+                <% if(data[i].src[j].type == "img"){ %>
+            <div class="card_image">
+                <img src="<%= data[i].src[j].src %>" alt="">
+            </div>
+            <% } else {%>
+                <video class="temp" muted autoplay loop>
+                    <source src="<%= data[i].src[j].src %>" type="mp4">
+                </video><br>
+            <% } } %>
+            <div class="info">
+                <div class="info_left">
+                    <i class="far fa-heart"></i>
+                    <i class="far fa-comment"></i>
+                    
+                </div>
+                <div class="info_right">
+                    <i class="far fa-bookmark"></i>
+                </div>
+            </div>
+            <div class="comment">
+                <%= data[i].content %>
+            </div>
+            <div class="comment_form">
+                <form action="">
+                    <input id="re" type="text" placeholder="댓글 입력..">
+                    <button type="button">등록</button>
+                </form>
+            </div>
+        </div>
+        <% } %> 
+
+    </div>
+
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/static/" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="..." class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="..." class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    
+
+    
     <script src="../static/js/searchUser.js"></script>
 
+<script>
+
+</script>
 </body>
 
 </html>

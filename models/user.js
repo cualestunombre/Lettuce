@@ -52,7 +52,7 @@ module.exports = class User extends Sequelize.Model {
             through: "follow",
             as: "followings"
         });
-        db.User.belongsToMany(db.Post, { through: 'like', onDelete: "cascade", onUpdate: "cascade" });
+        db.User.belongsToMany(db.Post, { through: 'likes', onDelete: "cascade", onUpdate: "cascade" });
         db.User.belongsToMany(db.Post, { through: "bookmark", onDelete: "cascade", onUpdate: "cascade" });
         db.User.belongsToMany(db.Room, { 'through': 'allocate', onDelete: "cascade", onUpdate: "cascade" });
         db.User.hasMany(db.SessionSocketIdMap, {

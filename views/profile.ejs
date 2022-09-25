@@ -29,12 +29,12 @@
           <button id="profileEditBtn">프로필 편집</button>
         </form>
         <% } else if(data.isFollow != 0){%>
-          <button id="followBtn" onclick="unfollow();">언팔로우</button>
-          <% } else { %>
-          <button id="followBtn" onclick="follow();">팔로우</button>
-          <% } %>
+        <button id="followBtn" onclick="unfollow();">언팔로우</button>
+        <% } else { %>
+        <button id="followBtn" onclick="follow();">팔로우</button>
+        <% } %>
       </div>
-      
+
       <div id="id" style="display: none;"><%=data.id%></div>
       <div style="display: flex; justify-content: space-around; margin-bottom: 25px;">
         <div>
@@ -53,12 +53,12 @@
       </div>
       <div style="display: flex; align-items: center; justify-content: space-around; margin-bottom: 25px;">
         <div id="email"><i class="fa-regular fa-envelope"></i> <%=data.email%></div>
-       
-          <% if (data.isMyprofile) { %>
-            <div id="logoutDiv">
-              <a href="/profile/logout"><button id="logoutBtn" type="button">로그아웃</button></a>
-            </div>
-            <% } %>
+
+        <% if (data.isMyprofile) { %>
+        <div id="logoutDiv">
+          <a href="/profile/logout"><button id="logoutBtn" type="button">로그아웃</button></a>
+        </div>
+        <% } %>
       </div>
     </div>
   </div>
@@ -96,7 +96,7 @@
 
   <script type="text/javascript" defer src="/static/js/profile.js"></script>
   <script>
-    function followList(mode){
+    function followList(mode) {
       var id = "<%=data.id%>";
       var modalBody = document.querySelector("#followList");
       var modalTitle = $("#follow-title");
@@ -113,7 +113,7 @@
           method: "get",
           params: data
         })
-        
+
         .then((response) => {
           var html = '';
           var tmp = document.createElement("div");
@@ -130,7 +130,7 @@
           modalBody.innerHTML = html;
           // modalBody.appendChild(tmp);
         })
-    }   
+    }
 
     function follow() {
       var id = $('#id').text();

@@ -81,7 +81,7 @@ router.get("/",async(req,res) =>{
 
         */
        console.log(list);
-         res.render('main',{data:list});
+         res.render('maintest',{data:list});
 
           
     }

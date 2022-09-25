@@ -67,3 +67,11 @@ header img{
 .info i{
     font-size: 1.5rem;
 }
+i:hover{
+    cursor: pointer;
+}
+.comments img{
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}

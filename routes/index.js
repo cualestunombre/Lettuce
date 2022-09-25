@@ -25,7 +25,7 @@ router.get("/fpost",async(req,res)=>{
     const FollowingList = await User.findAll({
         raw: true,
         attributes: ['id'],
-        include: [{ model: User, as: 'followings', where: { id: req.user.id } }]
+        include: [{ model: User, as: 'followings', where: { id: req.user.id } }]})
 
 
     for (let i=0; i<FollowingList.length ;i++){

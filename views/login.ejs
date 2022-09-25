@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/login.css">
     <title>Document</title>
@@ -23,10 +24,35 @@
                 <a href="/auth/join"><button class="signupBtn" type="button">회원가입</button></a>
             </form>
             <div class="line"></div>
-            <button class="kakaoBtn"><i class="fa-sharp fa-solid fa-comment"></i> 카카오톡 계정으로 로그인</button>
+            <button class="kakaoBtn" onclick="kakaoLogin()"><i class="fa-sharp fa-solid fa-comment"></i>카카오톡 계정으로 로그인</button>
         </div>
     </div>
     <script>
+
+
+        // 카카오 로그인
+        Kakao.init('ab090e8facdf4f8e66da98314978c363');//발급키
+
+        
+        function kakaoLogin() {
+            Kakao.Auth.login({
+                success: function (response) {
+                    Kakao.API.request({
+                    url: '/auth/kakao',
+                    success: function (response) {
+                        console.log(response)
+                    },
+                    fail: function (error) {
+                        console.log(error)
+                    },
+                    })
+                },
+                fail: function (error) {
+                    console.log(error)
+                },
+                })
+        }
+
         function dynamicForm() {
             var form = document.querySelector("form");
             var data = {
@@ -56,7 +82,8 @@
                 }
             })
         }
-
+        
+        //로그인
         $(document).ready(function(){
             $("#loginPwInput").keydown(function(key){
             if(key.keyCode ==  13){

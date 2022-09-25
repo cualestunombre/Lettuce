@@ -1,280 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="wrap">
-        <div class="signupContainer">
-            <div class="title"><img src="/static/image/logo.png"></div>
-            <div style="font-size: 13px;">LET US WELCOME YOU</div>
-            <form class="form">
-                <input class="idInput" name="email" type="email" placeholder="  이메일을 입력하세요" required>
-                <button id="emailCheckBtn" type="button" onclick="emailCheck()">중복확인</button><br>
-                <input class="nicknameInput" name="nickName" placeholder="  닉네임을 입력하세요" required><br>
-                <input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" required><br>
-                <input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" required><br>
-                <div id="pwInfo"><p id="passwordInfo">8~16자 영문 대소문자, 숫자를 사용하세요</p></div>
-                <div class="birthDay">
-                    생년월일 : <select name="year" required>
-                        <%for(var year=1950; year <=2022; year++){%>
-                        <option value="<%=year%>"><%=year%></option>
-                            <% }%>
-                    </select>년
-                    <select name="month" required>
-                        <%for(var month=1; month<=12; month++){%>
-                            <option value="<%=month%>"><%=month%></option>
-                            <% }%>
-                    </select>월
-                    <select name="day" required>
-                        <%for(var day=1; day<=32; day++){%>
-                            <option value="<%=day%>"><%=day%></option>
-                            <% }%>
-                    </select>일<br><br>
-                </div>
-                <button class="signupBtn" type="button" disabled="false" onclick="join()">회원가입</button>
-            </form>
-            <div class="line"></div>
-            <button class="kakaoBtn" onclick="kakaoLogin()"><i class="fa-sharp fa-solid fa-comment"></i> 카카오톡 계정으로 로그인</button>
-            <div class="registered">이미 ID가 있으신가요? <a href="/auth/login" class="loginLink">로그인</a></div>
+      <div class="signupContainer">
+        <div class="title"><img src="/static/image/logo.png" /></div>
+        <div style="font-size: 13px">LET US WELCOME YOU</div>
+        <form class="form">
+          <input
+            class="idInput"
+            name="email"
+            type="email"
+            placeholder="  이메일을 입력하세요"
+            required
+          />
+          <button id="emailCheckBtn" type="button" onclick="emailCheck()">
+            중복확인</button
+          ><br />
+          <input
+            class="nicknameInput"
+            name="nickName"
+            placeholder="  닉네임을 입력하세요"
+            required
+          /><br />
+          <input
+            class="pwInput"
+            name="password"
+            id="check1"
+            type="password"
+            placeholder="  비밀번호를 입력하세요"
+            required
+          /><br />
+          <input
+            class="pwInput"
+            name="passwordCheck"
+            id="check2"
+            type="password"
+            placeholder="  비밀번호를 한번 더 입력해 주세요"
+            required
+          /><br />
+          <div id="pwInfo">
+            <p id="passwordInfo">8~16자 영문 대소문자, 숫자를 사용하세요</p>
+          </div>
+          <div class="birthDay">
+            생년월일 :
+            <select name="year" required>
+              <%for(var year=1950; year <=2022; year++){%>
+              <option value="<%=year%>"><%=year%></option>
+              <% }%></select
+            >년
+            <select name="month" required>
+              <%for(var month=1; month<=12; month++){%>
+              <option value="<%=month%>"><%=month%></option>
+              <% }%></select
+            >월
+            <select name="day" required>
+              <%for(var day=1; day<=32; day++){%>
+              <option value="<%=day%>"><%=day%></option>
+              <% }%></select
+            >일<br /><br />
+          </div>
+          <button
+            class="signupBtn"
+            type="button"
+            disabled="false"
+            onclick="join()"
+          >
+            회원가입
+          </button>
+        </form>
+        <div class="line"></div>
+        <button class="kakaoBtn" onclick="kakaoLogin()">
+          <i class="fa-sharp fa-solid fa-comment"></i> 카카오톡 계정으로 로그인
+        </button>
+        <div class="registered">
+          이미 ID가 있으신가요?
+          <a href="/auth/login" class="loginLink">로그인</a>
         </div>
+      </div>
     </div>
 
-
     <script>
+      // 카카오 로그인
+      Kakao.init("ab090e8facdf4f8e66da98314978c363"); //발급키
 
-        // 카카오 로그인
-        Kakao.init('ab090e8facdf4f8e66da98314978c363');//발급키
-
-        
-        function kakaoLogin() {
-            Kakao.Auth.login({
-                success: function (response) {
-                    Kakao.API.request({
-                    url: '/auth/kakao',
-                    success: function (response) {
-                        console.log(response)
-                    },
-                    fail: function (error) {
-                        console.log(error)
-                    },
-                    })
-                },
-                fail: function (error) {
-                    console.log(error)
-                },
-                })
-        }
-
-
-        $('#check2').bind('input', function() {
-            const pw1 = document.querySelector("#check1").value;
-            if($(this).val()!=pw1){
-                if (!document.querySelector(".pwCheckFalse")){
-                    if(document.querySelector(".pwCheckTrue")){
-                        document.querySelector(".pwCheckTrue").remove();
-                    }
-                    if(document.querySelector("#passwordInfo")){
-                        document.querySelector("#passwordInfo").remove();
-                    }
-                    const p = document.createElement("p");
-                    p.innerText="비밀번호가 같지 않아요";
-                    p.style.fontSize="13px";
-                    p.style.color="grey";
-                    p.classList.add("pwCheckFalse")
-                    document.querySelector("#pwInfo").appendChild(p);
-                }
-            }
-            else{
-                if (!document.querySelector(".pwCheckTrue")){
-                    if(document.querySelector(".pwCheckFalse")){
-                        document.querySelector(".pwCheckFalse").remove();
-                    }
-                    if(pw1.length!=0 && $(this).val().length!=0){
-                        if(document.querySelector("#passwordInfo")){
-                            document.querySelector("#passwordInfo").remove();
-                        }
-                        const p = document.createElement("p");
-                        p.innerText="비밀번호가 같아요";
-                        p.classList.add("pwCheckTrue")
-                        document.querySelector("#pwInfo").appendChild(p);
-                    }
-                    else{
-                        if(document.querySelector(".pwCheckTrue")){
-                            document.querySelector(".pwCheckTrue").remove();
-                        }
-                        if(document.querySelector(".pwCheckFalse")){
-                            document.querySelector(".pwCheckFalse").remove();
-                        }
-                        const info = document.createElement("p");
-                        info.setAttribute("id","passwordInfo");
-                        info.innerText="8~16자 영문 대소문자, 숫자를 사용하세요";
-                        document.querySelector("#pwInfo").appendChild(info);
-                    }
-                }
-            }
+      function kakaoLogin() {
+        Kakao.Auth.login({
+          success: function (response) {
+            Kakao.API.request({
+              url: "/auth/kakao",
+              success: function (response) {
+                console.log(response);
+              },
+              fail: function (error) {
+                console.log(error);
+              },
+            });
+          },
+          fail: function (error) {
+            console.log(error);
+          },
         });
-        $('#check1').bind('input', function() {
-            const pw2 = document.querySelector("#check2").value;
-            if($(this).val()!=pw2){
-                if (!document.querySelector(".pwCheckFalse")){
-                    if(document.querySelector(".pwCheckTrue")){
-                        document.querySelector(".pwCheckTrue").remove();
-                    }
-                    if(document.querySelector("#passwordInfo")){
-                        document.querySelector("#passwordInfo").remove();
-                    }
-                    const p = document.createElement("p");
-                    p.innerText="비밀번호가 같지 않아요";
-                    p.classList.add("pwCheckFalse")
-                    document.querySelector("#pwInfo").appendChild(p);
-                    
-                }
+      }
+
+      $("#check2").bind("input", function () {
+        const pw1 = document.querySelector("#check1").value;
+        if ($(this).val() != pw1) {
+          if (!document.querySelector(".pwCheckFalse")) {
+            if (document.querySelector(".pwCheckTrue")) {
+              document.querySelector(".pwCheckTrue").remove();
             }
-            else{
-                if (!document.querySelector(".pwCheckTrue")){
-                    if(document.querySelector(".pwCheckFalse")){
-                        document.querySelector(".pwCheckFalse").remove();
-                    }
-                    if(pw2.length!=0 && $(this).val().length!=0){
-                        if(document.querySelector("#passwordInfo")){
-                            document.querySelector("#passwordInfo").remove();
-                        }
-                        const p = document.createElement("p");
-                        p.innerText="비밀번호가 같아요";
-                        p.classList.add("pwCheckTrue")
-                        document.querySelector("#pwInfo").appendChild(p);
-                    }
-                    else{
-                        if(document.querySelector(".pwCheckTrue")){
-                            document.querySelector(".pwCheckTrue").remove();
-                        }
-                        if(document.querySelector(".pwCheckFalse")){
-                            document.querySelector(".pwCheckFalse").remove();
-                        }
-                        const info = document.createElement("p");
-                        info.setAttribute("id","passwordInfo");
-                        info.innerText="8~16자 영문 대소문자, 숫자를 사용하세요";
-                        document.querySelector("#pwInfo").appendChild(info);
-                    }
-                
-                }
+            if (document.querySelector("#passwordInfo")) {
+              document.querySelector("#passwordInfo").remove();
             }
+            const p = document.createElement("p");
+            p.innerText = "비밀번호가 같지 않아요";
+            p.style.fontSize = "13px";
+            p.style.color = "grey";
+            p.classList.add("pwCheckFalse");
+            document.querySelector("#pwInfo").appendChild(p);
+          }
+        } else {
+          if (!document.querySelector(".pwCheckTrue")) {
+            if (document.querySelector(".pwCheckFalse")) {
+              document.querySelector(".pwCheckFalse").remove();
+            }
+            if (pw1.length != 0 && $(this).val().length != 0) {
+              if (document.querySelector("#passwordInfo")) {
+                document.querySelector("#passwordInfo").remove();
+              }
+              const p = document.createElement("p");
+              p.innerText = "비밀번호가 같아요";
+              p.classList.add("pwCheckTrue");
+              document.querySelector("#pwInfo").appendChild(p);
+            } else {
+              if (document.querySelector(".pwCheckTrue")) {
+                document.querySelector(".pwCheckTrue").remove();
+              }
+              if (document.querySelector(".pwCheckFalse")) {
+                document.querySelector(".pwCheckFalse").remove();
+              }
+              const info = document.createElement("p");
+              info.setAttribute("id", "passwordInfo");
+              info.innerText = "8~16자 영문 대소문자, 숫자를 사용하세요";
+              document.querySelector("#pwInfo").appendChild(info);
+            }
+          }
+        }
+      });
+      $("#check1").bind("input", function () {
+        const pw2 = document.querySelector("#check2").value;
+        if ($(this).val() != pw2) {
+          if (!document.querySelector(".pwCheckFalse")) {
+            if (document.querySelector(".pwCheckTrue")) {
+              document.querySelector(".pwCheckTrue").remove();
+            }
+            if (document.querySelector("#passwordInfo")) {
+              document.querySelector("#passwordInfo").remove();
+            }
+            const p = document.createElement("p");
+            p.innerText = "비밀번호가 같지 않아요";
+            p.classList.add("pwCheckFalse");
+            document.querySelector("#pwInfo").appendChild(p);
+          }
+        } else {
+          if (!document.querySelector(".pwCheckTrue")) {
+            if (document.querySelector(".pwCheckFalse")) {
+              document.querySelector(".pwCheckFalse").remove();
+            }
+            if (pw2.length != 0 && $(this).val().length != 0) {
+              if (document.querySelector("#passwordInfo")) {
+                document.querySelector("#passwordInfo").remove();
+              }
+              const p = document.createElement("p");
+              p.innerText = "비밀번호가 같아요";
+              p.classList.add("pwCheckTrue");
+              document.querySelector("#pwInfo").appendChild(p);
+            } else {
+              if (document.querySelector(".pwCheckTrue")) {
+                document.querySelector(".pwCheckTrue").remove();
+              }
+              if (document.querySelector(".pwCheckFalse")) {
+                document.querySelector(".pwCheckFalse").remove();
+              }
+              const info = document.createElement("p");
+              info.setAttribute("id", "passwordInfo");
+              info.innerText = "8~16자 영문 대소문자, 숫자를 사용하세요";
+              document.querySelector("#pwInfo").appendChild(info);
+            }
+          }
+        }
+      });
+      function emailCheck() {
+        var email = $(".idInput").val();
+        var regExp =
+          /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+        if (email.match(regExp) == null) {
+          swal("", "이메일 형식이 맞는지 확인해 주세요", "warning");
+          return false;
+        }
+        var form = document.querySelector("form");
+        var data = { email: form.email.value };
+
+        axios({
+          url: "/auth/emailCheck",
+          method: "post",
+          data: data,
+        }).then((response) => {
+          console.log(response.data.code);
+          if (response.data.code == 400) {
+            swal("", "중복된 이메일 입니다", "warning");
+          } else {
+            swal("", "사용 가능한 이메일 입니다", "success");
+            $(".signupBtn").removeAttr("disabled");
+          }
         });
-        function emailCheck(){
-            
-            var email = $(".idInput").val();
-            var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      }
 
-            if(email.match(regExp) == null){
-                swal("","이메일 형식이 맞는지 확인해 주세요","warning");
-                return false;
-            }
-            var form = document.querySelector("form");
-            var data = {email:form.email.value}
-            
-            
+      function join() {
+        var email = $(".idInput").val();
+        var regExp =
+          /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        var regExpSecond = /^[A-Za-z0-9]{8,16}$/;
+        var password = $("#check1").val();
+        var password1 = $("#check2").val();
 
-            axios({
-                url:"/auth/emailCheck",
-                method:"post",
-                data:data
-            }).then((response)=>{
-                if(response.data.code == 400){
-                    swal("","중복된 이메일 입니다","warning");
-                }
-                else{
-                    swal("","사용 가능한 이메일 입니다","success");
-                    $(".signupBtn").removeAttr("disabled");
-                }
-            })
+        if (email.match(regExp) == null) {
+          swal("", "이메일을 다시한번 확인해 주세요", "warning");
+          return;
         }
-
-
-        function join(){
-
-            var email = $(".idInput").val();
-            var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-            var regExpSecond = /^[A-Za-z0-9]{8,16}$/;
-            var password = $("#check1").val();
-            var password1 = $("#check2").val();
-
-            if(email.match(regExp) == null){
-                swal("","이메일을 다시한번 확인해 주세요","warning");
-                return;
-            }
-            if(password.length==0){
-                swal("","비밀번호를 입력해 주세요","warning");
-                return;
-            }
-            if(password != password1){
-                swal("","비밀번호를 다시 확인해 주세요","warning");
-                return;
-            }
-            if(document.querySelector("form").nickName.value.length==0){
-                swal("","닉네임을 입력해 주세요","warning");
-                return;
-            }
-            if(password.match(regExpSecond)){
-                let alphaCount=0;
-                let numCount= 0;
-                for(let i=0;i<password.length;i++){
-                    if(!isNaN(password[i])){
-                        numCount+=1;
-                    }
-                }
-                if(numCount==0){
-                    swal("","최소 하나의 숫자를 비밀번호에 포함해 주세요","warning");
-                    return;
-                    
-                }
-                if(password.length-numCount==0){
-                    swal("","최소 하나의 영문 대소문자를 비밀번호에 포함해 주세요","warning");
-                    return;
-                }
-            }
-            else{
-                swal("","8~16자 영문 대소문자, 숫자를 사용하세요","warning");
-                return;
-            }
-            var form = document.querySelector("form");
-            var birthday = form.year.value+"-"+form.month.value+"-"+form.day.value;
-            
-
-            var data = {
-                email: form.email.value,
-                nickName: form.nickName.value,
-                password: form.password.value,
-                birthday
-            }
-
-
-            axios({
-                url:"/auth/signup",
-                method:"post",
-                data : data
-            }).then((response)=>{
-                console.log(response.data.code);
-                if(response.data.code == 200){
-                    swal("","회원 가입을 축하해요!","success")
-                    .then((value) => {
-                        window.location = "/";
-                    });
-                }
-                else{
-                    swal("","이미 존재하는 이메일을 입력하셨어요","warning");
-                }
-            })
+        if (password.length == 0) {
+          swal("", "비밀번호를 입력해 주세요", "warning");
+          return;
         }
+        if (password != password1) {
+          swal("", "비밀번호를 다시 확인해 주세요", "warning");
+          return;
+        }
+        if (document.querySelector("form").nickName.value.length == 0) {
+          swal("", "닉네임을 입력해 주세요", "warning");
+          return;
+        }
+        if (password.match(regExpSecond)) {
+          let alphaCount = 0;
+          let numCount = 0;
+          for (let i = 0; i < password.length; i++) {
+            if (!isNaN(password[i])) {
+              numCount += 1;
+            }
+          }
+          if (numCount == 0) {
+            swal("", "최소 하나의 숫자를 비밀번호에 포함해 주세요", "warning");
+            return;
+          }
+          if (password.length - numCount == 0) {
+            swal(
+              "",
+              "최소 하나의 영문 대소문자를 비밀번호에 포함해 주세요",
+              "warning"
+            );
+            return;
+          }
+        } else {
+          swal("", "8~16자 영문 대소문자, 숫자를 사용하세요", "warning");
+          return;
+        }
+        var form = document.querySelector("form");
+        var birthday =
+          form.year.value + "-" + form.month.value + "-" + form.day.value;
+
+        var data = {
+          email: form.email.value,
+          nickName: form.nickName.value,
+          password: form.password.value,
+          birthday,
+        };
+
+        axios({
+          url: "/auth/signup",
+          method: "post",
+          data: data,
+        }).then((response) => {
+          console.log(response.data.code);
+          if (response.data.code == 200) {
+            swal("", "회원 가입을 축하해요!", "success").then((value) => {
+              window.location = "/";
+            });
+          } else {
+            swal("", "이미 존재하는 이메일을 입력하셨어요", "warning");
+          }
+        });
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -1,11 +1,20 @@
 
 const express = require("express");
 const router = express.Router();
-const {User,Post,PostMedia,Follow,Comment} = require("../models");
+const {User,Post,PostMedia,Follow,Comment,Like} = require("../models");
 router.get("/",async(req,res) =>{
     if(req.isAuthenticated()){
+        const arr=[];
         const data = await Follow.findAll({raw:true,where:{follower:req.user.id}});
-        if(data.length==0){
+        data.push({id:req.user.id});
+        for (let i=0;i<data.length;i++){
+            const Posts = await Post.findAll({raw:true, where:{UserId:data[i].id}});
+            Posts.forEach(ele=>{
+                arr.push(ele);
+            });
+        }
+        
+        if(arr.length==0){
             res.render('main',{code:400});
         }
         else{
@@ -29,7 +38,7 @@ router.get("/fpost",async(req,res)=>{
         attributes: ['id'],
         include: [{ model: User, as: 'followings', where: { id: req.user.id } }]})
 
-
+    FollowingList.push({id:req.user.id});
     for (let i=0; i<FollowingList.length ;i++){
         const FollowingPost = await Post.findAll({
             raw:true,
@@ -62,19 +71,15 @@ router.get("/fpost",async(req,res)=>{
     }
     for(let i=0;i<list.length;i++){
         let date = list[i].createdAt;
-        let sendDate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();         
-        if(String(date.getHours()).length==1){
-            sendDate+='  '+'0'+date.getHours();
+        let sendDate = date.getFullYear()+'년 '+(parseInt(date.getMonth())+1)+'월 '+date.getDate()+"일 ";         
+        if(date.getHours()<12){
+            sendDate+="오전 "+date.getHours()+"시 ";
         }
         else{
-            sendDate+='  '+date.getHours();
+            sendDate+='오후 '+(parseInt(date.getHours())-12)+"시 ";
         }
-        if(String(date.getMinutes()).length==1){
-            sendDate+=':'+'0'+date.getMinutes();
-        }
-        else{
-            sendDate+=":"+date.getMinutes();
-        }
+        sendDate+=+date.getMinutes()+"분";
+        
         list[i].createdAt=sendDate;
         delete list[i]['Postmedia.createdAt'];
         delete list[i]['Postmedia.type'];
@@ -85,6 +90,14 @@ router.get("/fpost",async(req,res)=>{
     }
     while(list.length>5){
         list.pop();
+    }
+    for(let i=0;i<list.length;i++){
+        const data = await Like.findAll({where:{UserId:req.user.id,PostId:list[i].id}});
+        const cnt = await Like.findAll({where:{PostId:list[i].id}});
+        list[i].likeCount= cnt.length;
+        if(data.length!=0){
+            list[i].like='true';
+        }
     }
     if (list.length==0){
         res.send({code:400});

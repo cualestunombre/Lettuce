@@ -2,6 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
+    />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
       integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
@@ -38,12 +42,15 @@
     <% if( code == 400 ) { %>
     <div class="con">
       <div class="noFollowers">
-        <p class="noFollowText">팔로우 중인 사람이 없어요!</p>
-        <p class="subText">팔로워를 추가해서 사람들과 소통해 보세요!</p>
+        <p class="noFollowText">표시할 게시물이 없어요!</p>
+        <p class="subText">
+          게시물을 작성하거나, <br />
+          팔로잉을 추가해서 사람들과 소통해 보세요!
+        </p>
+        <img id="logo" src="/static/image/logo.png" alt="" />
       </div>
     </div>
-    <% } %>
-
+    <% } else{ %>
     <div class="more">
       <div
         class="virtual"
@@ -53,6 +60,7 @@
         <div class="spin"></div>
       </div>
     </div>
+    <% } %>
     <script src="../static/js/searchUser.js"></script>
 
     <script>
@@ -146,10 +154,16 @@
               carousel.appendChild(wrapper);
               carousel.innerHTML += `<button class="carousel-control-prev" type="button" data-bs-target="#a${ele.id}" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button" data-bs-target="#a${ele.id}" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button></div>
                           `;
+              let flag = "bi-heart"; //좋아요가 없는 상태
+              let value = "0"; //좋아요가 없는 상태
+              if (ele.like) {
+                flag = "bi-heart-fill";
+                value = "1";
+              }
               card.appendChild(carousel);
               card.innerHTML += `<div class="info">
                               <div class="info_left">
-                                  <i onclick="like(event)" url="${ele.id}" class="far fa-heart"></i>
+                                  <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>
                                   <i class="far fa-comment"></i>
 
                               </div>
@@ -260,7 +274,7 @@
             if (res.me) {
               tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
             }
-            const div = `<div id="c${postId}"> ${tag} </div>`;
+            const div = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
             space.innerHTML += div;
             console.log(space);
           });
@@ -268,6 +282,15 @@
         }
       }
       async function like(event) {
+        if (event.target.getAttribute("value") == "1") {
+          event.target.setAttribute("value", "0");
+          event.target.classList.remove("bi-heart-fill");
+          event.target.classList.add("bi-heart");
+        } else {
+          event.target.classList.add("bi-heart-fill");
+          event.target.classList.remove("bi-heart");
+          event.target.setAttribute("value", "1");
+        }
         const postId = event.target.getAttribute("url");
         const res = await axios.post("like/likes", { postId: postId });
         if (res.data.code == 200) {

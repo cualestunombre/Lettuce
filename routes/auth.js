@@ -55,10 +55,11 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
 
 //중복체크
 router.post("/emailCheck",isNotLoggedIn, (req, res) => {
-  User.findAll({
+  User.findAll({ raw:true,
     where: { email: req.body.email },
   }).then((result) => {
-    if (result.email) {
+
+    if (result[0]) {
       res.send({ code: 400 });
     } else {
       res.send({ code: 200 });

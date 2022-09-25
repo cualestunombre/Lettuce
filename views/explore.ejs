@@ -1,210 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-  <a href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"></a>
-  <title>Document</title>
-  <style>
-    @font-face {
-      font-family: 'HallymGothic-Regular';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
-      font-weight: 400;
-      font-style: normal;
-    }
-
-    .list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 80%;
-      margin: auto;
-    }
-
-    .list img {
-      width: 33%;
-      height: auto;
-    }
-
-    .dnone {
-      display: none;
-    }
-
-
-    .square {
-      border: 0;
-      width: 80px;
-      padding: 0px;
-      margin-top: 40px;
-      margin-left: calc(50% - 40px);
-      margin-left: -webkit-calc(50% - 40px);
-      margin-left: -moz-calc(50% - 40px);
-    }
-
-    .spin {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      border: dashed 5px #F9F4D9;
-      -webkit-animation-name: spin;
-      -webkit-animation-duration: 1.5s;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-timing-function: linear;
-    }
-
-    @-webkit-keyframes spin {
-      from {
-        -webkit-transform: rotate(0deg);
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <a
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+    ></a>
+    <title>Document</title>
+    <style>
+      @font-face {
+        font-family: "HallymGothic-Regular";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2")
+          format("woff2");
+        font-weight: 400;
+        font-style: normal;
       }
 
-      to {
-        -webkit-transform: rotate(360deg);
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 80%;
+        margin: auto;
       }
-    }
 
-    .seperator {
-      height: 1px;
-      background-color: #DBDBDB;
-    }
+      .list img {
+        width: 33%;
+        height: auto;
+      }
 
-    .tabs {
-      display: flex;
-      justify-content: space-around;
-      position: relative;
-    }
+      .dnone {
+        display: none;
+      }
 
-    .tabs div {
-      padding: 1em;
-      cursor: pointer;
-    }
+      .square {
+        border: 0;
+        width: 80px;
+        padding: 0px;
+        margin-top: 40px;
+        margin-left: calc(50% - 40px);
+        margin-left: -webkit-calc(50% - 40px);
+        margin-left: -moz-calc(50% - 40px);
+      }
 
-    #line {
-      height: 3px;
-      background-color: black;
-      position: absolute;
-      width: 0;
-      left: 0;
-      top: 52;
-      padding: 0px;
-      transition: 0.5s;
-    }
+      .spin {
+        box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        border: dashed 5px #87c228;
+        -webkit-animation-name: spin;
+        -webkit-animation-duration: 1.5s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+      }
 
-    #tagBtn {
-      border: none;
-      background-color: transparent;
-    }
+      @-webkit-keyframes spin {
+        from {
+          -webkit-transform: rotate(0deg);
+        }
 
-    #tagSearch {
-      display: none;
-    }
-  </style>
-</head>
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
 
-<body>
-  <%-include('navbar.ejs') %>
+      .seperator {
+        height: 1px;
+        background-color: #dbdbdb;
+      }
 
-  <div class="seperator"></div>
-  <!-- 게시글 탭  게시글 본문 -->
-  <section class="post-area">
-    <div class="tabs">
-      <div id="line"></div>
-      <a href="/explore">
-        <div id="posts"><i class="fa-regular fa-image"></i> ALL</div>
-      </a>
-      <button id="tagBtn" type="button" onclick="reset();">
-        <div id="saved"><i class="fa-solid fa-tag"></i> TAG</div>
-      </button>
+      .tabs {
+        display: flex;
+        justify-content: space-around;
+        position: relative;
+      }
+
+      .tabs div {
+        padding: 1em;
+        cursor: pointer;
+      }
+
+      #line {
+        height: 3px;
+        background-color: black;
+        position: absolute;
+        width: 0;
+        left: 0;
+        top: 52;
+        padding: 0px;
+        transition: 0.5s;
+      }
+
+      #tagBtn {
+        border: none;
+        background-color: transparent;
+      }
+
+      #tagSearch {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%-include('navbar.ejs') %>
+
+    <div class="seperator"></div>
+    <!-- 게시글 탭  게시글 본문 -->
+    <section class="post-area">
+      <div class="tabs">
+        <div id="line"></div>
+        <a href="/explore">
+          <div id="posts"><i class="fa-regular fa-image"></i> ALL</div>
+        </a>
+        <button id="tagBtn" type="button" onclick="reset();">
+          <div id="saved"><i class="fa-solid fa-tag"></i> TAG</div>
+        </button>
+      </div>
+      <div id="tagSearch" style="text-align: center">
+        <input type="text" id="tag" name="name" />
+        <button type="button" onclick="tagSearch();">검색</button>
+        <div id="paragraph">
+          <p>
+            해시태그를 통한 검색을 할 수 있습니다. 단, '#' 문자를 제외하고
+            검색해주세요. (ex: #고양이(X), 고양이(O))
+          </p>
+        </div>
+      </div>
+    </section>
+    <!--  -->
+    <div class="container">
+      <div class="list"></div>
     </div>
-    <div id="tagSearch" style="text-align: center;">
-      <input type="text" id="tag" name="name">
-      <button type="button" onclick="tagSearch();">검색</button>
-      <div id="paragraph">
-        <p>해시태그를 통한 검색을 할 수 있습니다. 단, '#' 문자를 제외하고 검색해주세요.
-          (ex: #고양이(X), 고양이(O))
-        </p>
+    <div class="more">
+      <p class="virtual"></p>
+      <div class="square dnone">
+        <div class="spin"></div>
       </div>
     </div>
-  </section>
-  <!--  -->
-  <div class="container">
-    <div class="list"></div>
-  </div>
-  <div class="more">
-    <p class="virtual"></p>
-    <div class="square dnone">
-      <div class="spin"></div>
-    </div>
-  </div>
-  <script>
-    let cnt = 0;
-    let isHash = false;
-    const $list = document.querySelector(".list");
+    <script>
+      let cnt = 0;
+      let isHash = false;
+      const $list = document.querySelector(".list");
 
-    function tagSearch() {
-      // 매 검색마다 무한스크롤 옵저버 초기화
-      intersectionObserver.unobserve(document.querySelector(".virtual"));
-      cnt = 0;
-      $(".list").empty();
+      function tagSearch() {
+        // 매 검색마다 무한스크롤 옵저버 초기화
+        intersectionObserver.unobserve(document.querySelector(".virtual"));
+        cnt = 0;
+        $(".list").empty();
 
-      // 새로운 옵저버 선언
-      intersectionObserver = new IntersectionObserver(function(entries) {
+        // 새로운 옵저버 선언
+        intersectionObserver = new IntersectionObserver(function (entries) {
+          if (entries[0].intersectionRatio <= 0) return;
+          loadItems(isHash);
+        });
+        // 옵저빙 시작
+        intersectionObserver.observe(document.querySelector(".virtual"));
+      }
+
+      // 태그 검색을 위한 초기화
+      function reset() {
+        $("#tagSearch").css("display", "block");
+        $(".list").empty();
+        isHash = true;
+      }
+
+      // Simulate a request to load data and render it to the list element;
+      function loadItems(isHash) {
+        new Promise((resolve) => {
+          document.querySelector(".square").classList.remove("dnone");
+          setTimeout(async () => {
+            let data;
+            if (isHash) {
+              let tag = $("#tag").val();
+              data = await axios.get(`/explore/list?tag=${tag}&cnt=${cnt}`);
+            } else {
+              data = await axios.get(`/explore/list?tag=no&cnt=${cnt}`);
+            }
+            cnt += 1;
+            resolve(data.data);
+          }, 1000);
+        }).then((data) => {
+          if (data.code == 200) {
+            const html = data.data.map(
+              (item) => `<img id="yeah" src="${item.src[0].src}">`
+            );
+            $list.innerHTML += html.join("");
+          } else {
+            intersectionObserver.unobserve(document.querySelector(".virtual"));
+          }
+          document.querySelector(".square").classList.add("dnone");
+        });
+      }
+
+      let intersectionObserver = new IntersectionObserver(function (entries) {
+        // If intersectionRatio is 0, the target is out of view
+        // and we do not need to do anything.
         if (entries[0].intersectionRatio <= 0) return;
         loadItems(isHash);
       });
-      // 옵저빙 시작
+      // start observing
       intersectionObserver.observe(document.querySelector(".virtual"));
-    }
+    </script>
 
-    // 태그 검색을 위한 초기화
-    function reset() {
-      $("#tagSearch").css("display", "block");
-      $(".list").empty();
-      isHash = true;
-    }
-
-    // Simulate a request to load data and render it to the list element;
-    function loadItems(isHash) {
-      new Promise((resolve) => {
-        document.querySelector(".square").classList.remove("dnone");
-        setTimeout(async () => {
-          let data;
-          if (isHash) {
-            let tag = $("#tag").val();
-            data = await axios.get(`/explore/list?tag=${tag}&cnt=${cnt}`);
-          } else {
-            data = await axios.get(`/explore/list?tag=no&cnt=${cnt}`);
-          }
-          cnt += 1;
-          resolve(data.data);
-        }, 1000);
-      }).then((data) => {
-        if (data.code == 200) {
-          const html = data.data.map((item) => `<img id="yeah" src="${item.src[0].src}">`);
-          $list.innerHTML += html.join("");
-        } else {
-          intersectionObserver.unobserve(document.querySelector(".virtual"));
-        }
-        document.querySelector(".square").classList.add("dnone");
-
-      });
-    }
-
-    let intersectionObserver = new IntersectionObserver(function(entries) {
-      // If intersectionRatio is 0, the target is out of view
-      // and we do not need to do anything.
-      if (entries[0].intersectionRatio <= 0) return;
-      loadItems(isHash);
-    });
-    // start observing
-    intersectionObserver.observe(document.querySelector(".virtual"));
-  </script>
-
-  <script src="../static/js/searchUser.js"></script>
-
-</body>
-
+    <script src="../static/js/searchUser.js"></script>
+  </body>
 </html>

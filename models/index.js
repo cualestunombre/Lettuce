@@ -35,7 +35,7 @@ Room.associate(db);
 SessionSocketIdMap.associate(db);
 Chat.associate(db);
 Comment.associate(db);
-db.Like = sequelize.models.like; // 컨트롤러에서 접근할 때,
+db.Like = sequelize.models.likes; // 컨트롤러에서 접근할 때,
 db.Follow = sequelize.models.follow; // 컨트롤러에서 접근할 때,
 db.Allocate = sequelize.models.allocate; // 컨트롤러에서 접근할 때,
 db.BookMark = sequelize.models.bookmark; // 컨트롤러에서 접근할 때,

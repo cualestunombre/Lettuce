@@ -94,7 +94,7 @@
                     card.appendChild(carousel);
                     card.innerHTML+=`<div class="info">
                         <div class="info_left">
-                            <i class="far fa-heart"></i>
+                            <i onclick="like(event)" url="${ele.id}" class="far fa-heart"></i>
                             <i class="far fa-comment"></i>
                             
                         </div>
@@ -135,10 +135,20 @@
     intersectionObserver.observe(document.querySelector(".virtual"));
 
     </script>
-
+    
 <script>
-
+    async function like(event){
+        const postId = event.target.getAttribute("url");
+        const res = await axios.post("like/likes",{postId:postId});
+        if (res.data.code==200){
+            alert("좋아요");
+        }
+        else{
+            alert("취소");
+        }
+    }
 </script>
+
 </body>
 
 </html>

@@ -68,6 +68,12 @@ header img{
     background-color: white;
 }
 
+.come img{
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #cdc6c6;
+}
 
 .info i{
     font-size: 1.5rem;

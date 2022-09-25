@@ -49,13 +49,22 @@
                     card.classList.add("card");
                     const header = document.createElement("header");
                     const profile = document.createElement("img");
+
                     profile.setAttribute("src",ele['User.profile']);
+                    const profileWraper= document.createElement("a");
+                    profileWraper.appendChild(profile);
+                    profileWraper.setAttribute("href",`/profile?id=${ele['User.id']}`);
+
                     const nickName = document.createElement("span");
                     nickName.innerText=ele['User.nickName'];
+                    const nickNameWraper = document.createElement("a");
+                    nickNameWraper.appendChild(nickName);
+                    nickNameWraper.setAttribute("href",`profile?id=${ele['User.id']}`)
+
                     const createdAt = document.createElement("span");
                     createdAt.innerText=ele.createdAt;
-                    header.appendChild(profile);
-                    header.appendChild(nickName);
+                    header.appendChild(profileWraper);
+                    header.appendChild(nickNameWraper);
                     header.appendChild(createdAt);
                     card.appendChild(header);
                     const carousel = document.createElement("div");
@@ -106,9 +115,13 @@
                         ${ele.content}
                     </div>`;
                     card.innerHTML+=`<div class="comment_form">
+                        <div class="comments" url="${ele.id}">
+                            <span>댓글</span>
+                    
+                        </div>
                         <form action="">
                             <input id="re" type="text" placeholder="댓글 입력..">
-                            <button type="button">등록</button>
+                            <button type="button" id="commentRegister" url="${ele.id}">등록</button>
                         </form>
                     </div>`;
                     main.appendChild(card);
@@ -122,7 +135,51 @@
             }
             document.querySelector(".square").classList.add("dnone");
 
-        });
+        }).then((come)=>{
+            document.querySelectorAll(".comments").forEach(async element=>{
+                const postId = element.getAttribute("url");
+                const data =  await axios.get(`/comment/comments?PostId=${postId}`);
+                data.data.forEach(async ele=>{
+                let tag =   `<div id = "c${postId}"><a href="/profile?id=${ele['User.id']}"> <div class="come">
+                <img src="${ele['User.profile']}"> ${ele['User.nickName']}</a>:${ele.comment}<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}">삭제</button>
+                     </div></div>`
+                     element.innerHTML+=tag
+                })
+            });
+            document.querySelectorAll("#commentRegister").forEach(ele=>{
+                    ele.addEventListener("click",async(event)=>{
+                    const postId = ele.getAttribute("url");
+                    const input =    event.target.parentNode.querySelector("input").value;
+                    event.target.parentNode.querySelector("input").value  = "";
+                    alert("등록되었습니다.");
+                    if(input.length == 0){
+                        alert("댓글을 입력해 주세요");
+                    }
+                    else{
+                       
+                         const data =   await axios.post("/comment/comments",{comment:input,postId:postId});
+                        
+                            if(data.data.code == 200){
+                            const res =  await axios.get(`/comment/comments?PostId=${postId}`);
+                            console.log(res.data);
+                            document.querySelectorAll(`#c${postId}`).forEach(c=>{
+                                c.remove();
+        
+                            })
+                            const space = document.querySelector(`div[url="${postId}"]`);
+                            res.data.forEach(res=>{
+                                let tag =   `<div id = "c${postId}"><a href="/profile?id=${res['User.id']}"> <div class="come">
+                                <img src="${res['User.profile']}"> ${res['User.nickName']}</a>:${res.comment}<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>
+                                </div></div>`
+                                space.innerHTML+=tag;
+                                
+                            })
+                            
+                        }
+                    }
+                })
+            })
+        })
         }
 
         const intersectionObserver = new IntersectionObserver(function (entries) {
@@ -134,6 +191,28 @@
 // start observing
     intersectionObserver.observe(document.querySelector(".virtual"));
 
+
+    async   function deleteComent(event){
+    const comentD =  await axios.post("comment/commentDelete",{id:event.target.getAttribute("value")}) ;       
+    if(comentD.data.code == 200){
+        const postId = event.target.getAttribute("value");
+        const res =  await axios.get(`/comment/comments?PostId=${postId}`);
+                            console.log(res.data);
+                            document.querySelectorAll(`#c${event.target.getAttribute("value")}`).forEach(c=>{
+                                c.remove();
+        
+                            })
+                            const space = document.querySelector(`div[url="${postId}"]`);
+                            res.data.forEach(res=>{
+                                let tag =   `<div id = "c${postId}"><a href="/profile?id=${res['User.id']}"> <div class="come">
+                                <img src="${res['User.profile']}"> ${res['User.nickName']}</a>:${res.comment}<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>
+                                </div></div>`
+                                space.innerHTML+=tag;
+                                
+                            }); alert("삭제 성공");
+    }
+
+}
     </script>
     
 <script>
@@ -147,6 +226,10 @@
             alert("취소");
         }
     }
+
+
+
+    
 </script>
 
 </body>

@@ -80,7 +80,7 @@ router.get("/fpost",async(req,res)=>{
         delete list[i]['Postmedia.type'];
         delete list[i]['Postmedia.src'];
     }
-    for (let i=0;i<offset;i++){
+    for (let i=0;i<=offset;i++){
         list.shift();
     }
     while(list.length>5){

@@ -20,11 +20,18 @@ router.get("/comments",async(req,res)=>{
         raw:true,
         attributes:["comment","createdAt","id"],
         include:[{model:User, attributes:["nickName","profile","id"]}],
-        where:{UserId:req.user.id,
+        where:{
                 PostId:req.query.PostId},
         order: [['createdAt','DESC']],
         limit:2
 
+    });
+    come.forEach(ele=>{
+        console.log(ele['User.id']);
+        console.log(req.user.id);
+        if(ele['User.id']==req.user.id){
+            ele.me='true';
+        }
     });
     res.send(come);
 })

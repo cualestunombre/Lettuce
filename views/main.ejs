@@ -1,237 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://kit.fontawesome.com/db7bfd8989.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/css/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    
+  <head>
+    <meta charset="UTF-8" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/db7bfd8989.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <%-include('navbar.ejs') %>
     <div class="main"></div>
     <% if( code == 400 ) { %>
-        <div class="con">
-            <div class="noFollowers">
-                <p class="noFollowText">팔로우 중인 사람이 없어요!</p>
-                <p class="subText">팔로워를 추가해서 사람들과 소통해 보세요!</p>
-            </div>
-        </div>
-    <% } %>
-    
-      <div class="more">
-        <p class="virtual"></p>
-        <div class="square dnone">
-          <div class="spin"></div>
-        </div>
+    <div class="con">
+      <div class="noFollowers">
+        <p class="noFollowText">팔로우 중인 사람이 없어요!</p>
+        <p class="subText">팔로워를 추가해서 사람들과 소통해 보세요!</p>
       </div>
+    </div>
+    <% } %>
+
+    <div class="more">
+      <div
+        class="virtual"
+        style="height: 30px; background-color: rgb(250, 250, 250)"
+      ></div>
+      <div class="square dnone">
+        <div class="spin"></div>
+      </div>
+    </div>
     <script src="../static/js/searchUser.js"></script>
+
     <script>
-        let cnt=0;
-        const $list = document.querySelector(".main");
-        function loadItems(number) {
-            new Promise((resolve) => {
-            document.querySelector(".square").classList.remove("dnone");
-            setTimeout(async() => {
-            const data = await axios.get(`/fpost/?cnt=${cnt}`);
-            cnt+=1;
-        resolve(data.data);
-        }, 1000);
-        }).then((data) => {
-            if(data.code==200){
-                const main = document.querySelector(".main");
-                data.data.forEach(ele=>{
-                    const card = document.createElement("div");
-                    card.classList.add("card");
-                    const header = document.createElement("header");
-                    const profile = document.createElement("img");
+      let cnt = 0;
 
-                    profile.setAttribute("src",ele['User.profile']);
-                    const profileWraper= document.createElement("a");
-                    profileWraper.appendChild(profile);
-                    profileWraper.setAttribute("href",`/profile?id=${ele['User.id']}`);
-
-                    const nickName = document.createElement("span");
-                    nickName.innerText=ele['User.nickName'];
-                    const nickNameWraper = document.createElement("a");
-                    nickNameWraper.appendChild(nickName);
-                    nickNameWraper.setAttribute("href",`profile?id=${ele['User.id']}`)
-
-                    const createdAt = document.createElement("span");
-                    createdAt.innerText=ele.createdAt;
-                    header.appendChild(profileWraper);
-                    header.appendChild(nickNameWraper);
-                    header.appendChild(createdAt);
-                    card.appendChild(header);
-                    const carousel = document.createElement("div");
-                    carousel.setAttribute("id",`a${ele.id}`);
-                    carousel.setAttribute("class","carousel slide");
-                    carousel.setAttribute("data-ride","carousel");
-                    const wrapper = document.createElement("div");
-                    wrapper.setAttribute("class","carousel-inner");
-                    ele.src.forEach(element=>{
-                       if(element.type="img"){
-                           const Img = document.createElement("div");
-                           Img.setAttribute("class","carousel-item active");
-                           const img = document.createElement("img");
-                           img.setAttribute("src",element.src);
-                           img.setAttribute("alt",'...');
-                           img.setAttribute("class", "d-block w-100");
-                           Img.appendChild(img);
-                           wrapper.appendChild(Img);
-                       } 
-                       else{
-                           const Img = document.createElement("div");
-                           Img.setAttribute("class","carousel-item active")
-                           Img.setAttribute("data-carousel-item");
-                           const video = document.createElement("video");
-                           const source = document.createElement("source");
-                           source.setAttribute("src",element.src);
-                           source.setAttribute("type","mp4");
-                           video.appendChild(source);
-                           Img.appendChild(video);
-                           wrapper.appendChild(Img);
-                       }
-                    });
-                    carousel.appendChild(wrapper);
-                    carousel.innerHTML+=`<button class="carousel-control-prev" type="button" data-bs-target="#a${ele.id}" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button" data-bs-target="#a${ele.id}" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button></div>
-                    `;
-                    card.appendChild(carousel);
-                    card.innerHTML+=`<div class="info">
-                        <div class="info_left">
-                            <i onclick="like(event)" url="${ele.id}" class="far fa-heart"></i>
-                            <i class="far fa-comment"></i>
-                            
-                        </div>
-                        <div class="info_right">
-                            <i class="far fa-bookmark"></i>
-                        </div>
-                    </div>`;
-                    card.innerHTML+=` <div class="comment">
-                        ${ele.content}
-                    </div>`;
-                    card.innerHTML+=`<div class="comment_form">
-                        <div class="comments" url="${ele.id}">
-                            <span>댓글</span>
-                    
-                        </div>
-                        <form action="">
-                            <input id="re" type="text" placeholder="댓글 입력..">
-                            <button type="button" id="commentRegister" url="${ele.id}">등록</button>
-                        </form>
-                    </div>`;
-                    main.appendChild(card);
-
-
-                });
-
-        }
-            else{
-                intersectionObserver.unobserve(document.querySelector(".virtual"));
-            }
-            document.querySelector(".square").classList.add("dnone");
-
-        }).then((come)=>{
-            document.querySelectorAll(".comments").forEach(async element=>{
-                const postId = element.getAttribute("url");
-                const data =  await axios.get(`/comment/comments?PostId=${postId}`);
-                data.data.forEach(async ele=>{
-                let tag =   `<div id = "c${postId}"><a href="/profile?id=${ele['User.id']}"> <div class="come">
-                <img src="${ele['User.profile']}"> ${ele['User.nickName']}</a>:${ele.comment}<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}">삭제</button>
-                     </div></div>`
-                     element.innerHTML+=tag
-                })
-            });
-            document.querySelectorAll("#commentRegister").forEach(ele=>{
-                    ele.addEventListener("click",async(event)=>{
-                    const postId = ele.getAttribute("url");
-                    const input =    event.target.parentNode.querySelector("input").value;
-                    event.target.parentNode.querySelector("input").value  = "";
-                    alert("등록되었습니다.");
-                    if(input.length == 0){
-                        alert("댓글을 입력해 주세요");
-                    }
-                    else{
-                       
-                         const data =   await axios.post("/comment/comments",{comment:input,postId:postId});
-                        
-                            if(data.data.code == 200){
-                            const res =  await axios.get(`/comment/comments?PostId=${postId}`);
-                            console.log(res.data);
-                            document.querySelectorAll(`#c${postId}`).forEach(c=>{
-                                c.remove();
-        
-                            })
-                            const space = document.querySelector(`div[url="${postId}"]`);
-                            res.data.forEach(res=>{
-                                let tag =   `<div id = "c${postId}"><a href="/profile?id=${res['User.id']}"> <div class="come">
-                                <img src="${res['User.profile']}"> ${res['User.nickName']}</a>:${res.comment}<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>
-                                </div></div>`
-                                space.innerHTML+=tag;
-                                
-                            })
-                            
-                        }
-                    }
-                })
-            })
-        })
-        }
-
-        const intersectionObserver = new IntersectionObserver(function (entries) {
-  
+      const $list = document.querySelector(".main");
+      const intersectionObserver = new IntersectionObserver(async function (
+        entries
+      ) {
         if (entries[0].intersectionRatio <= 0) return;
-        loadItems(20);
+        loadItems();
+
         console.log("Loaded new items");
+      });
+      // start observing
+      intersectionObserver.observe(document.querySelector(".virtual"));
+
+      function loadItems(number) {
+        new Promise((resolve) => {
+          document.querySelector(".square").classList.remove("dnone");
+          setTimeout(async () => {
+            const data = await axios.get(`/fpost/?cnt=${cnt}`);
+            resolve(data.data);
+          }, 1000);
+        }).then(async (data) => {
+          console.log(data);
+          if (data.code == 200) {
+            const main = document.querySelector(".main");
+            data.data.forEach((ele) => {
+              const card = document.createElement("div");
+              card.setAttribute("cnt", cnt);
+              card.classList.add("card");
+              const header = document.createElement("header");
+              const profile = document.createElement("img");
+
+              profile.setAttribute("src", ele["User.profile"]);
+              const profileWrapper = document.createElement("a");
+              profileWrapper.classList.add("profileWrapper");
+              profileWrapper.appendChild(profile);
+              profileWrapper.setAttribute(
+                "href",
+                `/profile?id=${ele["User.id"]}`
+              );
+
+              const nickName = document.createElement("span");
+              nickName.innerText = ele["User.nickName"];
+              const nickNameWrapper = document.createElement("a");
+              nickNameWrapper.classList.add("nickNameWrapper");
+              nickNameWrapper.appendChild(nickName);
+              nickNameWrapper.setAttribute(
+                "href",
+                `profile?id=${ele["User.id"]}`
+              );
+
+              const createdAt = document.createElement("span");
+              createdAt.innerText = ele.createdAt;
+              createdAt.classList.add("createdAt");
+              header.appendChild(profileWrapper);
+              header.appendChild(nickNameWrapper);
+              header.appendChild(createdAt);
+              card.appendChild(header);
+              const carousel = document.createElement("div");
+              carousel.setAttribute("id", `a${ele.id}`);
+              carousel.setAttribute("class", "carousel slide");
+              carousel.setAttribute("data-ride", "carousel");
+              const wrapper = document.createElement("div");
+              wrapper.setAttribute("class", "carousel-inner");
+              ele.src.forEach((element) => {
+                if ((element.type = "img")) {
+                  const Img = document.createElement("div");
+                  Img.setAttribute("class", "carousel-item active");
+                  const img = document.createElement("img");
+                  img.setAttribute("src", element.src);
+                  img.setAttribute("alt", "...");
+                  img.setAttribute("class", "d-block w-100");
+                  Img.appendChild(img);
+                  wrapper.appendChild(Img);
+                } else {
+                  const Img = document.createElement("div");
+                  Img.setAttribute("class", "carousel-item active");
+                  Img.setAttribute("data-carousel-item");
+                  const video = document.createElement("video");
+                  const source = document.createElement("source");
+                  source.setAttribute("src", element.src);
+                  source.setAttribute("type", "mp4");
+                  video.appendChild(source);
+                  Img.appendChild(video);
+                  wrapper.appendChild(Img);
+                }
+              });
+              carousel.appendChild(wrapper);
+              carousel.innerHTML += `<button class="carousel-control-prev" type="button" data-bs-target="#a${ele.id}" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button" data-bs-target="#a${ele.id}" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button></div>
+                          `;
+              card.appendChild(carousel);
+              card.innerHTML += `<div class="info">
+                              <div class="info_left">
+                                  <i onclick="like(event)" url="${ele.id}" class="far fa-heart"></i>
+                                  <i class="far fa-comment"></i>
+
+                              </div>
+                              <div class="info_right">
+                                  <i class="far fa-bookmark"></i>
+                              </div>
+                          </div>`;
+              card.innerHTML += ` <div class="comment">
+                              ${ele.content}
+                          </div>`;
+              card.innerHTML += `<div class="comment_form">
+                              <div class="comments" url="${ele.id}">
+                                  <div style="margin-left:5px">댓글</div>
+
+                              </div>
+                              <div id="RegisterForm">
+                                  <input id="re" type="text" placeholder="댓글 입력..">
+                                  <button type="button" id="commentRegister" url="${ele.id}">등록</button>
+                              </div>
+                          </div>`;
+              main.appendChild(card);
+            });
+            let arr = document.querySelectorAll(`div[cnt="${cnt}"] .comments`);
+            for (const element of arr) {
+              const postId = element.getAttribute("url");
+              const data = await axios.get(
+                `/comment/comments?PostId=${postId}`
+              );
+              data.data.forEach(async (ele) => {
+                let tag = `<a href="/profile?id=${ele["User.id"]}"> <div class="come">
+                          <img src="${ele["User.profile"]}"> ${ele["User.nickName"]}</a>:${ele.comment}
+                               </div>`;
+                if (ele.me == "true") {
+                  tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}">삭제</button>`;
+                }
+                const temp = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
+                element.innerHTML += temp;
+              });
+            }
+            arr = document.querySelectorAll(
+              `div[cnt="${cnt}"] #commentRegister`
+            );
+            for (const ele of arr) {
+              ele.addEventListener("click", async (event) => {
+                const postId = ele.getAttribute("url");
+                const input =
+                  event.target.parentNode.querySelector("input").value;
+                event.target.parentNode.querySelector("input").value = "";
+                if (input.length == 0) {
+                  alert("댓글을 입력해 주세요");
+                } else {
+                  const data = await axios.post("/comment/comments", {
+                    comment: input,
+                    postId: postId,
+                  });
+
+                  if (data.data.code == 200) {
+                    const res = await axios.get(
+                      `/comment/comments?PostId=${postId}`
+                    );
+                    document.querySelectorAll(`#c${postId}`).forEach((c) => {
+                      c.remove();
+                    });
+                    const space = document.querySelector(
+                      `div[url="${postId}"].comments`
+                    );
+                    res.data.forEach((res) => {
+                      let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">
+                                          <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
+                                          </div>`;
+
+                      if (res.me) {
+                        tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+                      }
+                      const div = `<div class="commentPlace"  id="c${postId}"> ${tag} </div>`;
+                      space.innerHTML += div;
+                      console.log(space);
+                    });
+                  }
+                }
+              });
+            }
+            cnt += 1;
+          } else {
+            intersectionObserver.unobserve(document.querySelector(".virtual"));
+          }
+          document.querySelector(".square").classList.add("dnone");
         });
-// start observing
-    intersectionObserver.observe(document.querySelector(".virtual"));
-
-
-    async   function deleteComent(event){
-    const comentD =  await axios.post("comment/commentDelete",{id:event.target.getAttribute("value")}) ;       
-    if(comentD.data.code == 200){
-        const postId = event.target.getAttribute("value");
-        const res =  await axios.get(`/comment/comments?PostId=${postId}`);
-                            console.log(res.data);
-                            document.querySelectorAll(`#c${event.target.getAttribute("value")}`).forEach(c=>{
-                                c.remove();
-        
-                            })
-                            const space = document.querySelector(`div[url="${postId}"]`);
-                            res.data.forEach(res=>{
-                                let tag =   `<div id = "c${postId}"><a href="/profile?id=${res['User.id']}"> <div class="come">
-                                <img src="${res['User.profile']}"> ${res['User.nickName']}</a>:${res.comment}<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>
-                                </div></div>`
-                                space.innerHTML+=tag;
-                                
-                            }); alert("삭제 성공");
-    }
-
-}
+      }
     </script>
-    
-<script>
-    async function like(event){
+    <script>
+      async function deleteComent(event) {
+        const comentD = await axios.post("comment/commentDelete", {
+          id: event.target.getAttribute("value"),
+        });
+        if (comentD.data.code == 200) {
+          const postId = event.target.getAttribute("url");
+          const commentId = event.target.getAttribute("value");
+          const res = await axios.get(`/comment/comments?PostId=${postId}`);
+          document.querySelectorAll(`#c${postId}`).forEach((c) => {
+            c.remove();
+          });
+          const space = document.querySelector(`div[url="${postId}"].comments`);
+          res.data.forEach((res) => {
+            let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">
+                <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
+                </div>`;
+            if (res.me) {
+              tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+            }
+            const div = `<div id="c${postId}"> ${tag} </div>`;
+            space.innerHTML += div;
+            console.log(space);
+          });
+          alert("삭제 성공");
+        }
+      }
+      async function like(event) {
         const postId = event.target.getAttribute("url");
-        const res = await axios.post("like/likes",{postId:postId});
-        if (res.data.code==200){
-            alert("좋아요");
+        const res = await axios.post("like/likes", { postId: postId });
+        if (res.data.code == 200) {
+          alert("좋아요");
+        } else {
+          alert("취소");
         }
-        else{
-            alert("취소");
-        }
-    }
-
-
-
-    
-</script>
-
-</body>
-
+      }
+    </script>
+  </body>
 </html>

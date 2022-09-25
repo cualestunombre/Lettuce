@@ -25,7 +25,7 @@
       <div style="display: flex; align-items: center; justify-content: space-around; margin-bottom: 25px;">
         <div id="nickname"><%=data.nickName %></div>
         <% if (data.isMyprofile == true) { %>
-        <form action="/profile/mypage" method="post">
+        <form action="/profile/mypage" method="get">
           <button id="profileEditBtn">프로필 편집</button>
         </form>
         <% } else if(data.isFollow != 0){%>

@@ -12,6 +12,7 @@ module.exports = () =>{
         //매 요청 시에 실행되고, req.user에 user객체를 저장함 
     });
     local();
+    kakao();
     
 };
 

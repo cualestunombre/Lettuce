@@ -9,8 +9,6 @@ router.post("/likes",async(req,res)=>{
         raw: true,
         where:{ PostId:req.body.postId, UserId:req.user.id }
     });
-
-
     if(likes){
         await Like.delete({
             where:{PostId:req.body.postId, UserId:req.user.id}

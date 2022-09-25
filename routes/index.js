@@ -1,7 +1,7 @@
 
 const express = require("express");
 const router = express.Router();
-const {User,Post,PostMedia,Follow} = require("../models");
+const {User,Post,PostMedia,Follow,Comment} = require("../models");
 router.get("/",async(req,res) =>{
     if(req.isAuthenticated()){
         const data = await Follow.findAll({raw:true,where:{follower:req.user.id}});
@@ -16,6 +16,8 @@ router.get("/",async(req,res) =>{
         res.redirect("/auth/login");
     }
 });
+
+
 
 
 router.get("/fpost",async(req,res)=>{

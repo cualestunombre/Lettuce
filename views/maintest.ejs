@@ -24,30 +24,7 @@
             <% for (let j=0; j < data[i].src.length; j++) { %>
                 <% if(data[i].src[j].type == "img"){ %>
             <div class="card_image">
-                <!-- 이미지 넘기기 시작 -->
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="<%= data[i].src[j].src %>" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="/static/image/logo.png" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="/static/image/logo.png" class="d-block w-100" alt="...">
-                      </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-                <!-- 이미지 넘기기 끝 -->
-
+                <img src="<%= data[i].src[j].src %>">
             </div>
             <% } else {%>
                 <video class="temp" muted autoplay loop>
@@ -70,7 +47,7 @@
             <div class="comment_form">
                 <div class="comments">
                     <div class="come">
-
+                    
                     </div>
                 </div>
                 <form>

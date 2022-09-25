@@ -17,6 +17,7 @@ router.get("/",async(req,res) =>{
     }
 });
 
+
 router.get("/fpost",async(req,res)=>{
     const arr=[];
     const list = []; 
@@ -25,7 +26,7 @@ router.get("/fpost",async(req,res)=>{
         raw: true,
         attributes: ['id'],
         include: [{ model: User, as: 'followings', where: { id: req.user.id } }]
-    }); // 자기가 팔로우하는 사람을 찾는 코드
+
 
     for (let i=0; i<FollowingList.length ;i++){
         const FollowingPost = await Post.findAll({

@@ -32,7 +32,9 @@ const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
 const postRouter = require("./routes/posting");
 const testRouter = require("./routes/test");
+const likeRouter = require("./routes/like");
 const exploreRouter = require("./routes/explore");
+const commentRouter = require("./routes/comment");
 
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
@@ -57,6 +59,8 @@ app.use("/user", userRouter);
 app.use("/posting", postRouter);
 app.use("/test", testRouter);
 app.use("/explore", exploreRouter);
+app.use("/like",likeRouter);
+app.use("/comment",commentRouter);
 app.use((req, res, next) => {
     res.render("nonmatch");
 });

@@ -68,14 +68,11 @@ router.post("/emailCheck",isNotLoggedIn, (req, res) => {
 
 
 
-router.get("/kakao", passport.authenticate("kakao"));
-router.get(
-  "/kakao/callback",
-  passport.authenticate("kakao", {
+router.get("/kakao", passport.authenticate("kakao"));//연동
+
+router.get("/kakao/callback",passport.authenticate("kakao", {
     failureRedirect: "/",
   }),
-  (req, res) => {
-    res.redirect("/");
-  }
+  (req, res) => { res.redirect("/");}
 );
 module.exports = router;

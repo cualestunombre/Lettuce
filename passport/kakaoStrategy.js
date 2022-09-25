@@ -4,9 +4,10 @@ const KakaoStrategy =  require('passport-kakao').Strategy;
 const User = require('../models/user');
 
 module.exports = ()=>{
+    //http://127.0.0.1:8001
     passport.use(new KakaoStrategy({
         clientID:process.env.KAKAO_ID,
-        callbackURL:'http://127.0.0.1:8001/auth/kakao/callback'
+        callbackURL:'/auth/kakao/callback'
     },async (accessToken, refreshToken,profile,done)=>{
         console.log('kakao profile',profile);
         try{

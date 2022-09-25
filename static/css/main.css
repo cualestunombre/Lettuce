@@ -72,6 +72,9 @@ header img{
 .info i{
     font-size: 1.5rem;
 }
+.info i:hover{
+    cursor: pointer;
+}
 .dnone{
     display:none;
 }

@@ -1,7 +1,7 @@
 
 const express = require("express");
 const router = express.Router();
-const {User,Post,PostMedia,Follow} = require("../models");
+const {User,Post,PostMedia,Follow,Comment} = require("../models");
 router.get("/",async(req,res) =>{
     if(req.isAuthenticated()){
         const data = await Follow.findAll({raw:true,where:{follower:req.user.id}});
@@ -18,6 +18,8 @@ router.get("/",async(req,res) =>{
 });
 
 
+
+
 router.get("/fpost",async(req,res)=>{
     const arr=[];
     const list = []; 
@@ -25,7 +27,7 @@ router.get("/fpost",async(req,res)=>{
     const FollowingList = await User.findAll({
         raw: true,
         attributes: ['id'],
-        include: [{ model: User, as: 'followings', where: { id: req.user.id } }]
+        include: [{ model: User, as: 'followings', where: { id: req.user.id } }]})
 
 
     for (let i=0; i<FollowingList.length ;i++){

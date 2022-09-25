@@ -5,9 +5,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/db7bfd8989.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    
     <title>Document</title>
 </head>
 <body>
@@ -21,27 +22,7 @@
             </div>
         </div>
     <% } %>
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="/static/" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
+    
       <div class="more">
         <p class="virtual"></p>
         <div class="square dnone">
@@ -77,27 +58,40 @@
                     header.appendChild(nickName);
                     header.appendChild(createdAt);
                     card.appendChild(header);
+                    const carousel = document.createElement("div");
+                    carousel.setAttribute("id",`a${ele.id}`);
+                    carousel.setAttribute("class","carousel slide");
+                    carousel.setAttribute("data-ride","carousel");
+                    const wrapper = document.createElement("div");
+                    wrapper.setAttribute("class","carousel-inner");
                     ele.src.forEach(element=>{
                        if(element.type="img"){
-                           const cardImg = document.createElement("div");
-                           cardImg.classList.add("card_image");
+                           const Img = document.createElement("div");
+                           Img.setAttribute("class","carousel-item active");
                            const img = document.createElement("img");
                            img.setAttribute("src",element.src);
-                           cardImg.appendChild(img);
-                           card.appendChild(cardImg);
+                           img.setAttribute("alt",'...');
+                           img.setAttribute("class", "d-block w-100");
+                           Img.appendChild(img);
+                           wrapper.appendChild(Img);
                        } 
                        else{
-                           const cardImg = document.createElement("div");
-                           cardImg.classList.add("card_image");
+                           const Img = document.createElement("div");
+                           Img.setAttribute("class","carousel-item active")
+                           Img.setAttribute("data-carousel-item");
                            const video = document.createElement("video");
                            const source = document.createElement("source");
                            source.setAttribute("src",element.src);
                            source.setAttribute("type","mp4");
                            video.appendChild(source);
-                           cardImg.appendChild(video);
-                           card.appendChild(cardImg);
+                           Img.appendChild(video);
+                           wrapper.appendChild(Img);
                        }
                     });
+                    carousel.appendChild(wrapper);
+                    carousel.innerHTML+=`<button class="carousel-control-prev" type="button" data-bs-target="#a${ele.id}" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button" data-bs-target="#a${ele.id}" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button></div>
+                    `;
+                    card.appendChild(carousel);
                     card.innerHTML+=`<div class="info">
                         <div class="info_left">
                             <i class="far fa-heart"></i>

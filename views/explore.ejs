@@ -196,7 +196,7 @@
       }).then((data) => {
         if (data.code == 200) {
           const html = data.data.map(
-            (item) => `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal">`
+            (item) => `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">`
           );
           $list.innerHTML += html.join("");
         } else {

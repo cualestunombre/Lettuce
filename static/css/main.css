@@ -234,7 +234,11 @@ header{
     color: rgb(158, 156, 154);
     
 }
-/* modal css */
+/* likelist modal css */
+#llist{
+    height: 200px;
+    overflow-y:auto;
+} 
 #Like-title{
     margin-left: 201px;
 }
@@ -256,6 +260,29 @@ header{
   }
 
   .userName {
+    font-weight: bolder;
+    font-family: 'HallymGothic-Regular';
+  }
+
+  /*commentlist modal css */
+#clist{
+    height: 200px;
+    overflow-y:auto;
+} 
+#comment-title{
+    margin-left: 201px;
+}
+.commentUser {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .commentProfile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .commentName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
   }

@@ -47,7 +47,7 @@ header{
 }
 .createdAt{
     position:absolute;
-    top:10px;
+    top:18px;
     right:10px;
 }
 .nickNameWrapper{
@@ -61,15 +61,15 @@ header{
     
 }
 .info{
-    
+    height: 50px;
     display: flex;
     background-color: white;
     justify-content: space-between;
+    align-items: center;
 }
 .comment{
     margin: 0rem 1rem 1rem 1rem;
     border-bottom: 1px solid #bdbbbb;
-    padding-bottom: 1rem;
 }
  
 .comment_form form{
@@ -192,11 +192,10 @@ header{
     bottom:0px;
     border: none;
     border-radius: 5px;
-    background-color: rgb(240,120,120);
-    color: white;
+    background-color: #ffffff;
+    color: grey;
     padding: 5px 9px;
     font-size: 14px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
    
 }
 #commentRegister{
@@ -226,4 +225,14 @@ header{
     margin-left: 10px;
     border: none;
     width: 480px;
+}
+.bi-heart, .bi-heart-fill {
+    margin: 10px 5px 0 10px;
+}
+.fa-bookmark {
+    margin-right: 10px;
+}
+.come {
+    padding: 5px 0 0 20px;
+    font-size: 15px;
 }

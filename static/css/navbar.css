@@ -124,17 +124,19 @@ a:hover{
 .modal-footer {
     background-color: #F9F4D9;
 }
-.btn {
+.postingBtn {
     background-color: #87C228;
     border: none;
     color: #ffffff;
+    padding: 4px 5px;
+    border-radius: 3px;
 }
-.btn:hover {
+.postingBtn:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     background-color: #87C228;
     color: #ffffff;
 }
-.btn:not(:hover) {
+.postingBtn:not(:hover) {
     background-color: #87C228;
     border: none;
     color: #ffffff;

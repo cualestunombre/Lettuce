@@ -72,6 +72,7 @@ header{
 .comment{
     margin: 0rem 1rem 1rem 1rem;
     border-bottom: 1px solid #bdbbbb;
+    padding-bottom: 1rem;
 }
  
 .comment_form form{
@@ -174,8 +175,7 @@ header{
       background-color: rgb(250,250,250);
   }
   .con{
-      background-color:rgb(250,250,250); 
-      padding-top: 100px;
+      background-color:rgb(250,250,250);
     text-align: center;
   }
   html{

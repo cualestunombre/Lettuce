@@ -11,6 +11,16 @@ router.post("/like",async(req,res,next)=>{
     res.send("ok");
 });
 
+router.post("/follow",async(req,res,next)=>{
+    await Notification.create({sender:req.body.sender, receiver:req.body.receiver, type:"follow", reached:"false"});
+    const socketId = await SessionSocketIdMap.findAll({raw:true,where:{UserId:req.body.receiver}});
+    socketId.forEach(ele=>{
+        req.app.get("io").of("/notification").to(ele.socketId).emit("notification");
+    });
+    res.send("ok");
+});
+
+
 
 
 

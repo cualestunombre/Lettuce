@@ -25,7 +25,6 @@ router.post("/likes",async(req,res)=>{
         await Like.create(
             {PostId:req.body.postId, UserId:req.user.id}
         );
-        console.log("ASDsadasds");
         await axios.post("http://localhost:8000/realtime/like",{sender:req.user.id,target:req.body.postId});
         res.send({code:200})//성공
     }

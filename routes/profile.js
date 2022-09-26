@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const axios = require("axios");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares.js");
 const upload = multer({
     storage: multer.diskStorage({
@@ -110,6 +111,7 @@ router.post("/follow", async (req, res) => {
         follower: req.user.id,
         followed: req.body.id
     })
+    await axios.post("http://localhost:8000/realtime/follow",{sender:req.user.id,receiver:req.body.id});
     res.redirect('/');
 })
 

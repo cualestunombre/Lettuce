@@ -3,7 +3,7 @@ const router = express.Router();
 const { isLoggedIn } = require("./middlewares");
 const { QueryTypes } = require('sequelize');
 const { sequelize } = require("../models");
-const {Notification} = require("../models");
+const {Notification,User} = require("../models");
 router.get("/",isLoggedIn,async (req,res,next)=>{
     const info = req.query.search;
     const arr=[];
@@ -19,10 +19,34 @@ router.get("/",isLoggedIn,async (req,res,next)=>{
     })
     res.send(arr);
 });
-router.get("notification",isLoggedIn,async(req,res,next)=>{
-    const result = await Notification.findAll({where:{UserId:req.user.id, reached:"false"}});
-    res.send({cnt:result});
+router.get("/notification",isLoggedIn,async(req,res,next)=>{
+    const result = await Notification.findAll({where:{receiver:req.user.id, reached:"false"}});
+    res.send({cnt:result.length});
 });
-
+router.get("/notificationInfo",isLoggedIn,async(req,res,next)=>{
+    const result = await Notification.findAll({raw:true,where:{receiver:req.user.id},order:[['createdAt','DESC']],include:[
+        {model:User, as:"send",attributes:["nickName","profile"]}
+    ]});
+    await Notification.update({reached:"true"},{where:{receiver:req.user.id}});
+    const now = new Date().getTime();
+    const filtered = [];
+    result.forEach(ele=>{
+        if(now-ele.createdAt.getTime()<3600*25*1000){
+            filtered.push(ele);
+        }
+    });
+    filtered.forEach(ele=>{
+        if(now-ele.createdAt.getTime()>3600*1000){
+            ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/3600)}시간전`;
+        }
+        else if(now-ele.createdAt.getTime()<=60*1000){
+            ele.time=`${parseInt((now-ele.createdAt.getTime())/1000)}초전`;
+        }
+        else{
+            ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/60)}분전`;
+        }
+    });
+    res.send({data:filtered});
+});
 
 module.exports=router;

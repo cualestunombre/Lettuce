@@ -23,8 +23,8 @@ module.exports= class Notification extends Sequelize.Model{
         });
     }
     static associate(db){
-        db.Notification.belongsTo(db.User,{'foreignKey':'sender','sourceKey':'id',onUpdate:'cascade',onDelete:'cascade'});
-        db.Notification.belongsTo(db.User,{'foreignKey':'receiver','sourceKey':'id',onUpdate:'cascade',onDelete:'cascade'});
+        db.Notification.belongsTo(db.User,{'as':'send','foreignKey':'sender','sourceKey':'id',onUpdate:'cascade',onDelete:'cascade'});
+        db.Notification.belongsTo(db.User,{'as':"receive",'foreignKey':'receiver','sourceKey':'id',onUpdate:'cascade',onDelete:'cascade'});
         db.Notification.belongsTo(db.Post,{'foreignKey':"PostId","sourceKey":"id","onDelete":"cascade","onUpdate":"cascade"});
     
 };

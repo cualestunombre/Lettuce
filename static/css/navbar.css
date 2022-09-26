@@ -51,6 +51,7 @@
     position: relative;
 }
 .searchUserInfo{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     overflow-x: none;
     overflow-y: auto;
     background-color: rgb(251,251,251);
@@ -62,6 +63,7 @@
     position: absolute;
 }
 .noResult{
+
     left:60px;
     top:120px;
     position: absolute;
@@ -84,6 +86,7 @@
     border-radius: 100%;
 }
 .userInfo{
+    
     width:140px;
     top:10px;
     position:absolute;
@@ -143,6 +146,16 @@ a:hover{
 .fa-heart.fa-regular{
     position: relative;
 }
+.postingBtn{
+    background-color: #87C228;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    
+    padding: 5px 9px;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
 .notification{
     padding-top: 2px;
     position: absolute;
@@ -161,4 +174,57 @@ a:hover{
         );
     border-radius: 100%;
 
+}
+.notificationInfo{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    overflow-x: none;
+    overflow-y: auto;
+    background-color: rgb(251,251,251);
+    border-radius: 10px;
+    z-index: 1000;
+    top:50px;
+    right:-70px;
+    
+    position: absolute;
+    width:200px;
+    height:300px;
+    
+}
+.notiInfo{
+    height:80px;
+}
+.profileWrapper{
+    width:100%;
+    display: flex;
+    justify-content: left;
+}
+.notificationProfile{
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+.typeLike{
+    color:black;
+    font-size: 12px;
+    padding-left:50px;
+}
+.typeFollow{
+    color:black;
+    font-size: 12px;
+    padding-left:50px;
+}
+.notificationNickName{
+    color:black;
+    margin-top: 18px;
+    font-size: 11px;
+}
+.notiTime{
+    width:35px;
+    color:rgb(0,0,0,0.3);
+    font-size: 9px;
+    margin-top: 10px;
+    margin-left: 150px;
 }

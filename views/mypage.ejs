@@ -138,10 +138,23 @@
         url: "/profile/deleteUser",
         method: "post",
       }).then((response) => {
-        alert("삭제가 완료되었습니다.");
-        location.href = "/"
-      })
-    }
+        swal({
+            title: "",
+            text: "회원탈퇴를 정말 진행하시겠습니까?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            swal("","회원탈퇴가 완료되었습니다.","success").then((value) => {
+              window.location = "/";
+            });
+          } else {
+            swal("","잘 생각하셨습니다!","success");
+          }
+        }) 
+    });
+  }
   </script>
 
   <script src="../static/js/searchUser.js"></script>

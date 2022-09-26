@@ -18,13 +18,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      width: 80%;
+      width: 100%;
       margin: auto;
-    }
-
-    .list img {
-      width: 33%;
-      height: auto;
     }
 
     .dnone {
@@ -132,13 +127,14 @@
       </button>
     </div>
     <div id="board">
-      <h1>게시물</h1>
     </div>
   </section>
 
   <!-- 게시글 -->
   <div class="container">
-    <div class="list"></div>
+    <div class="list">
+      <div class="imgTest"></div>
+    </div>
   </div>
   <div class="more">
     <p class="virtual"></p>
@@ -293,8 +289,9 @@
         }, 1000);
       }).then((data) => {
         if (data.code == 200) {
+          console.log(data)
           const html = data.data.map(
-            (item) => `<img id="yeah" src="${item.src[0].src}">`
+            (item) => `<img id="yeah" src="${item.src[0].src}"></img>`
           );
           $list.innerHTML += html.join("");
         } else {

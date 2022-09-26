@@ -101,11 +101,14 @@
         data: data
       }).then((response) => {
         console.log(response);
-        swal("","프로필 업데이트 완료","success");
-        $('input[name=name]').attr('value', response.data.name);
-        $('input[name=comment]').attr('value', response.data.comment);
-        $('input[name=birthday]').attr('value', response.data.birthday);
-        window.location="/profile/mypage";
+        if (response.status == 200) {
+            swal("", "프로필 업데이트 완료", "success").then((value) => {
+              $('input[name=name]').attr('value', response.data.name);
+              $('input[name=comment]').attr('value', response.data.comment);
+              $('input[name=birthday]').attr('value', response.data.birthday);
+              window.location = "/profile";
+            });
+          }
       })
     }
 

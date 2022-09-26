@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
@@ -150,7 +151,7 @@
                   Img.appendChild(video);
                   wrapper.appendChild(Img);
                 }
-              });
+              }); 
               carousel.appendChild(wrapper);
               carousel.innerHTML += `<button class="carousel-control-prev" type="button" data-bs-target="#a${ele.id}" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button" data-bs-target="#a${ele.id}" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button></div>
                           `;
@@ -164,7 +165,7 @@
               card.innerHTML += `<div class="info">
                               <div class="info_left">
                                   <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>
-                                  <i class="far fa-comment"></i>
+                                  <i class="far fa-comment"   ></i>
 
                               </div>
                               <div class="info_right">
@@ -176,9 +177,9 @@
                           </div>`;
               card.innerHTML += `<div class="comment_form">
                               <div class="comments" url="${ele.id}">
-                                  <div style="margin-left:5px">댓글</div>
+                                  <div style="margin-left:10px">댓글</div>
 
-                              </div>
+                              </div>  
                               <div id="RegisterForm">
                                   <input id="re" type="text" placeholder="댓글 입력..">
                                   <button type="button" id="commentRegister" url="${ele.id}">등록</button>
@@ -194,10 +195,10 @@
               );
               data.data.forEach(async (ele) => {
                 let tag = `<a href="/profile?id=${ele["User.id"]}"> <div class="come">
-                          <img src="${ele["User.profile"]}"> ${ele["User.nickName"]}</a>:${ele.comment}
+                          <img src="${ele["User.profile"]}"> ${ele["User.nickName"]}</a> : ${ele.comment}
                                </div>`;
                 if (ele.me == "true") {
-                  tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}">삭제</button>`;
+                  tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}"><i class="fa-solid fa-trash"></i></i></button>`;
                 }
                 const temp = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
                 element.innerHTML += temp;
@@ -278,7 +279,7 @@
             space.innerHTML += div;
             console.log(space);
           });
-          alert("삭제 성공");
+          swal("", "댓글 삭제 성공", "success");
         }
       }
       async function like(event) {
@@ -294,9 +295,9 @@
         const postId = event.target.getAttribute("url");
         const res = await axios.post("like/likes", { postId: postId });
         if (res.data.code == 200) {
-          alert("좋아요");
+          swal("","좋아요 등록 완료!","success");
         } else {
-          alert("취소");
+          swal("","좋아요 취소","success");
         }
       }
     </script>

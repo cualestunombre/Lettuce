@@ -126,12 +126,33 @@
               carousel.setAttribute("id", `a${ele.id}`);
               carousel.setAttribute("class", "carousel slide");
               carousel.setAttribute("data-ride", "carousel");
+              const indicator = document.createElement("div");
+              indicator.setAttribute("class", "carousel-indicators");
+
+              let ccount = 1;
+              indicator.innerHTML += `<button type="button" data-bs-target="#a${ele.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>`;
+              for (let k = 0; k < ele.src.length - 1; k++) {
+                indicator.innerHTML += ` <button type="button" data-bs-target="#a${
+                  ele.id
+                }" data-bs-slide-to="${ccount}" aria-label="Slide ${
+                  ccount + 1
+                }"></button>`;
+                ccount += 1;
+              }
+
+              carousel.appendChild(indicator);
               const wrapper = document.createElement("div");
               wrapper.setAttribute("class", "carousel-inner");
+              let numCnt = 0;
               ele.src.forEach((element) => {
                 if ((element.type = "img")) {
+                  let flag = "active";
+                  if (numCnt != 0) {
+                    flag = "";
+                  }
+                  numCnt += 1;
                   const Img = document.createElement("div");
-                  Img.setAttribute("class", "carousel-item active");
+                  Img.setAttribute("class", `carousel-item ${flag}`);
                   const img = document.createElement("img");
                   img.setAttribute("src", element.src);
                   img.setAttribute("alt", "...");

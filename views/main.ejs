@@ -41,16 +41,18 @@
     <%-include('navbar.ejs') %>
     <div class="main"></div>
     <% if( code == 400 ) { %>
-    <div class="con">
-      <div class="noFollowers">
-        <p class="noFollowText">표시할 게시물이 없어요!</p>
-        <p class="subText">
-          게시물을 작성하거나, <br />
-          팔로잉을 추가해서 사람들과 소통해 보세요!
-        </p>
-        <img id="logo" src="/static/image/logo.png" alt="" />
+      <div style="display: flex; justify-content: center; height: 91vh; align-items: center"> 
+        <div class="con">
+          <div class="noFollowers">
+            <p class="noFollowText">표시할 게시물이 없어요!</p>
+            <p class="subText">
+              게시물을 작성하거나, <br />
+              팔로잉을 추가해서 사람들과 소통해 보세요!
+            </p>
+            <img id="logo" src="/static/image/logo.png" alt="" />
+          </div>
+        </div>
       </div>
-    </div>
     <% } else{ %>
     <div class="more">
       <div

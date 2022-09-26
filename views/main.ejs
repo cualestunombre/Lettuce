@@ -28,11 +28,7 @@
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
       crossorigin="anonymous"
     />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <title>Document</title>
   </head>
@@ -61,6 +57,21 @@
       </div>
     </div>
     <% } %>
+
+      <!-- 좋아요 모달 -->
+      <div class="modal" id="likeModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="Like-title">좋아요 리스트</h5>
+              <button type="button" class="btn-close" style="margin: 0; padding: 0;" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="llist" >
+            </div>
+          </div>
+        </div>
+      </div>
+
     <script src="../static/js/searchUser.js"></script>
 
     <script>
@@ -171,7 +182,15 @@
                                   <i class="far fa-bookmark"></i>
                               </div>
                           </div>`;
-              card.innerHTML += ` <div class="comment">
+                          //좋아요 목록
+              card.innerHTML +=`<div class="ll" id="like${ele.id}">${ele.likeCount} 
+                <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
+                  명이 좋아합니다.</a><div>`;
+
+
+
+              card.innerHTML += ` 
+                          <div class="comment">
                               ${ele.content}
                           </div>`;
               card.innerHTML += `<div class="comment_form">
@@ -298,6 +317,41 @@
         } else {
           alert("취소");
         }
+        const send = await axios.get(`like/likeCount?PostId=${postId}`);
+        document.querySelector(`#like${postId}`).innerHTML = 
+        `<a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${postId}"  onclick="likeList(event)">${send.data.Count}명이 좋아합니다.</a>`;
+        console.log(send);
+      }
+
+      function likeList(event){
+
+        const postid= event.target.getAttribute("value");
+
+        const data = {
+          PostId:postid
+        }
+        axios({
+          url:"/like/list",
+          method:"get",
+          params:data
+        }).then((response)=>{
+          let modalBody = document.querySelector("#llist");
+          modalBody.innerHTML="";
+          let html = '';
+          let ListMode = response.data.data;
+          for (let i = 0; i < ListMode.length; i++) {
+            html += `<div style="cursor: pointer">
+                      <div class="likeUser" onclick="location.href='profile?id=${ListMode[i].id}';">
+                        <img class="likeProfile" src="${ListMode[i].profile}" alt="">
+                        <span class="userName">${ListMode[i].nickName}</span>
+                        <span class="userEmail">${ListMode[i].email}</span>
+                      </div>
+                    </div>`;
+          }
+          modalBody.innerHTML = html;
+         
+
+        })
       }
     </script>
   </body>

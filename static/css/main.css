@@ -227,3 +227,33 @@ header{
     border: none;
     width: 480px;
 }
+.ll{
+    font-size: 12px;
+    color: rgb(158, 156, 154);
+    
+}
+/* modal css */
+#Like-title{
+    margin-left: 201px;
+}
+.likeUser {
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .likeProfile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .userEmail {
+    font-family: 'HallymGothic-Regular';
+    color: rgb(140, 140, 140);
+  }
+
+  .userName {
+    font-weight: bolder;
+    font-family: 'HallymGothic-Regular';
+  }

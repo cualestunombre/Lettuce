@@ -103,3 +103,12 @@
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
   }
+
+  #yeah {
+    width: 350px;
+    height: 350px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid white;
+  }

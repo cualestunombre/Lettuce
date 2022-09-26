@@ -36,7 +36,25 @@ router.get("/comments",async(req,res)=>{
     res.send(come);
 })
 
-
+//댓글 리스트
+router.get("/commentList", async(req,res)=>{
+    const come  = await Comment.findAll({
+        raw:true,
+        attributes:["comment","createdAt","id"],
+        include:[{model:User, attributes:["nickName","profile","id"]}],
+        where:{
+                PostId:req.query.PostId},
+        order: [['createdAt','DESC']]
+    });
+    come.forEach(ele=>{
+        console.log(ele['User.id']);
+        console.log(req.user.id);
+        if(ele['User.id']==req.user.id){
+            ele.me='true';
+        }
+    });
+    res.send(come);
+})
 
 
 //댓글 삭제

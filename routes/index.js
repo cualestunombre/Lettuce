@@ -6,9 +6,10 @@ router.get("/",async(req,res) =>{
     if(req.isAuthenticated()){
         const arr=[];
         const data = await Follow.findAll({raw:true,where:{follower:req.user.id}});
-        data.push({id:req.user.id});
+        data.push({followed:req.user.id});
+
         for (let i=0;i<data.length;i++){
-            const Posts = await Post.findAll({raw:true, where:{UserId:data[i].id}});
+            const Posts = await Post.findAll({raw:true, where:{UserId:data[i].followed}});
             Posts.forEach(ele=>{
                 arr.push(ele);
             });

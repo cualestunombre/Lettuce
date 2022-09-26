@@ -49,6 +49,11 @@ router.get("/", isLoggedIn, async (req, res) => {
         }
     })
 
+    const postCnt = await Post.count({
+        where: {
+            UserId: id
+        }
+    })
     const followingCnt = await Follow.count({
         where: {
             follower: id
@@ -72,6 +77,7 @@ router.get("/", isLoggedIn, async (req, res) => {
         nickName: userinfo.nickName,
         profile: userinfo.profile,
         isMyprofile: isMyprofile,
+        posting: postCnt,
         following: followingCnt,
         follower: followerCnt,
         isFollow: followCheck

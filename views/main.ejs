@@ -190,7 +190,7 @@
 
                               </div>
                               <div class="info_right">
-                                  <i class="far fa-bookmark"></i>
+                                    <i class="far fa-bookmark"></i>
                               </div>
                           </div>`;
               card.innerHTML += ` <div class="comment">
@@ -198,7 +198,7 @@
                           </div>`;
               card.innerHTML += `<div class="comment_form">
                               <div class="comments" url="${ele.id}">
-                                  <div style="margin-left:10px">댓글</div>
+                                  <div style="margin-left:16px">댓글</div>
 
                               </div>  
                               <div id="RegisterForm">
@@ -258,7 +258,7 @@
                                           </div>`;
 
                       if (res.me) {
-                        tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+                        tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}"><i class="fa-solid fa-trash"></i></button>`;
                       }
                       const div = `<div class="commentPlace"  id="c${postId}"> ${tag} </div>`;
                       space.innerHTML += div;
@@ -294,7 +294,7 @@
                 <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
                 </div>`;
             if (res.me) {
-              tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+              tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}"><i class="fa-solid fa-trash"></i></button>`;
             }
             const div = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
             space.innerHTML += div;

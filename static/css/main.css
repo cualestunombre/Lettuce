@@ -47,8 +47,10 @@ header{
 }
 .createdAt{
     position:absolute;
-    top:18px;
+    top:24px;
     right:10px;
+    font-size: 12px;
+    color: grey;
 }
 .nickNameWrapper{
     position:absolute;
@@ -188,7 +190,7 @@ header{
   #delete{
     height: 30px;
     position:absolute;
-    right:10px;
+    right:20px;
     bottom:0px;
     border: none;
     border-radius: 5px;
@@ -227,12 +229,12 @@ header{
     width: 480px;
 }
 .bi-heart, .bi-heart-fill {
-    margin: 10px 5px 0 10px;
+    margin: 0 10px;
 }
 .fa-bookmark {
     margin-right: 10px;
 }
 .come {
-    padding: 5px 0 0 20px;
+    padding: 8px 0 0 30px;
     font-size: 15px;
 }

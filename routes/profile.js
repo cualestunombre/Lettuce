@@ -16,7 +16,7 @@ const upload = multer({
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const { User, Follow, Post, PostMedia } = require("../models");
+const { User, Follow, Post, PostMedia, BookMark } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
@@ -155,23 +155,110 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
     )
     res.send(req.body);
 })
-//내 게시물 불러오기
-router.get("/inpost", async (req, res) => {
-    const data = await Post.findAll({ raw: true, where: { UserId: req.user.id }, include: [{ model: PostMedia }, { model: User, attributes: ['nickName', 'email', 'profile'] }] });
-    res.send(data);
-})
 
 router.get("/logout", isLoggedIn, (req, res) => {
     req.logout();
     req.session.destroy();
     res.redirect("/");
 });
-// GET /${email} : 해당하는 유저의 개인 페이지로 이동함.
-// 본인 페이지 일 경우 css 다르게 처리
-// POST /${email}/follow : 이 페이지의 유저를 내가 팔로우 함
-// GET /${email}/followers: 이 페이지의 유저의 팔로워 정보를 JSON으로 받음->modal창으로 열기 위함
-// GET /${email}/followings: 이 페이지 유저의 팔로잉 정보를 JSON으로 받음->modal창으로 열기 위함
-// GET /mypost : 내가 올린 게시글들을 불러옴
-// GET /bookmark : 내가 북마크 표시한 게시글들을 불러옴
-// POST /mypage : 개인정보 수정 페이지 렌더
+
+//게시글 가져 오기
+// 모든 유저 게시물 const data = await Post.findAll({raw:true,include:[{model:PostMedia},{model:User,attributes:['nickName','email','profile']}]});
+router.get("/post", isLoggedIn, async (req, res, next) => {
+    const arr = [];
+    const list = [];
+    const query = req.query.cnt;
+    const id = req.query.id;
+    const bookmark = req.query.bookmark;
+    const del = query * 20 - 1;
+    const UserList = await User.findAll({
+        raw: true,
+        attributes: ['id']
+    }); // 모든 유저를 찾는 코드
+    if (bookmark == "no") {
+        for (let i = 0; i < UserList.length; i++) {
+            const PostAll = await Post.findAll({
+                raw: true,
+                attributes: ['content', 'createdAt', 'id'],
+                where: { UserId: id },
+                include: [{ model: PostMedia, attributes: ['createdAt', 'type', 'src'] }, { model: User, attributes: ['id', 'nickName', 'profile'] }]
+            })
+            PostAll.forEach(ele => {
+                arr.push(ele);
+            });
+        }// arr배열에 쿼리 결과를 담음
+    }
+    else {
+        const bookmarkList = await BookMark.findAll({
+            raw: true,
+            attributes: ['PostId'],
+            where: { UserId: id }
+        });
+        console.log(bookmarkList);
+        console.log(bookmarkList.length);
+
+        for (let i = 0; i < bookmarkList.length; i++) {
+            const PostAll = await Post.findAll({
+                raw: true,
+                attributes: ['content', 'createdAt', 'id'],
+                where: { id: bookmarkList[i].PostId },
+                include: [{ model: PostMedia, attributes: ['createdAt', 'type', 'src'] }, { model: User, attributes: ['id', 'nickName', 'profile'] }]
+            })
+            PostAll.forEach(ele => {
+                arr.push(ele);
+            });
+        }// arr배열에 쿼리 결과를 담음
+    }
+    arr.sort((a, b) => {
+        return b['Postmedia.createdAt'] - a['Postmedia.createdAt'];
+    }); // 시간순 정렬
+    for (let i = 0; i < arr.length; i++) {
+        let flag = true;
+        for (let j = 0; j < list.length; j++) {
+            if (list[j].id == arr[i].id) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag == false) {
+            list[list.length - 1].src.push({ src: arr[i]['Postmedia.src'], type: arr[i]['Postmedia.type'] });
+        }
+        else {
+            list.push(arr[i]);
+            list[list.length - 1].src = [{ src: arr[i]['Postmedia.src'], type: arr[i]['Postmedia.type'] }];
+        }
+    }
+    console.log(list);
+    for (let i = 0; i < list.length; i++) {
+        delete list[i]['Postmedia.createdAt'];
+        delete list[i]['Postmedia.type'];
+        delete list[i]['Postmedia.src'];
+    }
+    for (let i = 0; i < del; i++) {
+        list.shift();
+    }
+    while (list.length > 20) {
+        list.pop();
+    }
+    // 데이터 가공
+    /* 데이터 형식
+    {   
+        id: ,
+        content: , 
+        createdAt: ,
+        'User.nickName': , 
+        'User.profile': ,
+        'User.id',
+        src: [{src: , type},]
+    }
+
+    */
+    if (list.length == 0) {
+        res.send({ code: 400 });
+    }
+    else {
+        res.send({ data: list, code: 200 });
+    }
+});
+
 module.exports = router;

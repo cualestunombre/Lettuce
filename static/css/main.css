@@ -47,8 +47,10 @@ header{
 }
 .createdAt{
     position:absolute;
-    top:10px;
+    top:24px;
     right:10px;
+    font-size: 12px;
+    color: grey;
 }
 .nickNameWrapper{
     position:absolute;
@@ -61,15 +63,15 @@ header{
     
 }
 .info{
-    
+    height: 50px;
     display: flex;
     background-color: white;
     justify-content: space-between;
+    align-items: center;
 }
 .comment{
     margin: 0rem 1rem 1rem 1rem;
     border-bottom: 1px solid #bdbbbb;
-    padding-bottom: 1rem;
 }
  
 .comment_form form{
@@ -147,10 +149,10 @@ header{
       font-size: 20px;
       text-align: center;
       font-family: 'HallymGothic-Regular';
-      margin-bottom: 5px;
+      margin-bottom: 20px;
   }
   #logo{
-      width:100px;
+      width:120px;
 
   }
   .noFollowers{
@@ -188,15 +190,14 @@ header{
   #delete{
     height: 30px;
     position:absolute;
-    right:10px;
+    right:20px;
     bottom:0px;
     border: none;
     border-radius: 5px;
-    background-color: rgb(240,120,120);
-    color: white;
+    background-color: #ffffff;
+    color: grey;
     padding: 5px 9px;
     font-size: 14px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
    
 }
 #commentRegister{
@@ -227,6 +228,7 @@ header{
     border: none;
     width: 480px;
 }
+
 .ll{
     font-size: 12px;
     color: rgb(158, 156, 154);
@@ -257,3 +259,14 @@ header{
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
   }
+
+.bi-heart, .bi-heart-fill {
+    margin: 0 10px;
+}
+.fa-bookmark {
+    margin-right: 10px;
+}
+.come {
+    padding: 8px 0 0 30px;
+    font-size: 15px;
+}

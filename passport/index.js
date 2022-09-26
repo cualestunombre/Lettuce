@@ -2,6 +2,7 @@ const passport =require('passport');
 const local = require('./localStrategy');
 const kakao = require('./kakaoStrategy');
 const User = require('../models/user');
+
 module.exports = () =>{
     passport.serializeUser((user,done)=>{
         done(null,user.id); 
@@ -11,8 +12,8 @@ module.exports = () =>{
         ).then(user=>done(null,user)).catch(err=>done(err)); 
         //매 요청 시에 실행되고, req.user에 user객체를 저장함 
     });
-    local();
-    kakao();
+    local(passport);
+    kakao(passport);
     
 };
 

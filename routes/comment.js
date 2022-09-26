@@ -41,6 +41,7 @@ router.get("/comments",async(req,res)=>{
 
 //댓글 삭제
 router.post("/commentDelete",async(req,res)=>{
+    console.log(req.body.id);
     await Comment.destroy({
         where:{id:req.body.id}
     });

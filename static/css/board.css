@@ -1,0 +1,257 @@
+@font-face {
+    font-family: 'HallymGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+.modal-body {
+    padding: 0 !important;
+}
+
+.carousel-item img {
+    width: 548px;
+    height: 500px;
+}
+
+.card {
+    box-shadow: rgba(0, 0, 0, 0.4) 5px 4px 12px;
+    position: relative;
+
+    background-color: white;
+    width: 100%;
+    height: auto;
+}
+
+header img {
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    border: 1px solid #cdc6c6;
+}
+
+
+header {
+    border-radius: 10px;
+    height: 70px;
+    background-color: rgb(250, 250, 250);
+}
+
+.createdAt {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+}
+
+.nickNameWrapper {
+    position: absolute;
+    top: 20px;
+    left: 70px;
+}
+
+.card_image img {
+    width: 100%;
+    height: 500px;
+
+}
+
+.info {
+    height: 50px;
+    display: flex;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment {
+    margin: 0rem 1rem 1rem 1rem;
+    border-bottom: 1px solid #bdbbbb;
+}
+
+.comment_form form {
+    padding-bottom: 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.comment_form form input {
+    width: 550px;
+    height: 30px;
+    border: none;
+    padding-left: 10px;
+}
+
+.comment_form form button {
+    font-size: 13px;
+    border: none;
+    background-color: white;
+}
+
+.come img {
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #cdc6c6;
+}
+
+.info i {
+    font-size: 1.5rem;
+}
+
+.info i:hover {
+    cursor: pointer;
+}
+
+.dnone {
+    display: none;
+}
+
+
+.square {
+    border: 0;
+    width: 80px;
+    padding: 0px;
+    margin-top: 40px;
+    margin-left: calc(50% - 40px);
+    margin-left: -webkit-calc(50% - 40px);
+    margin-left: -moz-calc(50% - 40px);
+    background-color: rgb(250, 250, 250);
+}
+
+.spin {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+    border: dashed 5px #87C228;
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    background-color: rgb(250, 250, 250);
+    margin-bottom: 50px;
+}
+
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+#yeah {
+    width: 500px;
+    height: 500px;
+}
+
+.noFollowText {
+    margin-top: 40px;
+    font-size: 20px;
+    text-align: center;
+    font-family: 'HallymGothic-Regular';
+    margin-bottom: 20px;
+}
+
+#logo {
+    width: 120px;
+
+}
+
+.noFollowers {
+    box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+    border-radius: 5px;
+    background-color: #F9F4D9;
+    width: 400px;
+    height: 250px;
+    display: inline-block;
+}
+
+.subText {
+    font-size: 15px;
+    color: rgb(150, 150, 150);
+    font-family: 'HallymGothic-Regular';
+    text-align: center;
+    margin-top: none;
+}
+
+.more {
+    background-color: rgb(250, 250, 250);
+}
+
+.con {
+    background-color: rgb(250, 250, 250);
+    padding-top: 100px;
+    text-align: center;
+}
+
+html {
+    background-color: rgb(250, 250, 250);
+}
+
+div.commentPlace {
+    margin-left: 5px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#delete {
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: grey;
+    padding: 5px 9px;
+    font-size: 14px;
+
+}
+
+#commentRegister {
+    height: 30px;
+    right: 10px;
+    bottom: 0px;
+    border: none;
+    border-radius: 5px;
+    background-color: #87C228;
+
+    color: white;
+    padding: 5px 9px;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin-right: 10px;
+}
+
+#RegisterForm {
+    margin-bottom: 10px;
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#re {
+    margin-left: 10px;
+    border: none;
+    width: 300px;
+}
+
+.bi-heart,
+.bi-heart-fill {
+    margin: 10px 5px 0 10px;
+}
+
+.fa-bookmark {
+    margin-right: 10px;
+}
+
+.come {
+    padding: 5px 0 0 20px;
+    font-size: 15px;
+}

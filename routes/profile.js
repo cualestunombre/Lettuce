@@ -16,7 +16,7 @@ const upload = multer({
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const { User, Follow, Post, PostMedia, BookMark } = require("../models");
+const {SessionSocketIdMap, User, Follow, Post, PostMedia, BookMark } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
@@ -156,7 +156,8 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
     res.send(req.body);
 })
 
-router.get("/logout", isLoggedIn, (req, res) => {
+router.get("/logout", isLoggedIn, async(req, res) => {
+    await SessionSocketIdMap.destroy({where:{UserId:req.user.id}});
     req.logout();
     req.session.destroy();
     res.redirect("/");

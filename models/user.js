@@ -77,5 +77,17 @@ module.exports = class User extends Sequelize.Model {
             "targetKey":"id",
             onUpdate:"cascade"
         });
+        db.User.hasMany(db.Notification,{
+            'foreignKey':"sender",
+            "targetKey":"id",
+            onDelete:'cascade',
+            onUpdate:"cascade"
+        });
+        db.User.hasMany(db.Notification,{
+            'foreignKey':"receiver",
+            "targetKey":"id",
+            onDelete:'cascade',
+            onUpdate:"cascade"
+        });
     }
 };

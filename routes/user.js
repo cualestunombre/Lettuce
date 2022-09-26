@@ -3,7 +3,7 @@ const router = express.Router();
 const { isLoggedIn } = require("./middlewares");
 const { QueryTypes } = require('sequelize');
 const { sequelize } = require("../models");
-
+const {Notification} = require("../models");
 router.get("/",isLoggedIn,async (req,res,next)=>{
     const info = req.query.search;
     const arr=[];
@@ -19,7 +19,10 @@ router.get("/",isLoggedIn,async (req,res,next)=>{
     })
     res.send(arr);
 });
-
+router.get("notification",isLoggedIn,async(req,res,next)=>{
+    const result = await Notification.findAll({where:{UserId:req.user.id, reached:"false"}});
+    res.send({cnt:result});
+});
 
 
 module.exports=router;

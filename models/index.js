@@ -6,6 +6,7 @@ const HashTag  = require("./hashtag");
 const SessionSocketIdMap= require("./sessionSocketIdMap");
 const Room = require("./room");
 const Chat = require("./chat");
+const Notification = require("./notification");
 const Comment = require("./comment");
 const config = require("../config.json")["development"];
 const db = {};
@@ -19,6 +20,7 @@ db.HashTag = HashTag; // 컨트롤러에서 접근할 때,
 db.Room = Room; // 컨트롤러에서 접근할 때,
 db.Chat = Chat; // 컨트롤러에서 접근할 때,
 db.Comment = Comment; // 컨트롤러에서 접근할 때,
+db.Notification = Notification;// 컨트롤러에서 접근할 때,
 Post.init(sequelize);
 User.init(sequelize);
 PostMedia.init(sequelize);
@@ -27,6 +29,7 @@ Room.init(sequelize);
 SessionSocketIdMap.init(sequelize);
 Chat.init(sequelize);
 Comment.init(sequelize);
+Notification.init(sequelize);
 Post.associate(db);
 User.associate(db);
 PostMedia.associate(db);
@@ -35,6 +38,7 @@ Room.associate(db);
 SessionSocketIdMap.associate(db);
 Chat.associate(db);
 Comment.associate(db);
+Notification.associate(db);
 db.Like = sequelize.models.likes; // 컨트롤러에서 접근할 때,
 db.Follow = sequelize.models.follow; // 컨트롤러에서 접근할 때,
 db.Allocate = sequelize.models.allocate; // 컨트롤러에서 접근할 때,

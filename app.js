@@ -16,7 +16,7 @@ const sessionMiddleware = session({
   cookie: {
     httpOnly: true,
     secure: false,
-    maxAge: 100000000,
+    maxAge: 10000000000,
   },
 });
 app.use(sessionMiddleware); // 세션객체 설정
@@ -35,7 +35,7 @@ const testRouter = require("./routes/test");
 const likeRouter = require("./routes/like");
 const exploreRouter = require("./routes/explore");
 const commentRouter = require("./routes/comment");
-
+const realtimeRouter = require("./routes/realtime");
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
 app.use("/static", express.static("static"));
@@ -61,10 +61,13 @@ app.use("/test", testRouter);
 app.use("/explore", exploreRouter);
 app.use("/like", likeRouter);
 app.use("/comment", commentRouter);
+app.use("/realtime",realtimeRouter);
+app.get("/socketTest",(req,res)=>{
+    res.render("socketTest");
+});
 app.use((req, res, next) => {
   res.render("nonmatch");
 });
-
 app.use((err, req, res, next) => {
   res.render("error", { error: err.message });
 });

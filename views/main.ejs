@@ -43,18 +43,25 @@
     <%-include('navbar.ejs') %>
     <div class="main"></div>
     <% if( code == 400 ) { %>
-      <div style="display: flex; justify-content: center; height: 91vh; align-items: center"> 
-        <div class="con">
-          <div class="noFollowers">
-            <p class="noFollowText">표시할 게시물이 없어요!</p>
-            <p class="subText">
-              게시물을 작성하거나, <br />
-              팔로잉을 추가해서 사람들과 소통해 보세요!
-            </p>
-            <img id="logo" src="/static/image/logo.png" alt="" />
-          </div>
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        height: 91vh;
+        align-items: center;
+      "
+    >
+      <div class="con">
+        <div class="noFollowers">
+          <p class="noFollowText">표시할 게시물이 없어요!</p>
+          <p class="subText">
+            게시물을 작성하거나, <br />
+            팔로잉을 추가해서 사람들과 소통해 보세요!
+          </p>
+          <img id="logo" src="/static/image/logo.png" alt="" />
         </div>
       </div>
+    </div>
     <% } else{ %>
     <div class="more">
       <div
@@ -67,33 +74,43 @@
     </div>
     <% } %>
 
-      <!-- 좋아요 모달 -->
-      <div class="modal" id="likeModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="Like-title">좋아요 리스트</h5>
-              <button type="button" class="btn-close" style="margin: 0; padding: 0;" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="llist" >
-            </div>
+    <!-- 좋아요 모달 -->
+    <div class="modal" id="likeModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="Like-title">좋아요 리스트</h5>
+            <button
+              type="button"
+              class="btn-close"
+              style="margin: 0; padding: 0"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
+          <div class="modal-body" id="llist"></div>
         </div>
       </div>
+    </div>
 
-       <!-- 댓글 모달 -->
-       <div class="modal" id="commentModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="Comment-title">댓글</h5>
-              <button type="button" class="btn-close" style="margin: 0; padding: 0;" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="clist" >
-            </div>
+    <!-- 댓글 모달 -->
+    <div class="modal" id="commentModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="Comment-title">댓글</h5>
+            <button
+              type="button"
+              class="btn-close"
+              style="margin: 0; padding: 0"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
+          <div class="modal-body" id="clist"></div>
         </div>
       </div>
+    </div>
 
     <script src="../static/js/searchUser.js"></script>
 
@@ -226,12 +243,10 @@
                                     <i class="far fa-bookmark"></i>
                               </div>
                           </div>`;
-                          //좋아요 목록
-              card.innerHTML +=`<div class="ll" id="like${ele.id}">${ele.likeCount} 
+              //좋아요 목록
+              card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
                 <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
                   명이 좋아합니다.</a><div>`;
-
-
 
               card.innerHTML += ` 
                           <div class="comment">
@@ -365,26 +380,26 @@
           swal("", "좋아요 취소", "success");
         }
         const send = await axios.get(`like/likeCount?PostId=${postId}`);
-        document.querySelector(`#like${postId}`).innerHTML = 
-        `<a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${postId}"  onclick="likeList(event)">${send.data.Count}명이 좋아합니다.</a>`;
+        document.querySelector(
+          `#like${postId}`
+        ).innerHTML = `<a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${postId}"  onclick="likeList(event)">${send.data.Count}명이 좋아합니다.</a>`;
         console.log(send);
       }
 
-      function likeList(event){
-
-        const postid= event.target.getAttribute("value");
+      function likeList(event) {
+        const postid = event.target.getAttribute("value");
 
         const data = {
-          PostId:postid
-        }
+          PostId: postid,
+        };
         axios({
-          url:"/like/list",
-          method:"get",
-          params:data
-        }).then((response)=>{
+          url: "/like/list",
+          method: "get",
+          params: data,
+        }).then((response) => {
           let modalBody = document.querySelector("#llist");
-          modalBody.innerHTML="";
-          let html = '';
+          modalBody.innerHTML = "";
+          let html = "";
           let ListMode = response.data.data;
           for (let i = 0; i < ListMode.length; i++) {
             html += `<div style="cursor: pointer">
@@ -396,106 +411,96 @@
                     </div>`;
           }
           modalBody.innerHTML = html;
-        })
+        });
       }
 
-      function commentlist(event){
-        const postid= event.target.getAttribute("value");
-        const data = {PostId:postid}
+      function commentlist(event) {
+        const postid = event.target.getAttribute("value");
+        const data = { PostId: postid };
         axios({
-          url:"/comment/commentList",
-          method:"get",
-          params: data
-        }).then((response)=>{
+          url: "/comment/commentList",
+          method: "get",
+          params: data,
+        }).then((response) => {
           console.log(response.data);
           let modalBody = document.querySelector("#clist");
-          modalBody.innerHTML="";
-          let html = '';
+          modalBody.innerHTML = "";
+          let html = "";
           let ListMode = response.data;
           for (let i = 0; i < ListMode.length; i++) {
-
-            if(ListMode[i].me){
-
-            
-            html += `<div style="cursor: pointer">
-                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]['User.id']}';">
-                        <img class="commentProfile" src="${ListMode[i]['User.profile']}" alt="">
-                        <span class="commentuserName">${ListMode[i]['User.nickName']}</span>
-                        <span class="commentuserComment">${ListMode[i]['comment']}</span>
+            if (ListMode[i].me) {
+              html += `<div style="cursor: pointer">
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
                       </div>
                       <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
                     </div>`;
-              }
-              else{
-                html += `<div style="cursor: pointer">
-                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]['User.id']}';">
-                        <img class="commentProfile" src="${ListMode[i]['User.profile']}" alt="">
-                        <span class="commentuserName">${ListMode[i]['User.nickName']}</span>
-                        <span class="commentuserComment">${ListMode[i]['comment']}</span>
+            } else {
+              html += `<div style="cursor: pointer">
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
                       </div>
                     </div>`;
-              }
             }
+          }
           modalBody.innerHTML = html;
-          
-        })
+        });
       }
 
-      async function listDelete(event){
+      async function listDelete(event) {
         const comentD = await axios.post("comment/commentDelete", {
-          id: event.target.getAttribute("value")
+          id: event.target.getAttribute("value"),
         });
-        
-        if(comentD.data.code == 200){
+
+        if (comentD.data.code == 200) {
           event.target.parentNode.parentNode.innerHTML = "";
           console.log(event.target.parentNode.parentNode);
-          const postid= event.target.getAttribute("url");
-        const data = {PostId:postid}
-        axios({
-          url:"/comment/commentList",
-          method:"get",
-          params: data
-        }).then((response)=>{
-          console.log(response.data);
-          let modalBody = document.querySelector("#clist");
-          modalBody.innerHTML="";
-          let html = '';
-          let ListMode = response.data;
-          for (let i = 0; i < ListMode.length; i++) {
-
-            if(ListMode[i].me){
-
-            
-            html += `<div style="cursor: pointer">
-                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]['User.id']}';">
-                        <img class="commentProfile" src="${ListMode[i]['User.profile']}" alt="">
-                        <span class="commentuserName">${ListMode[i]['User.nickName']}</span>
-                        <span class="commentuserComment">${ListMode[i]['comment']}</span>
+          const postid = event.target.getAttribute("url");
+          const data = { PostId: postid };
+          axios({
+            url: "/comment/commentList",
+            method: "get",
+            params: data,
+          }).then((response) => {
+            console.log(response.data);
+            let modalBody = document.querySelector("#clist");
+            modalBody.innerHTML = "";
+            let html = "";
+            let ListMode = response.data;
+            for (let i = 0; i < ListMode.length; i++) {
+              if (ListMode[i].me) {
+                html += `<div style="cursor: pointer">
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
                       </div>
                       <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
                     </div>`;
-              }
-              else{
+              } else {
                 html += `<div style="cursor: pointer">
-                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]['User.id']}';">
-                        <img class="commentProfile" src="${ListMode[i]['User.profile']}" alt="">
-                        <span class="commentuserName">${ListMode[i]['User.nickName']}</span>
-                        <span class="commentuserComment">${ListMode[i]['comment']}</span>
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
                       </div>
                     </div>`;
               }
             }
 
             modalBody.innerHTML = html;
-          
-        })
-        const target = document.querySelector(`#delete[url="${postid}"]`);
-        const wrap = {target:target};
-        deleteComent(wrap);
+          });
+          const target = document.querySelector(`#delete[url="${postid}"]`);
+          const wrap = { target: target };
+          deleteComent(wrap);
         }
-
-
       }
     </script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="../static/js/notification.js"></script>
   </body>
 </html>

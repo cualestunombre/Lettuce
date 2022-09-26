@@ -69,7 +69,10 @@ router.post("/emailCheck",isNotLoggedIn, (req, res) => {
 
 
 
-router.get("/kakao", passport.authenticate("kakao"));//연동
+
+
+
+router.get("/kakao", passport.authenticate("kakao"));//로그인 요청
 
 router.get("/kakao/callback",passport.authenticate("kakao", {
     failureRedirect: "/",

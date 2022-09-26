@@ -28,7 +28,12 @@ module.exports = class User extends Sequelize.Model {
             comment: {
                 type: Sequelize.STRING(50),
                 allowNull: true
+            },
+            provider: {
+                type: Sequelize.STRING(50),
+                allowNull: true
             }
+
         }, {
             sequelize,
             timestamps: true,

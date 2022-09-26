@@ -36,6 +36,7 @@ const likeRouter = require("./routes/like");
 const exploreRouter = require("./routes/explore");
 const commentRouter = require("./routes/comment");
 
+
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
 app.use("/static", express.static("static"));

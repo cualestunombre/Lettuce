@@ -1,7 +1,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { User, Post, PostMedia, Follow, HashTag, Like } = require("../models");
+const { User, Post, PostMedia, Follow, HashTag, Like, Comment } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 router.get("/", async (req, res, next) => {
@@ -146,15 +146,26 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
     while (list.length > 20) {
         list.pop();
     }
+
+    for (let i = 0; i < list.length; i++) {
+        const likeCnt = await Like.count({ where: { PostId: list[i].id } });
+        const commentCnt = await Comment.count({ where: { PostId: list[i].id } });
+        list[i].likeCnt = likeCnt;
+        list[i].commentCnt = commentCnt
+    }
+
+    console.log("LIST", list);
     // 데이터 가공
     /* 데이터 형식
     {   
-        id: ,
-        content: , 
-        createdAt: ,
-        'User.nickName': , 
-        'User.profile': ,
-        'User.id',
+        content:
+        createdAt:
+        id:
+        'User.id':
+        'User.nickName':
+        'User.profile':
+        likeCnt:
+        commentCnt:
         src: [{src: , type},]
     }
 

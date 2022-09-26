@@ -89,7 +89,7 @@
       <div id="id" style="display: none;"><%=data.id%></div>
       <div style="display: flex; justify-content: space-around; margin-bottom: 25px;">
         <div>
-          <div><span>게시물</span><span style="font-weight: bolder;"> 1</span></div>
+          <div><span>게시물</span><span style="font-weight: bolder;"> <%=data.posting%> </span></div>
         </div>
         <div>
           <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="followList('following');">
@@ -190,20 +190,20 @@
           var tmp = document.createElement("div");
           var followMode = response.data[mode];
 
-          if(response.data[mode].length == 0){
+          if (response.data[mode].length == 0) {
             html += `목록이 비어있습니다. 네트워킹을 시작하세요!`
           } else {
             for (var i = 0; i < followMode.length; i++) {
-            html += `<div style="cursor: pointer">
+              html += `<div style="cursor: pointer">
                       <div class="followUser" onclick="location.href='profile?id=${followMode[i].id}';">
                         <img class="followProfile" src="${followMode[i].profile}" alt="">
                         <span class="userName">${followMode[i].nickName}</span>
                         <span class="userEmail">${followMode[i].email}</span>
                       </div>
                     </div>`;
+            }
           }
-        }
-        modalBody.innerHTML = html;
+          modalBody.innerHTML = html;
         })
     }
 

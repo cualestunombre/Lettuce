@@ -37,6 +37,7 @@ const exploreRouter = require("./routes/explore");
 const commentRouter = require("./routes/comment");
 const realtimeRouter = require("./routes/realtime");
 const chatRouter = require("./routes/chat");
+const {SessionSocketIdMap} = require("./models");
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
 app.use("/static", express.static("static"));
@@ -44,7 +45,6 @@ app.use("/uploads", express.static("uploads"));
 app.use(express.json()); //json파싱
 app.use(express.urlencoded({ extended: false })); //인코딩된 url파싱
 app.use(cookieParser(process.env.COOKIE_SECRET)); //쿠키에 암호 넣고 파싱함
-
 sequelize.sync({ force: false })
   .then(() => {
     console.log("데이터베이스 연결 성공");
@@ -71,10 +71,12 @@ app.use((req, res, next) => {
   res.render("nonmatch");
 });
 app.use((err, req, res, next) => {
+  console.error(err);
   res.render("error", { error: err });
 });
-const server = app.listen(port, () => {
+const server = app.listen(port, async() => {
   console.log("Server Port : ", port);
+  await SessionSocketIdMap.destroy({where:{}});
 });
 
 webSocket(server, app, sessionMiddleware);

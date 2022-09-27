@@ -26,6 +26,8 @@
     background-color: rgb(250, 255, 250);
   }
   .chatCard {
+    overflow-y: auto;
+    overflow-x: none;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.2) 5px 4px 12px;
     width: 440px;
@@ -56,7 +58,64 @@
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
   }
+  .noFollow{
+      font-size: 15px;
+      margin-top: 200px;
+  }
   .chatHeader span {
     display: block;
     padding-top: 10px;
+  }
+  .followWrapper{
+    position: relative;
+      height:50px;
+      width: 100%;
+      background-color: white;
+  }
+  .followWrapper img{
+    cursor:pointer;
+    border-radius: 100%;
+    width:30px;
+    height:30px;
+    position:absolute;
+    top:10px;
+    left:25px;
+
+  }
+  .chatNickName{
+      display: flex;
+      position: absolute;
+      flex-direction: column;
+      top:5px;
+      left:65px;
+  }
+  .chatNickName span:nth-child(2){
+      color:rgb(0,0,0,0.4);
+      font-size: 11px;
+  }
+  .chatNickName span{
+      text-align: left;
+      cursor:pointer;
+  }
+  .chatFlag{
+      margin-top: 10px;
+      position:absolute;
+      display: flex;
+      justify-content: space-between;
+      width:70px;
+      right:30px;
+  }
+  .userActive{
+      margin-top: 4px;
+      background-color: rgb(54,203,64);
+      width: 15px;
+      height: 15px;
+      border-radius: 100%;
+  }
+  .userInactive{
+      margin-top: 4px;
+      background-color: red;
+      width: 15px;
+      height: 15px;
+      border-radius: 100%;
   }

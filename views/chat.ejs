@@ -16,7 +16,29 @@
           <div class="noFollow" style="text-align: center">
             아무도 팔로잉 중이지 않으시네요!
           </div>
+          <% } for (let i=0 ; i < data.length ; i++) { %>
+
+          <div class="followWrapper" value="<%= data[i].id %>">
+            <img
+              onclick="location.href=`/profile?id=<%= data[i]['followings.id'] %>`"
+              src="<%= data[i].profile %>"
+              alt=""
+            />
+            <div class="chatNickName">
+              <span
+                onclick="location.href=`/profile?id=<%= data[i]['followings.id'] %>`"
+                ><%= data[i].nickName %></span
+              >
+              <span
+                onclick="location.href=`/profile?id=<%= data[i]['followings.id'] %>`"
+              >
+                <%= data[i].email %></span
+              >
+            </div>
+          </div>
+
           <% } %>
+
           <div class="chatFooter"></div>
         </div>
         <div class="roomList chatCard">
@@ -26,10 +48,75 @@
       </div>
     </div>
   </body>
-
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+  <script src="../static/js/notification.js"></script>
   <script>
     const chatSocket = io.connect(`http://localhost:8000/chat`, {
       path: "/socket.io",
+    });
+  </script>
+  <script>
+    document.querySelectorAll(".followWrapper").forEach(async (ele) => {
+      const res = await axios.get(
+        `/realtime/socket?id=${ele.getAttribute("value")}`
+      );
+      if (res.data.active) {
+        const div = document.createElement("div");
+        div.classList.add("chatFlag");
+        div.setAttribute("flag", "0");
+        const flag = document.createElement("div");
+        flag.classList.add("userActive");
+        const content = document.createElement("div");
+        content.innerText = "활동중";
+        content.classList.add("userText");
+        div.appendChild(flag);
+        div.appendChild(content);
+        ele.appendChild(div);
+      } else {
+        const div = document.createElement("div");
+        div.classList.add("chatFlag");
+        div.setAttribute("flag", "1");
+        const flag = document.createElement("div");
+        flag.classList.add("userInactive");
+        const content = document.createElement("div");
+        content.innerText = "휴식중";
+        content.classList.add("userText");
+        div.appendChild(flag);
+        div.appendChild(content);
+        ele.appendChild(div);
+      }
+    });
+    socket.on("active", (data) => {
+      const id = data.UserId;
+      const target = document.querySelector(
+        `.followWrapper[value="${id}"] .chatFlag`
+      );
+      if (target.getAttribute("flag") != "0") {
+        target.setAttribute("flag", "0");
+        target
+          .querySelector(".userInactive")
+          .setAttribute("class", "userActive");
+        target.querySelector(".userText").innerText = "활동중";
+      }
+    });
+    socket.on("inactive", (data) => {
+      const id = data.UserId;
+      const target = document.querySelector(
+        `.followWrapper[value="${id}"] .chatFlag`
+      );
+      if (target.getAttribute("flag") != "1") {
+        target.setAttribute("flag", "1");
+        target
+          .querySelector(".userActive")
+          .setAttribute("class", "userInactive");
+        target.querySelector(".userText").innerText = "휴식중";
+      }
     });
   </script>
 </html>

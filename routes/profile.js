@@ -250,7 +250,6 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
 })
 
 router.get("/logout", isLoggedIn, async (req, res) => {
-    await SessionSocketIdMap.destroy({ where: { UserId: req.user.id } });
     req.logout();
     req.session.destroy();
     res.redirect("/");

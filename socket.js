@@ -2,6 +2,9 @@ const SocketIO = require("socket.io");
 const cookieParser = require("cookie-parser");
 const {User,SessionSocketIdMap} = require("./models");
 const passport = require("passport");
+const { QueryTypes } = require('sequelize');
+const { sequelize } = require("./models");
+
 module.exports = (server,app,sessionMiddleware)=>{
     const io = SocketIO(server,{path:'/socket.io'});
     app.set("io",io);
@@ -16,9 +19,33 @@ module.exports = (server,app,sessionMiddleware)=>{
         const req = socket.request;
         if(req.user){
             await SessionSocketIdMap.create({socketId:socket.id,sessionId:req.session.id,UserId:req.user.id,type:"notification"});
+            const query = `select sessionSocketIdMap.socketId from sessionSocketIdMap inner join follow on sessionSocketIdMap.UserId
+            = follow.follower where follow.followed="${req.user.id}";
+            `;
+            const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
+          
+             data.forEach(ele=>{
+                
+                    socket.to(ele.socketId).emit("active",{UserId:req.user.id});
+                
+            });
+            
         }
+        
         socket.on("disconnect",async()=>{
             await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
+            const query = `select sessionSocketIdMap.socketId from sessionSocketIdMap inner join follow on sessionSocketIdMap.UserId
+            = follow.follower where follow.followed="${req.user.id}";
+            `;
+            const response = await SessionSocketIdMap.findAll({raw:true,where:{UserId:req.user.id}});
+            const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
+            if(response.length==0){
+                data.forEach(ele=>{
+                    if(response.length==0){
+                        socket.to(ele.socketId).emit("inactive",{UserId:req.user.id});
+                    }
+                });
+            }
         }); 
     });
     chat.use(wrap(sessionMiddleware));

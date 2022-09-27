@@ -29,6 +29,15 @@ router.post("/comment",async(req,res,next)=>{
     res.send("ok");
 });
 
+router.get("/socket",async(req,res,next)=>{
+    const result = await SessionSocketIdMap.findAll({raw:true,where:{UserId:req.query.id}});
+    if(result.length!=0){
+        res.send({active:'true'});
+    }
+    else{
+        res.send({});
+    }
+});
 
 
 

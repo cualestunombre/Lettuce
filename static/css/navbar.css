@@ -216,6 +216,12 @@ a:hover{
     font-size: 12px;
     padding-left:50px;
 }
+.typeComment{
+    color:black;
+    font-size: 12px;
+    padding-left:50px;
+    
+}
 .notificationNickName{
     color:black;
     margin-top: 18px;

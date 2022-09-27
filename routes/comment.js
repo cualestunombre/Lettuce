@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const {Comment,User} = require("../models");
-
+const {Comment,User,Post} = require("../models");
+const axios = require("axios");
 //댓글 등록
-router.post("/comments",async(req,res)=>{ console.log(req.body);
+router.post("/comments",async(req,res)=>{ 
+
     const comments = await Comment.create({
         PostId:req.body.postId,
         UserId:req.user.id,
         comment:req.body.comment
     });
-
+    const target = await Post.findOne({raw:true,where:{id:req.body.postId}});
+    await axios.post("http://localhost:8000/realtime/comment",{PostId:req.body.postId,receiver:target.UserId,sender:req.user.id});
     res.send({code:200});
 })
 

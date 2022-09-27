@@ -39,10 +39,18 @@ document.querySelector(".fa-heart.fa-regular").addEventListener("click",async (e
                 if(ele.type=="like"){
                     content.classList.add("typeLike");
                     content.innerText="님이 좋아요를 누르셨어요";
+                    info.setAttribute("url",ele.PostId);
                 }
-                else if(ele.type="follow"){
+                else if(ele.type=="follow"){
                     content.classList.add("typeFollow");
                     content.innerText="님이 회원님을 팔로우 해요";
+                    
+                    
+                }
+                else{
+                    content.classList.add("typeComment");
+                    content.innerText="님이 댓글을 달았어요"
+                    info.setAttribute("url",ele.PostId);
                 }
                 const time = document.createElement("div");
                 time.classList.add("notiTime");
@@ -64,7 +72,7 @@ document.querySelector(".fa-heart.fa-regular").addEventListener("click",async (e
             const span = document.createElement("span");
             const span2 = document.createElement("span");
             span.classList.add("noShowTitle");
-            span.innerText="표시할 알림이 없어요!\n";
+            span.innerText="표시할 알림이 없어요!";
             span2.classList.add("noShowInfo");
             span2.innerText="알림이 있으면 24시간이내의 알림이 표시되요!";
             noShow.appendChild(span);

@@ -20,6 +20,14 @@ router.post("/follow",async(req,res,next)=>{
     res.send("ok");
 });
 
+router.post("/comment",async(req,res,next)=>{
+    await Notification.create({sender:req.body.sender,receiver:req.body.receiver,type:"comment",reached:"false",PostId:req.body.PostId});
+    const socketId = await SessionSocketIdMap.findAll({raw:true,where:{UserId:req.body.receiver}});
+    socketId.forEach(ele=>{
+        req.app.get("io").of("/notification").to(ele.socketId).emit("notification");
+    });
+    res.send("ok");
+});
 
 
 

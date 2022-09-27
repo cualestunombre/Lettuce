@@ -52,7 +52,13 @@
       <div class="otherprofile">
       </div>
     </div>
-
+    
+    <div class="up">
+      <a href="#"><img class="upBtn" src="/static/image/up.png"></a>
+    </div>
+    <div class="down">
+      <a href="#"><img class="downBtn" src="/static/image/down.png"></a>
+    </div>
 
 
     <div class="main"></div>
@@ -574,6 +580,9 @@
         window.location = "/";
       }
 
+      $(".downBtn").click(function(){
+	      $('html, body').scrollTop( $(document).height() );
+      });
     </script>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
     <script src="../static/js/notification.js"></script>

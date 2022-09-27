@@ -44,13 +44,13 @@ app.use(express.json()); //json파싱
 app.use(express.urlencoded({ extended: false })); //인코딩된 url파싱
 app.use(cookieParser(process.env.COOKIE_SECRET)); //쿠키에 암호 넣고 파싱함
 
-sequelize.sync({ force: false })
-    .then(() => {
-        console.log("데이터베이스 연결 성공");
-    })
-    .catch((err) => {
-        console.error(err);
-    }); // DB연결
+sequelize.sync({ alter: true })
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  }); // DB연결
 
 app.use("/", indexRouter); // index router 로 이동
 app.use("/auth", authRouter); // auth router 사용
@@ -61,9 +61,9 @@ app.use("/test", testRouter);
 app.use("/explore", exploreRouter);
 app.use("/like", likeRouter);
 app.use("/comment", commentRouter);
-app.use("/realtime",realtimeRouter);
-app.get("/socketTest",(req,res)=>{
-    res.render("socketTest");
+app.use("/realtime", realtimeRouter);
+app.get("/socketTest", (req, res) => {
+  res.render("socketTest");
 });
 app.use((req, res, next) => {
   res.render("nonmatch");

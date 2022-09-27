@@ -1,10 +1,3 @@
-@font-face {
-    font-family: 'HallymGothic-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-}
-
 .modal-body {
     padding: 0 !important;
 }
@@ -142,11 +135,6 @@ header {
     to {
         -webkit-transform: rotate(360deg);
     }
-}
-
-#yeah {
-    width: 500px;
-    height: 500px;
 }
 
 .noFollowText {

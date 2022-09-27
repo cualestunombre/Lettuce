@@ -43,23 +43,20 @@
     <%-include('navbar.ejs') %>
 
     <div class="UserList">
-      <div class="myprofile">
-
-      </div>
+      <div class="myprofile"></div>
       <div class="recommendForm">
-        <span class="recommend">회원님을 위한 추천</span><a href="#">모두보기</a>
+        <span class="recommend">회원님을 위한 추천</span
+        ><a href="#">모두보기</a>
       </div>
-      <div class="otherprofile">
-      </div>
+      <div class="otherprofile"></div>
     </div>
-    
+
     <div class="up">
-      <a href="#"><img class="upBtn" src="/static/image/up.png"></a>
+      <a href="#"><img class="upBtn" src="/static/image/up.png" /></a>
     </div>
     <div class="down">
-      <a href="#"><img class="downBtn" src="/static/image/down.png"></a>
+      <a href="#"><img class="downBtn" src="/static/image/down.png" /></a>
     </div>
-
 
     <div class="main"></div>
     <% if( code == 400 ) { %>
@@ -265,8 +262,8 @@
               if (ele.bookmark) {
                 flag2 = "bi-bookmark-fill";
                 value2 = "1";
-              } 
-              
+              }
+
               card.appendChild(carousel);
               card.innerHTML += `<div class="info">
                               <div class="info_left">
@@ -282,19 +279,19 @@
               card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
                 <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
                   명이 좋아합니다.</a><div>`;
-                let result = [];
+              let result = [];
 
-                if(ele.content) {
-                let content = (ele.content).split(" ");
-                for(let i = 0; i < content.length; i++) {
-                  if(content[i].includes("#")){
-                    result.push(`<a>${content[i]}</a>`);
+              if (ele.content) {
+                let content = ele.content.split(" ");
+                for (let i = 0; i < content.length; i++) {
+                  if (content[i].includes("#")) {
+                    result.push(`<a class="hash">${content[i]}</a>`);
                   } else {
-                    result.push(content[i])
+                    result.push(content[i]);
                   }
                 }
                 console.log(result);
-                result = result.join(' ');
+                result = result.join(" ");
               }
               card.innerHTML += ` 
                           <div class="comment">
@@ -484,7 +481,7 @@
           let ListMode = response.data;
           for (let i = 0; i < ListMode.length; i++) {
             if (ListMode[i].me) {
-              html +=`<div class="commentPlace1">
+              html += `<div class="commentPlace1">
                         <div class="come1">
                           <div>
                             <a href="/profile?id=${ListMode[i]["User.id"]}">
@@ -496,8 +493,8 @@
                           <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
                         </div>
                       </div>`;
-              } else {
-                html +=`<div class="commentPlace1">
+            } else {
+              html += `<div class="commentPlace1">
                           <div class="come1">
                             <div>
                               <a href="/profile?id=${ListMode[i]["User.id"]}">
@@ -508,7 +505,7 @@
                             </div>
                           </div>
                         </div>`;
-              }
+            }
           }
           modalBody.innerHTML = html;
         });
@@ -536,7 +533,7 @@
             let ListMode = response.data;
             for (let i = 0; i < ListMode.length; i++) {
               if (ListMode[i].me) {
-                html +=`<div class="commentPlace1">
+                html += `<div class="commentPlace1">
                           <div class="come1">
                             <div>
                               <a href="/profile?id=${ListMode[i]["User.id"]}">
@@ -549,7 +546,7 @@
                           </div>
                         </div>`;
               } else {
-                html +=`<div class="commentPlace1">
+                html += `<div class="commentPlace1">
                           <div class="come1">
                             <div>
                               <a href="/profile?id=${ListMode[i]["User.id"]}">
@@ -594,8 +591,8 @@
         window.location = "/";
       }
 
-      $(".downBtn").click(function(){
-	      $('html, body').scrollTop( $(document).height() );
+      $(".downBtn").click(function () {
+        $("html, body").scrollTop($(document).height());
       });
     </script>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>

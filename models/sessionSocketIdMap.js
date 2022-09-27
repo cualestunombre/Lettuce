@@ -10,6 +10,10 @@ module.exports= class Post extends Sequelize.Model{
             sessionId:{
                 type: Sequelize.STRING(100),
                 allowNull:false
+            },
+            type:{
+                type: Sequelize.STRING(20),
+                allowNull:false
             }
         },{
             sequelize,

@@ -193,7 +193,9 @@ header{
     display: flex;
     justify-content: space-between;
   }
-
+.hash{
+    color:navy;
+}
   #delete{
     height: 30px;
     position:absolute;

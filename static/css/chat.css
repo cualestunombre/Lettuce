@@ -1,0 +1,62 @@
+@font-face {
+    font-family: "HallymGothic-Regular";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2")
+      format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  body{
+      font-family: 'HallyGothic-Regular';
+  }
+  html {
+    min-width: 1000px;
+  }
+  .chatWrapper {
+    text-align: center;
+  }
+  .chatList {
+    margin-top: 20px;
+    display: inline-block;
+    width: 1000px;
+    height: 600px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+    position: relative;
+    text-align: center;
+    background-color: rgb(250, 255, 250);
+  }
+  .chatCard {
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.2) 5px 4px 12px;
+    width: 440px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    height: 550px;
+    margin-top: 25px;
+    background-color: white;
+    display: inline-block;
+  }
+  .chatHeader {
+    font-family: "HallymGothic-Regular";
+    font-size: 20px;
+    text-align: center;
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    background-color: #f9f4d9;
+  }
+  .chatFooter {
+    height: 50px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background-color: #f9f4d9;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .chatHeader span {
+    display: block;
+    padding-top: 10px;
+  }

@@ -7,17 +7,40 @@ module.exports = (server,app,sessionMiddleware)=>{
     app.set("io",io);
     const wrap = middleware => (socket,next)=>middleware(socket.request,{},next);
     const notification = io.of("/notification");
+    const chat = io.of("/chat");// 채팅 알림
+    const room = io.of("/room");
     notification.use(wrap(sessionMiddleware));
     notification.use(wrap(passport.initialize())); //req에 passport 설정을 심는다
     notification.use(wrap(passport.session())); // req.session에 passport 정보를 저장한다 {express-session과 연동하는 것}
     notification.on("connection",async (socket)=>{
         const req = socket.request;
         if(req.user){
-            await SessionSocketIdMap.create({socketId:socket.id,sessionId:req.session.id,UserId:req.user.id});
+            await SessionSocketIdMap.create({socketId:socket.id,sessionId:req.session.id,UserId:req.user.id,type:"notification"});
         }
         socket.on("disconnect",async()=>{
             await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
         }); 
-       
+    });
+    chat.use(wrap(sessionMiddleware));
+    chat.use(wrap(passport.initialize()));
+    chat.use(wrap(passport.session()));
+    chat.on("connection",async(socket)=>{
+        const req = socket.request;
+        if(req.user){
+            await SessionSocketIdMap.create({socketId:socket.id,sessionId:req.session.id,UserId:req.user.id,type:"chat"});
+        }
+        socket.on("disconnect",async()=>{
+            await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
+
+        });
+    });
+    room.use(wrap(sessionMiddleware));
+    room.use(wrap(passport.initialize()));
+    room.use(wrap(passport.session()));
+    room.on("connection",async(socket)=>{
+        const req = socket.request;
+        const {headers:{referer}} = req;
+        socket.join(referer);
+        
     });
 }

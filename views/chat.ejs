@@ -1,0 +1,35 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/chat.css" />
+  </head>
+  <body>
+    <%-include('navbar.ejs') %>
+    <div class="chatWrapper">
+      <div class="chatList">
+        <div class="chatFollowings chatCard">
+          <div class="chatHeader"><span>팔로잉 목록</span></div>
+          <% if (data.length==0) { %>
+          <div class="noFollow" style="text-align: center">
+            아무도 팔로잉 중이지 않으시네요!
+          </div>
+          <% } %>
+          <div class="chatFooter"></div>
+        </div>
+        <div class="roomList chatCard">
+          <div class="chatHeader"><span>채팅방 목록</span></div>
+          <div class="chatFooter"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const chatSocket = io.connect(`http://localhost:8000/chat`, {
+      path: "/socket.io",
+    });
+  </script>
+</html>

@@ -145,6 +145,17 @@
       .dnone{
         display: none;
       }
+      #searchBtn {
+        border: none;
+        background-color: #87c228;
+        border-radius: 5px;
+        color: white;
+        padding: 2px 5px;
+      }
+      #paragraph {
+        padding-top: 10px;
+        font-size: 14px;
+      }
     </style>
   </head>
 
@@ -164,8 +175,8 @@
         </button>
       </div>
       <div id="tagSearch" style="text-align: center">
-        <input type="text" id="tag" name="name" />
-        <button type="button" onclick="tagSearch();">검색</button>
+        <input style="width: 300px;" type="text" id="tag" name="name" />
+        <button id="searchBtn" type="button" onclick="tagSearch();">검색</button>
         <div id="paragraph">
           <p>
             해시태그를 통한 검색을 할 수 있습니다. 단, '#' 문자를 제외하고

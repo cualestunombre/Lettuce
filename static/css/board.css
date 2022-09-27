@@ -1,22 +1,22 @@
-.board-body {
+#boardModal .board-body {
     padding: 0 !important;
 }
 
-.carousel-item img {
+#boardModal .carousel-item img {
     width: 548px;
     height: 500px;
 }
 
-.card {
+#boardModal .card {
     box-shadow: rgba(0, 0, 0, 0.4) 5px 4px 12px;
     position: relative;
-
+    margin: 0;
     background-color: white;
     width: 100%;
     height: auto;
 }
 
-header img {
+#boardModal header img {
     margin-left: 10px;
     margin-top: 10px;
     border-radius: 50%;
@@ -26,13 +26,13 @@ header img {
 }
 
 
-header {
+#boardModal header {
     border-radius: 10px;
     height: 70px;
     background-color: rgb(250, 250, 250);
 }
 
-.createdAt {
+#boardModal .createdAt {
     position: absolute;
     top: 24px;
     right: 10px;
@@ -40,19 +40,19 @@ header {
     color: grey;
 }
 
-.nickNameWrapper {
+#boardModal .nickNameWrapper {
     position: absolute;
     top: 20px;
     left: 70px;
 }
 
-.card_image img {
+#boardModal .card_image img {
     width: 100%;
     height: 500px;
 
 }
 
-.info {
+#boardModal .info {
     height: 50px;
     display: flex;
     background-color: white;
@@ -60,52 +60,52 @@ header {
     align-items: center;
 }
 
-.comment {
+#boardModal .comment {
     margin: 0rem 1rem 1rem 1rem;
     border-bottom: 1px solid #bdbbbb;
     padding-bottom: 1rem;
 }
 
-.comment_form form {
+#boardModal .comment_form form {
     padding-bottom: 0px;
     display: flex;
     flex-direction: row;
 }
 
-.comment_form form input {
+#boardModal .comment_form form input {
     width: 550px;
     height: 30px;
     border: none;
     padding-left: 10px;
 }
 
-.comment_form form button {
+#boardModal .comment_form form button {
     font-size: 13px;
     border: none;
     background-color: white;
 }
 
-.come img {
+#boardModal .come img {
     border-radius: 50%;
     height: 25px;
     width: 25px;
     border: 1px solid #cdc6c6;
 }
 
-.info i {
+#boardModal .info i {
     font-size: 1.5rem;
 }
 
-.info i:hover {
+#boardModal .info i:hover {
     cursor: pointer;
 }
 
-.dnone {
+#boardModal .dnone {
     display: none;
 }
 
 
-.square {
+#boardModal .square {
     border: 0;
     width: 80px;
     padding: 0px;
@@ -116,7 +116,7 @@ header {
     background-color: white
 }
 
-.spin {
+#boardModal .spin {
     height: 80px;
     width: 80px;
     border-radius: 50%;
@@ -140,7 +140,7 @@ header {
     }
 }
 
-.noFollowText {
+#boardModal .noFollowText {
     margin-top: 40px;
     font-size: 20px;
     text-align: center;
@@ -148,12 +148,12 @@ header {
     margin-bottom: 20px;
 }
 
-#logo {
+#boardModal #logo {
     width: 120px;
 
 }
 
-.noFollowers {
+#boardModal .noFollowers {
     box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
     border-radius: 5px;
     background-color: #F9F4D9;
@@ -162,7 +162,7 @@ header {
     display: inline-block;
 }
 
-.subText {
+#boardModal .subText {
     font-size: 15px;
     color: rgb(150, 150, 150);
     font-family: 'HallymGothic-Regular';
@@ -170,27 +170,27 @@ header {
     margin-top: none;
 }
 
-.more {
+#boardModal .more {
     background-color: white
 }
 
-.con {
-    background-color:white;
+#boardModal .con {
+    background-color: white;
     padding-top: 100px;
     text-align: center;
 }
 
-html {
+#boardModal html {
     background-color: white
 }
 
-div.commentPlace {
+#boardModal div.commentPlace {
     margin-left: 5px;
     position: relative;
     margin-bottom: 10px;
 }
 
-#delete {
+#boardModal #delete {
     height: 30px;
     position: absolute;
     right: 10px;
@@ -204,7 +204,7 @@ div.commentPlace {
 
 }
 
-#commentRegister {
+#boardModal #commentRegister {
     height: 30px;
     right: 10px;
     bottom: 0px;
@@ -219,45 +219,46 @@ div.commentPlace {
     margin-right: 10px;
 }
 
-#RegisterForm {
+#boardModal #RegisterForm {
     margin-bottom: 10px;
+    width: auto;
     height: 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#re {
+#boardModal #re {
     margin-left: 10px;
     border: none;
     width: 300px;
 }
 
-.bi-heart,
-.bi-heart-fill {
+#boardModal .bi-heart,
+#boardModal .bi-heart-fill {
     margin: 0 10px;
 }
 
-.fa-bookmark {
+#boardModal .fa-bookmark {
     margin-right: 10px;
 }
 
-.come {
+#boardModal .come {
     padding: 5px 0 0 20px;
     font-size: 15px;
 }
 
-.bi-bookmark {
+#boardModal .bi-bookmark {
     margin-right: 15px;
     color: black;
 }
 
-.bi-bookmark-fill {
+#boardModal .bi-bookmark-fill {
     margin-right: 15px;
     color: rgb(250, 208, 103);
 }
 
-.ll {
+#boardModal .ll {
     font-size: 12px;
     color: rgb(158, 156, 154);
     margin-left: 10px;
@@ -265,75 +266,75 @@ div.commentPlace {
 }
 
 /* likelist modal css */
-#llist {
+#boardModal #llist {
     height: 200px;
     overflow-y: auto;
 }
 
-#Like-title {
+#boardModal #Like-title {
     margin-left: 201px;
 }
 
-.likeUser {
+#boardModal .likeUser {
     height: 40px;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.likeProfile {
+#boardModal .likeProfile {
     width: 30px;
     height: 30px;
     border-radius: 50%;
 }
 
-.userEmail {
+#boardModal .userEmail {
     font-family: 'HallymGothic-Regular';
     color: rgb(140, 140, 140);
 }
 
-.userName {
+#boardModal .userName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
 }
 
 /*commentlist modal css */
-#clist {
+#boardModal #clist {
     height: 200px;
     overflow-y: auto;
 }
 
-#comment-title {
+#boardModal #comment-title {
     margin-left: 201px;
 }
 
-.commentUser {
+#boardModal .commentUser {
     height: 40px;
     display: flex;
     align-items: center;
 }
 
-.commentProfile {
+#boardModal .commentProfile {
     width: 30px;
     height: 30px;
     border-radius: 50%;
 }
 
-.commentName {
+#boardModal .commentName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
 }
 
-.bi-heart,
-.bi-heart-fill {
+#boardModal .bi-heart,
+#boardModal .bi-heart-fill {
     margin: 0 10px;
 }
 
-.fa-bookmark {
+#boardModal .fa-bookmark {
     margin-right: 10px;
 }
 
-.come {
+#boardModal .come {
     padding: 8px 0 0 30px;
     font-size: 15px;
 }

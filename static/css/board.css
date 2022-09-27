@@ -1,4 +1,4 @@
-.modal-body {
+.board-body {
     padding: 0 !important;
 }
 
@@ -232,7 +232,7 @@ div.commentPlace {
 
 .bi-heart,
 .bi-heart-fill {
-    margin: 10px 5px 0 10px;
+    margin: 0 10px;
 }
 
 .fa-bookmark {
@@ -241,5 +241,95 @@ div.commentPlace {
 
 .come {
     padding: 5px 0 0 20px;
+    font-size: 15px;
+}
+
+.bi-bookmark {
+    margin-right: 15px;
+    color: black;
+}
+
+.bi-bookmark-fill {
+    margin-right: 15px;
+    color: rgb(250, 208, 103);
+}
+
+.ll {
+    font-size: 12px;
+    color: rgb(158, 156, 154);
+
+}
+
+/* likelist modal css */
+#llist {
+    height: 200px;
+    overflow-y: auto;
+}
+
+#Like-title {
+    margin-left: 201px;
+}
+
+.likeUser {
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.likeProfile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.userEmail {
+    font-family: 'HallymGothic-Regular';
+    color: rgb(140, 140, 140);
+}
+
+.userName {
+    font-weight: bolder;
+    font-family: 'HallymGothic-Regular';
+}
+
+/*commentlist modal css */
+#clist {
+    height: 200px;
+    overflow-y: auto;
+}
+
+#comment-title {
+    margin-left: 201px;
+}
+
+.commentUser {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.commentProfile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.commentName {
+    font-weight: bolder;
+    font-family: 'HallymGothic-Regular';
+}
+
+.bi-heart,
+.bi-heart-fill {
+    margin: 0 10px;
+}
+
+.fa-bookmark {
+    margin-right: 10px;
+}
+
+.come {
+    padding: 8px 0 0 30px;
     font-size: 15px;
 }

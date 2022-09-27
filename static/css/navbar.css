@@ -4,38 +4,48 @@
     font-weight: 400;
     font-style: normal;
 }
+
 * {
     font-family: 'HallymGothic-Regular';
 }
+
 .navbar {
     background-color: #F9F4D9;
     display: flex;
 }
+
 .nav-container {
     display: flex;
     justify-content: space-between !important;
 }
-.navbar-brand{
+
+.navbar-brand {
     margin-left: 10px;
 }
+
 .navbar-brand img {
     width: 100px;
     height: 50px;
 }
-.navbar-collapse{
+
+.navbar-collapse {
     flex-grow: 0;
 }
+
 .nav-item {
     text-align: center;
 }
-.nav-link > i:hover {
+
+.nav-link>i:hover {
     color: #87C228;
     transition: 0.5s;
 }
-.nav-link > i {
+
+.nav-link>i {
     font-size: 25px;
     padding: 0 10px;
 }
+
 .nav-input {
     width: 250px;
     margin: 0;
@@ -43,162 +53,186 @@
     border: none;
     border-radius: 5px;
 }
+
 .d-flex {
     margin: 0;
 }
-#searchUserForm{
+
+#searchUserForm {
     z-index: 1000;
     position: relative;
 }
-.searchUserInfo{
+
+.searchUserInfo {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     overflow-x: none;
     overflow-y: auto;
-    background-color: rgb(251,251,251);
+    background-color: rgb(251, 251, 251);
     border-radius: 10px;
     height: 300px;
     width: 250px;
-    top:55px;
-   
+    top: 55px;
+
     position: absolute;
 }
-.noResult{
 
-    left:60px;
-    top:120px;
+.noResult {
+
+    left: 60px;
+    top: 120px;
     position: absolute;
     font-family: 'HallymGothic-Regular';
     text-align: center;
 }
-.userLink{
+
+.userLink {
     display: block;
     height: 40px;
     margin-top: 10px;
     margin-left: 10px;
     position: relative;
 }
-.userProfile{
-    
-    top:10px;
-    position:absolute;
+
+.userProfile {
+
+    top: 10px;
+    position: absolute;
     width: 30px;
     height: 30px;
     border-radius: 100%;
 }
-.userInfo{
-    
-    width:140px;
-    top:10px;
-    position:absolute;
-    left:70px;
+
+.userInfo {
+
+    width: 140px;
+    top: 10px;
+    position: absolute;
+    left: 70px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.userEmail{
-    
+
+.userEmail {
+
     margin-right: 10px;
-    font-family: 'HallymGothic-Regular';;
-    color:rgb(140,140,140);
+    font-family: 'HallymGothic-Regular';
+    ;
+    color: rgb(140, 140, 140);
     font-size: 11px;
 }
-.userName{
+
+.userName {
     font-size: 11px;
-    left:100px;
-    font-family: 'HallymGothic-Regular';;
+    left: 100px;
+    font-family: 'HallymGothic-Regular';
+    ;
 }
-a{
+
+a {
     color: black;
     text-decoration: none;
 }
-a:hover{
-    color:black;
+
+a:hover {
+    color: black;
 }
+
 .modal-header {
     background-color: #F9F4D9;
 }
+
 .modal-title {
     font-size: 16px;
-    margin:auto
+    margin: auto
 }
+
 .form-control {
     width: 465px;
 }
+
 .modal-footer {
     background-color: #F9F4D9;
 }
+
 .btn {
     background-color: #87C228;
     border: none;
     color: #ffffff;
 }
+
 .btn:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     background-color: #87C228;
     color: #ffffff;
 }
+
 .btn:not(:hover) {
     background-color: #87C228;
     border: none;
     color: #ffffff;
 }
 
-.fa-heart.fa-regular{
+.fa-heart.fa-regular {
     position: relative;
 }
-.postingBtn{
+
+.postingBtn {
     background-color: #87C228;
     border: none;
     color: #ffffff;
     border-radius: 5px;
-    
+
     padding: 5px 9px;
     font-size: 14px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
-.notification{
+
+.notification {
     padding-top: 2px;
     position: absolute;
     font-size: 13px;
     color: white;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 600;
-    width:18px;
-    height:18px;
-    bottom:16px;
-    left:25px;
-    background: linear-gradient(
-          to right,
-          rgb(241, 66, 72),
-          rgb(252, 144, 50)
-        );
+    width: 18px;
+    height: 18px;
+    bottom: 16px;
+    left: 25px;
+    background: linear-gradient(to right,
+            rgb(241, 66, 72),
+            rgb(252, 144, 50));
     border-radius: 100%;
 
 }
-.notificationInfo{
+
+.notificationInfo {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     overflow-x: none;
     overflow-y: auto;
-    background-color: rgb(251,251,251);
+    background-color: rgb(251, 251, 251);
     border-radius: 10px;
     z-index: 1000;
-    top:50px;
-    right:-70px;
-    
+    top: 50px;
+    right: -70px;
+
     position: absolute;
-    width:200px;
-    height:300px;
-    
+    width: 200px;
+    height: 300px;
+
 }
-.notiInfo{
-    height:80px;
+
+.notiInfo {
+    height: 80px;
 }
-.profileWrapper{
-    width:100%;
+
+.profileWrapper {
+    width: 100%;
     display: flex;
     justify-content: left;
 }
-.notificationProfile{
+
+.notificationProfile {
     margin-right: 5px;
     margin-top: 10px;
     margin-left: 10px;
@@ -206,50 +240,59 @@ a:hover{
     height: 30px;
     border-radius: 100%;
 }
-.typeLike{
-    color:black;
+
+.typeLike {
+    color: black;
     font-size: 12px;
-    padding-left:20px;
+    padding-left: 20px;
+    cursor: pointer;
 }
-.typeFollow{
-    color:black;
+
+.typeFollow {
+    color: black;
     font-size: 12px;
-    padding-left:50px;
+    padding-left: 50px;
 }
-.typeComment{
-    color:black;
+
+.typeComment {
+    color: black;
     font-size: 12px;
-    padding-left:50px;
-    
+    padding-left: 50px;
+
 }
-.notificationNickName{
-    color:black;
+
+.notificationNickName {
+    color: black;
     margin-top: 18px;
     font-size: 11px;
 }
-.notiTime{
-    width:40px;
-    color:rgb(0,0,0,0.3);
+
+.notiTime {
+    width: 40px;
+    color: rgb(0, 0, 0, 0.3);
     font-size: 9px;
     margin-top: 10px;
     margin-left: 140px;
 }
-.noNoti{
+
+.noNoti {
     text-align: center;
-    color:black;
+    color: black;
 }
-.noShowTitle{
+
+.noShowTitle {
     display: block;
     margin-top: 110px;
     font-size: 15px;
     font-weight: 500;
     margin-bottom: 5px;
 }
-.noShowInfo{
+
+.noShowInfo {
     margin-left: 20px;
     margin-right: 20px;
     display: block;
     font-size: 11px;
     font-weight: 500;
-    color: rgb(0,0,0,0.5);
+    color: rgb(0, 0, 0, 0.5);
 }

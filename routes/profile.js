@@ -80,6 +80,21 @@ router.get("/board", isLoggedIn, async (req, res, next) => {
         post.like = 'true';
     }
 
+    for (let i = 0; i < list.length; i++) {
+        const data = await Like.findAll({ where: { UserId: req.user.id, PostId: list[i].id } });
+        const cnt = await Like.findAll({ where: { PostId: list[i].id } });
+        list[i].likeCount = cnt.length;
+        if (data.length != 0) {
+            list[i].like = 'true';
+        }
+    }
+    for (let i = 0; i < list.length; i++) {
+        const data = await BookMark.findAll({ where: { UserId: req.user.id, PostId: list[i].id } });
+        if (data.length != 0) {
+            list[i].bookmark = 'true';
+        }
+    }
+
     if (post.length == 0) {
         res.send({ code: 400 });
     }
@@ -339,16 +354,16 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
         res.send({ data: list, code: 200 });
     }
 });
-router.post("/bookmark",async(req,res,next)=>{
-    const data = await BookMark.findAll({raw:true,where:{UserId:req.user.id,PostId:req.body.postId}});
+router.post("/bookmark", async (req, res, next) => {
+    const data = await BookMark.findAll({ raw: true, where: { UserId: req.user.id, PostId: req.body.postId } });
     console.log(data);
-    if(data.length!=0){
-        await BookMark.destroy({where:{UserId:req.user.id,PostId:req.body.postId}});
-        res.send({code:300});
+    if (data.length != 0) {
+        await BookMark.destroy({ where: { UserId: req.user.id, PostId: req.body.postId } });
+        res.send({ code: 300 });
     }
-    else{
-        await BookMark.create({UserId:req.user.id,PostId:req.body.postId});
-        res.send({code:200});
+    else {
+        await BookMark.create({ UserId: req.user.id, PostId: req.body.postId });
+        res.send({ code: 200 });
     }
 
 });

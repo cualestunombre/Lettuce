@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/static/css/profile.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/static/css/board.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" />
   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -149,7 +150,33 @@
   <div class="modal" id="boardModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="modal-body" id="board-main"></div>
+        <div class="modal-body board-body" id="board-main"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 좋아요 모달 -->
+  <div class="modal" id="likeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="Like-title">좋아요 리스트</h5>
+          <button type="button" class="btn-close" style="margin: 0; padding: 0" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="llist"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 댓글 모달 -->
+  <div class="modal" id="commentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="Comment-title">댓글</h5>
+          <button type="button" class="btn-close" style="margin: 0; padding: 0" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="clist"></div>
       </div>
     </div>
   </div>
@@ -396,17 +423,28 @@
             flag = "bi-heart-fill";
             value = "1";
           }
+          let flag2 = "bi-bookmark";
+          let value2 = "0";
+          console.log("ele", ele);
+          if (ele.bookmark) {
+            flag2 = "bi-bookmark-fill";
+            value2 = "1";
+          }
           card.appendChild(carousel);
           card.innerHTML += `<div class="info">
-                              <div class="info_left">
+                             <div class="info_left">
                                   <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>
-                                  <i class="far fa-comment"   ></i>
-
+                                  <i class="far fa-comment" data-bs-toggle="modal" data-bs-target="#commentModal" value="${ele.id}"  onclick="commentlist(event)"></i>
                               </div>
                               <div class="info_right">
-                                  <i class="far fa-bookmark"></i>
+                                <i id="bookmark" url="${ele.id}" value="${value2}" class="bi ${flag2}" onclick="bookmark(event)"></i>
                               </div>
                           </div>`;
+          //좋아요 목록
+          card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
+                <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
+                  명이 좋아합니다.</a><div>`;
+
           card.innerHTML += ` <div class="comment">
                               ${ele.content}
                           </div>`;
@@ -440,7 +478,7 @@
             });
           }
           arr = document.querySelectorAll(
-            `div[cnt="${cnt}"] #commentRegister`
+            `#commentRegister`
           );
           for (const ele of arr) {
             ele.addEventListener("click", async (event) => {
@@ -534,6 +572,149 @@
         swal("", "좋아요 등록 완료!", "success");
       } else {
         swal("", "좋아요 취소", "success");
+      }
+      const send = await axios.get(`like/likeCount?PostId=${postId}`);
+      document.querySelector(
+        `#like${postId}`
+      ).innerHTML = `<a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${postId}"  onclick="likeList(event)">${send.data.Count}명이 좋아합니다.</a>`;
+      console.log(send);
+    }
+
+    function likeList(event) {
+      const postid = event.target.getAttribute("value");
+
+      const data = {
+        PostId: postid,
+      };
+      axios({
+        url: "/like/list",
+        method: "get",
+        params: data,
+      }).then((response) => {
+        let modalBody = document.querySelector("#llist");
+        modalBody.innerHTML = "";
+        let html = "";
+        let ListMode = response.data.data;
+        for (let i = 0; i < ListMode.length; i++) {
+          html += `<div style="cursor: pointer">
+                      <div class="likeUser" onclick="location.href='profile?id=${ListMode[i].id}';">
+                        <img class="likeProfile" src="${ListMode[i].profile}" alt="">
+                        <span class="userName">${ListMode[i].nickName}</span>
+                        <span class="userEmail">${ListMode[i].email}</span>
+                      </div>
+                    </div>`;
+        }
+        modalBody.innerHTML = html;
+      });
+    }
+
+    function commentlist(event) {
+      const postid = event.target.getAttribute("value");
+      const data = {
+        PostId: postid
+      };
+      axios({
+        url: "/comment/commentList",
+        method: "get",
+        params: data,
+      }).then((response) => {
+        console.log(response.data);
+        let modalBody = document.querySelector("#clist");
+        modalBody.innerHTML = "";
+        let html = "";
+        let ListMode = response.data;
+        for (let i = 0; i < ListMode.length; i++) {
+          if (ListMode[i].me) {
+            html += `<div style="cursor: pointer">
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
+                      </div>
+                      <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
+                    </div>`;
+          } else {
+            html += `<div style="cursor: pointer">
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
+                      </div>
+                    </div>`;
+          }
+        }
+        modalBody.innerHTML = html;
+      });
+    }
+
+    async function listDelete(event) {
+      const comentD = await axios.post("comment/commentDelete", {
+        id: event.target.getAttribute("value"),
+      });
+
+      if (comentD.data.code == 200) {
+        event.target.parentNode.parentNode.innerHTML = "";
+        console.log(event.target.parentNode.parentNode);
+        const postid = event.target.getAttribute("url");
+        const data = {
+          PostId: postid
+        };
+        axios({
+          url: "/comment/commentList",
+          method: "get",
+          params: data,
+        }).then((response) => {
+          console.log(response.data);
+          let modalBody = document.querySelector("#clist");
+          modalBody.innerHTML = "";
+          let html = "";
+          let ListMode = response.data;
+          for (let i = 0; i < ListMode.length; i++) {
+            if (ListMode[i].me) {
+              html += `<div style="cursor: pointer">
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
+                      </div>
+                      <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
+                    </div>`;
+            } else {
+              html += `<div style="cursor: pointer">
+                      <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
+                        <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                        <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
+                        <span class="commentuserComment">${ListMode[i]["comment"]}</span>
+                      </div>
+                    </div>`;
+            }
+          }
+
+          modalBody.innerHTML = html;
+        });
+        const target = document.querySelector(`#delete[url="${postid}"]`);
+        const wrap = {
+          target: target
+        };
+        deleteComent(wrap);
+      }
+    }
+
+    async function bookmark(event) {
+      if (event.target.getAttribute("value") == "0") {
+        event.target.setAttribute("value", "1");
+        event.target.setAttribute("class", "bi bi-bookmark-fill");
+      } else {
+        event.target.setAttribute("value", "0");
+        event.target.setAttribute("class", "bi bi-bookmark");
+      }
+      const res = await axios.post("/profile/bookmark", {
+        postId: event.target.getAttribute("url"),
+      });
+      if (res.data.code == 200) {
+        swal("", "북마크 등록 완료!", "success");
+      } else {
+        swal("", "북마크 취소 완료!", "success");
       }
     }
   </script>

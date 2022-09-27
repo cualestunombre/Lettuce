@@ -360,6 +360,6 @@ header{
     color:#4b9853;
     font-size: 15px;
 }
-.modal {
+#likeModal{
     --bs-modal-width: 300px !important;
 }

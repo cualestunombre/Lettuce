@@ -110,7 +110,7 @@ header {
     margin-left: calc(50% - 40px);
     margin-left: -webkit-calc(50% - 40px);
     margin-left: -moz-calc(50% - 40px);
-    background-color: rgb(250, 250, 250);
+    background-color: white
 }
 
 .spin {
@@ -123,7 +123,7 @@ header {
     -webkit-animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-    background-color: rgb(250, 250, 250);
+    background-color: white;
     margin-bottom: 50px;
 }
 
@@ -168,17 +168,17 @@ header {
 }
 
 .more {
-    background-color: rgb(250, 250, 250);
+    background-color: white
 }
 
 .con {
-    background-color: rgb(250, 250, 250);
+    background-color:white;
     padding-top: 100px;
     text-align: center;
 }
 
 html {
-    background-color: rgb(250, 250, 250);
+    background-color: white
 }
 
 div.commentPlace {

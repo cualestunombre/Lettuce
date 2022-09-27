@@ -47,7 +47,7 @@ header{
 }
 .createdAt{
     position:absolute;
-    top:24px;
+    top:36px;
     right:10px;
     font-size: 12px;
     color: grey;
@@ -304,4 +304,23 @@ header{
 .come {
     padding: 8px 0 0 30px;
     font-size: 15px;
+}
+.delBtn{
+    padding-left: 0px;
+    padding-right: 0px;
+    right:5px;
+    top:5px;
+    position: absolute;
+    border: none;
+    width:30px;
+    height:25px;
+    border-radius: 5px;
+    background-color: rgb(250,130,130);
+    color:black;
+    font-weight: 600;
+    font-size: 8px;
+    
+}
+.delBtn span{
+   
 }

@@ -106,6 +106,12 @@ router.get("/fpost",async(req,res)=>{
             list[i].bookmark = 'true';
         }
     }
+    for(let i=0;i<list.length;i++){
+        const data = await Post.findAll({raw:true,where:{UserId:req.user.id,id:list[i].id}});
+        if(data.length!=0){
+            list[i].myPost="true";
+        }
+    }
     if (list.length==0){
         res.send({code:400});
     }

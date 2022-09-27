@@ -43,11 +43,6 @@
         margin: auto;
       }
 
-      .list img {
-        width: 33%;
-        height: auto;
-      }
-
       .dnone {
         display: none;
       }
@@ -117,6 +112,37 @@
       }
 
       #tagSearch {
+        display: none;
+      }
+      .yeah {
+        width: 200px;
+        height: 200px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        border: 3px solid white;
+        z-index: 0;
+      }
+      .imgWrap {
+        width: 200px;
+        height: 200px;
+        cursor: pointer;
+        transition: 0.5s;
+        position: relative;
+      }
+      .imgWrap > .icons{
+        display: none;
+      }
+
+      .imgWrap:hover > .icons{
+        display: block;
+      }
+      .icons{
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+      }
+      .dnone{
         display: none;
       }
     </style>
@@ -214,9 +240,19 @@
           if (data.code == 200) {
             const html = data.data.map(
               (item) =>
-                `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">`
+                `<div class="imgWrap">
+                  <div class="icons">
+                    <i class="fa-regular fa-comments"> ${item.commentCnt}</i>
+                    <i class="fa-regular fa-heart"> ${item.likeCnt}</i>
+                  </div>
+                  <img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">
+                </div>`
             );
             $list.innerHTML += html.join("");
+
+            // $(".imgWrap").hover(function() {
+            //   $(this).children("div").removeClass("dnone");
+            // })
           } else {
             intersectionObserver.unobserve(document.querySelector(".virtual"));
           }
@@ -477,6 +513,8 @@
           swal("", "좋아요 취소", "success");
         }
       }
+
+      $()
     </script>
 
     <script src="../static/js/searchUser.js"></script>

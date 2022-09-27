@@ -41,8 +41,10 @@ header {
 
 .createdAt {
     position: absolute;
-    top: 18px;
+    top: 24px;
     right: 10px;
+    font-size: 12px;
+    color: grey;
 }
 
 .nickNameWrapper {

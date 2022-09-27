@@ -41,6 +41,20 @@
   </head>
   <body>
     <%-include('navbar.ejs') %>
+
+    <div class="UserList">
+      <div class="myprofile">
+
+      </div>
+      <div class="recommendForm">
+        <span class="recommend">회원님을 위한 추천</span><a href="#">모두보기</a>
+      </div>
+      <div class="otherprofile">
+      </div>
+    </div>
+
+
+
     <div class="main"></div>
     <% if( code == 400 ) { %>
     <div
@@ -422,9 +436,12 @@
           let html = "";
           let ListMode = response.data.data;
           for (let i = 0; i < ListMode.length; i++) {
-            html += `<div style="cursor: pointer" class="likeUser" onclick="location.href='profile?id=${ListMode[i].id}';">
+            html += `<div class="likeUser">
+                      <div style="cursor: pointer"  onclick="location.href='profile?id=${ListMode[i].id}';" >
                         <img class="likeProfile" src="${ListMode[i].profile}" alt="">
                         <span class="userName">${ListMode[i].nickName}</span>
+                      </div>
+                        &nbsp;
                         <span class="userEmail">${ListMode[i].email}</span>
                       </div>`;
           }
@@ -448,23 +465,29 @@
           for (let i = 0; i < ListMode.length; i++) {
             if (ListMode[i].me) {
               html +=`<div class="commentPlace1">
-                      <div class="come1">
-                        <a href="/profile?id=${ListMode[i]["User.id"]}">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          ${ListMode[i]["User.nickName"]}:${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
-                        </a>
-                        <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
+                        <div class="come1">
+                          <div>
+                            <a href="/profile?id=${ListMode[i]["User.id"]}">
+                              <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                              ${ListMode[i]["User.nickName"]}:
+                            </a>
+                              &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
+                          </div>
+                          <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
                         </div>
                       </div>`;
               } else {
-                html += `<div class="commentPlace1">
-                      <div class="come1">
-                        <a href="/profile?id=${ListMode[i]["User.id"]}">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          ${ListMode[i]["User.nickName"]}:${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
-                        </a>
-                        </div>
-                      </div>`;
+                html +=`<div class="commentPlace1">
+                          <div class="come1">
+                            <div>
+                              <a href="/profile?id=${ListMode[i]["User.id"]}">
+                                <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                                ${ListMode[i]["User.nickName"]}:
+                              </a>
+                                &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
+                            </div>
+                          </div>
+                        </div>`;
               }
           }
           modalBody.innerHTML = html;
@@ -493,24 +516,30 @@
             let ListMode = response.data;
             for (let i = 0; i < ListMode.length; i++) {
               if (ListMode[i].me) {
-                html += `<div class="commentPlace1">
-                      <div class="come1">
-                        <a href="/profile?id=${ListMode[i]["User.id"]}">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          ${ListMode[i]["User.nickName"]}:${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
-                        </a>
-                        <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
-                      </div>
-                      </div>`;
+                html +=`<div class="commentPlace1">
+                          <div class="come1">
+                            <div>
+                              <a href="/profile?id=${ListMode[i]["User.id"]}">
+                                <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                                ${ListMode[i]["User.nickName"]}:
+                              </a>
+                                &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
+                            </div>
+                            <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
+                          </div>
+                        </div>`;
               } else {
                 html +=`<div class="commentPlace1">
-                      <div class="come1">
-                        <a href="/profile?id=${ListMode[i]["User.id"]}">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          ${ListMode[i]["User.nickName"]}:${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
-                        </a>
-                        </div>
-                      </div>`;
+                          <div class="come1">
+                            <div>
+                              <a href="/profile?id=${ListMode[i]["User.id"]}">
+                                <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                                ${ListMode[i]["User.nickName"]}:
+                              </a>
+                                &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
+                            </div>
+                          </div>
+                        </div>`;
               }
             }
 
@@ -544,6 +573,7 @@
         );
         window.location = "/";
       }
+
     </script>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
     <script src="../static/js/notification.js"></script>

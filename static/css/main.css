@@ -188,6 +188,7 @@ header{
       margin-bottom: 10px;
   }
   .come1{
+    margin: 10px;
     display: flex;
     justify-content: space-between;
   }
@@ -253,29 +254,30 @@ header{
     height: 200px;
     overflow-y:auto;
 } 
-#Like-title{
-    margin-left: 201px;
-}
+
 .likeUser {
+    margin: 10px;
     height: 40px;
     display: flex;
-    justify-content: space-around;
+    justify-content:space-around;
     align-items: center;
   }
   .likeProfile {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
   }
 
   .userEmail {
     font-family: 'HallymGothic-Regular';
     color: rgb(140, 140, 140);
+    font-size: 12px !important;
   }
 
   .userName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
+    font-size: 15px !important;
   }
 
   /*commentlist modal css */
@@ -311,6 +313,10 @@ header{
     padding: 8px 0 0 30px;
     font-size: 15px;
 }
+.commentTime{
+    color:#cdc6c6;
+    font-size: 10px;
+}
 
 
 .fa-trash:hover{
@@ -335,4 +341,28 @@ header{
 .delBtn span{
    
 
+}
+
+.UserList{
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4)  5px 4px 12px;
+    position: fixed;
+    margin-top: 53px;
+    right: 50px;
+    width: 300px;
+    height: 400px;
+}
+.recommendForm{
+    display: flex;
+    justify-content: space-between;
+}
+.recommendForm a{
+    font-size: 15px;
+}
+.recommend{
+    color:#4b9853;
+    font-size: 15px;
+}
+.modal {
+    --bs-modal-width: 300px !important;
 }

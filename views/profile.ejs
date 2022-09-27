@@ -1,394 +1,545 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/static/css/profile.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      src="https://code.jquery.com/jquery-3.6.1.min.js"
-      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
-      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <a
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-    ></a>
 
-    <style>
-      .list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-        margin: auto;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="/static/css/profile.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/static/css/board.css" />
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <a href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"></a>
 
-      .dnone {
-        display: none;
-      }
+  <style>
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      margin: auto;
+    }
 
-      .square {
-        border: 0;
-        width: 80px;
-        padding: 0px;
-        margin-top: 40px;
-        margin-left: calc(50% - 40px);
-        margin-left: -webkit-calc(50% - 40px);
-        margin-left: -moz-calc(50% - 40px);
-      }
+    #bookmarkBtn {
+      border: none;
+      background-color: transparent;
+    }
+  </style>
+</head>
 
-      .spin {
-        box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
-        height: 80px;
-        width: 80px;
-        border-radius: 50%;
-        border: dashed 5px #87c228;
-        -webkit-animation-name: spin;
-        -webkit-animation-duration: 1.5s;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: linear;
-      }
-
-      @-webkit-keyframes spin {
-        from {
-          -webkit-transform: rotate(0deg);
-        }
-
-        to {
-          -webkit-transform: rotate(360deg);
-        }
-      }
-
-      #bookmarkBtn {
-        border: none;
-        background-color: transparent;
-      }
-    </style>
-  </head>
-
-  <body>
-    <%-include('navbar.ejs') %>
-    <!-- 상단부 -->
-    <div class="head-wrap">
-      <div class="profileDiv">
-        <img id="profilePic" src="<%=data.profile%>" />
-      </div>
-      <div class="infoDiv">
-        <div
-          style="
+<body>
+  <%-include('navbar.ejs') %>
+  <!-- 상단부 -->
+  <div class="head-wrap">
+    <div class="profileDiv">
+      <img id="profilePic" src="<%=data.profile%>" />
+    </div>
+    <div class="infoDiv">
+      <div style="
             display: flex;
             align-items: center;
             justify-content: space-around;
             margin-bottom: 25px;
-          "
-        >
-          <div id="nickname"><%=data.nickName %></div>
-          <% if (data.isMyprofile == true) { %>
-          <form action="/profile/mypage" method="get">
-            <button id="profileEditBtn">프로필 편집</button>
-          </form>
-          <% } else if(data.isFollow != 0){%>
-          <button id="followBtn" onclick="unfollow();">언팔로우</button>
-          <% } else { %>
-          <button id="followBtn" onclick="follow();">팔로우</button>
-          <% } %>
-        </div>
+          ">
+        <div id="nickname"><%=data.nickName %></div>
+        <% if (data.isMyprofile == true) { %>
+        <form action="/profile/mypage" method="get">
+          <button id="profileEditBtn">프로필 편집</button>
+        </form>
+        <% } else if(data.isFollow != 0){%>
+        <button id="followBtn" onclick="unfollow();">언팔로우</button>
+        <% } else { %>
+        <button id="followBtn" onclick="follow();">팔로우</button>
+        <% } %>
+      </div>
 
-        <div id="id" style="display: none"><%=data.id%></div>
-        <div
-          style="
+      <div id="id" style="display: none"><%=data.id%></div>
+      <div style="
             display: flex;
             justify-content: space-around;
             margin-bottom: 25px;
-          "
-        >
+          ">
+        <div>
           <div>
+            <span>게시물</span><span style="font-weight: bolder"> <%=data.posting%> </span>
+          </div>
+        </div>
+        <div>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="followList('following');">
             <div>
-              <span>게시물</span
-              ><span style="font-weight: bolder"> <%=data.posting%> </span>
+              <span>팔로잉</span><span style="font-weight: bolder"> <%=data.following%></span>
             </div>
-          </div>
-          <div>
-            <a
-              href="#"
-              data-bs-toggle="modal"
-              data-bs-target="#followModal"
-              onclick="followList('following');"
-            >
-              <div>
-                <span>팔로잉</span
-                ><span style="font-weight: bolder"> <%=data.following%></span>
-              </div>
-            </a>
-          </div>
-          <div>
-            <a
-              href="#"
-              data-bs-toggle="modal"
-              data-bs-target="#followModal"
-              onclick="followList('follower');"
-            >
-              <div>
-                <span>팔로워</span
-                ><span style="font-weight: bolder"> <%=data.follower%></span>
-              </div>
-            </a>
-          </div>
+          </a>
         </div>
-        <div
-          style="
+        <div>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="followList('follower');">
+            <div>
+              <span>팔로워</span><span style="font-weight: bolder"> <%=data.follower%></span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div style="
             display: flex;
             align-items: center;
             justify-content: space-around;
             margin-bottom: 25px;
-          "
-        >
-          <div id="email">
-            <i class="fa-regular fa-envelope"></i> <%=data.email%>
-          </div>
+          ">
+        <div id="email">
+          <i class="fa-regular fa-envelope"></i> <%=data.email%>
+        </div>
 
-          <% if (data.isMyprofile) { %>
-          <div id="logoutDiv">
-            <a href="/profile/logout"
-              ><button id="logoutBtn" type="button">로그아웃</button></a
-            >
-          </div>
-          <% } %>
+        <% if (data.isMyprofile) { %>
+        <div id="logoutDiv">
+          <a href="/profile/logout"><button id="logoutBtn" type="button">로그아웃</button></a>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="seperator"></div>
+  <!-- 게시글 탭  게시글 본문 -->
+  <section class="post-area">
+    <div class="tabs">
+      <div id="line"></div>
+      <a href="/profile">
+        <div id="posts"><i class="fa-regular fa-image"></i> POSTS</div>
+      </a>
+      <button id="bookmarkBtn" type="button" onclick="reset();">
+        <div id="saved"><i class="fa-regular fa-bookmark"></i> SAVED</div>
+      </button>
+    </div>
+    <div id="board"></div>
+  </section>
+
+  <!-- 게시글 -->
+  <div class="container">
+    <div class="list"></div>
+  </div>
+  <div class="more">
+    <p class="virtual"></p>
+    <div class="square dnone">
+      <div class="spin"></div>
+    </div>
+  </div>
+
+  <!-- 팔로잉 모달 -->
+  <div class="modal" id="followModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="follow-title"></h5>
+          <button type="button" class="btn-close" style="margin: 0; padding: 0" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div style="text-align: center" class="modal-body" id="followList"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="seperator"></div>
-    <!-- 게시글 탭  게시글 본문 -->
-    <section class="post-area">
-      <div class="tabs">
-        <div id="line"></div>
-        <a href="/profile">
-          <div id="posts"><i class="fa-regular fa-image"></i> POSTS</div>
-        </a>
-        <button id="bookmarkBtn" type="button" onclick="reset();">
-          <div id="saved"><i class="fa-regular fa-bookmark"></i> SAVED</div>
-        </button>
-      </div>
-      <div id="board"></div>
-    </section>
-
-    <!-- 게시글 -->
-    <div class="container">
-      <div class="list"></div>
-    </div>
-    <div class="more">
-      <p class="virtual"></p>
-      <div class="square dnone">
-        <div class="spin"></div>
+  <!-- 게시물 모달 -->
+  <div class="modal" id="boardModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-body" id="board-main"></div>
       </div>
     </div>
+  </div>
 
-    <!-- 팔로잉 모달 -->
-    <div class="modal" id="followModal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="follow-title"></h5>
-            <button
-              type="button"
-              class="btn-close"
-              style="margin: 0; padding: 0"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div
-            style="text-align: center"
-            class="modal-body"
-            id="followList"
-          ></div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <script type="text/javascript" defer src="/static/js/profile.js"></script>
 
-    <script type="text/javascript" defer src="/static/js/profile.js"></script>
+  <!-- 스크립트 -->
+  <script>
+    let cnt = 0;
+    let isBookmark = false;
+    let id = $("#id").text();
+    const $list = document.querySelector(".list");
 
-    <!-- 스크립트 -->
-    <script>
-      let cnt = 0;
-      let isBookmark = false;
-      let id = $("#id").text();
-      const $list = document.querySelector(".list");
+    function followList(mode) {
+      var modalBody = document.querySelector("#followList");
+      var modalTitle = $("#follow-title");
+      if (mode == "following") {
+        modalTitle.html("팔로잉 목록");
+      } else if (mode == "follower") {
+        modalTitle.html("팔로워 목록");
+      }
+      var data = {
+        id: id,
+      };
+      axios({
+        url: "/profile/getFollowList",
+        method: "get",
+        params: data,
+      }).then((response) => {
+        console.log(response.data);
+        var html = "";
+        var tmp = document.createElement("div");
+        var followMode = response.data[mode];
 
-      function followList(mode) {
-        var modalBody = document.querySelector("#followList");
-        var modalTitle = $("#follow-title");
-        if (mode == "following") {
-          modalTitle.html("팔로잉 목록");
-        } else if (mode == "follower") {
-          modalTitle.html("팔로워 목록");
-        }
-        var data = {
-          id: id,
-        };
-        axios({
-          url: "/profile/getFollowList",
-          method: "get",
-          params: data,
-        }).then((response) => {
-          console.log(response.data);
-          var html = "";
-          var tmp = document.createElement("div");
-          var followMode = response.data[mode];
-
-          if (response.data[mode].length == 0) {
-            html += `목록이 비어있습니다. 네트워킹을 시작하세요!`;
-          } else {
-            for (var i = 0; i < followMode.length; i++) {
-              html += `<div style="cursor: pointer">
+        if (response.data[mode].length == 0) {
+          html += `목록이 비어있습니다. 네트워킹을 시작하세요!`;
+        } else {
+          for (var i = 0; i < followMode.length; i++) {
+            html += `<div style="cursor: pointer">
                       <div class="followUser" onclick="location.href='profile?id=${followMode[i].id}';">
                         <img class="followProfile" src="${followMode[i].profile}" alt="">
                         <span class="userName">${followMode[i].nickName}</span>
                         <span class="userEmail">${followMode[i].email}</span>
                       </div>
                     </div>`;
-            }
           }
-          modalBody.innerHTML = html;
-        });
-      }
+        }
+        modalBody.innerHTML = html;
+      });
+    }
 
-      function follow() {
-        var data = {
-          id: id,
-        };
-        console.log(id);
-        axios({
-          url: "/profile/follow",
-          method: "post",
-          data: data,
-        }).then((response) => {
-          window.location.href = `http://localhost:8000/profile?id=${id}`;
-        });
-      }
+    function follow() {
+      var data = {
+        id: id,
+      };
+      console.log(id);
+      axios({
+        url: "/profile/follow",
+        method: "post",
+        data: data,
+      }).then((response) => {
+        window.location.href = `http://localhost:8000/profile?id=${id}`;
+      });
+    }
 
-      function unfollow() {
-        var data = {
-          id: id,
-        };
-        console.log(id);
-        axios({
-          url: "/profile/unfollow",
-          method: "post",
-          data: data,
-        }).then((response) => {
-          window.location.href = `http://localhost:8000/profile?id=${id}`;
-        });
-      }
+    function unfollow() {
+      var data = {
+        id: id,
+      };
+      console.log(id);
+      axios({
+        url: "/profile/unfollow",
+        method: "post",
+        data: data,
+      }).then((response) => {
+        window.location.href = `http://localhost:8000/profile?id=${id}`;
+      });
+    }
 
-      // window.onload = function() {
+    // 북마크 검색을 위한 초기화
+    function reset() {
+      $(".list").empty();
+      isBookmark = true;
 
-      //   axios({
-      //       url: "/profile/inpost",
-      //       method: "get"
+      // 매 검색마다 무한스크롤 옵저버 초기화
+      intersectionObserver.unobserve(document.querySelector(".virtual"));
+      cnt = 0;
+      $(".list").empty();
 
-      //     })
-      //     .then((response) => {
-      //       var img = ``
-      //       for (let i = 0; i < response.data.length; i++) {
-      //         img += `<img src ="${response.data[i]["Postmedia.src"]}" >`
-
-      //       }
-      //       $(".im").append(img);
-      //       console.log(response.data);
-      //     })
-
-      // }
-
-      // 북마크 검색을 위한 초기화
-      function reset() {
-        $(".list").empty();
-        isBookmark = true;
-
-        // 매 검색마다 무한스크롤 옵저버 초기화
-        intersectionObserver.unobserve(document.querySelector(".virtual"));
-        cnt = 0;
-        $(".list").empty();
-
-        // 새로운 옵저버 선언
-        intersectionObserver = new IntersectionObserver(function (entries) {
-          if (entries[0].intersectionRatio <= 0) return;
-          loadItems(isBookmark);
-        });
-        // 옵저빙 시작
-        intersectionObserver.observe(document.querySelector(".virtual"));
-      }
-
-      // Simulate a request to load data and render it to the list element;
-      function loadItems(isBookmark) {
-        new Promise((resolve) => {
-          document.querySelector(".square").classList.remove("dnone");
-          setTimeout(async () => {
-            let data;
-            if (isBookmark) {
-              console.log("yes");
-              data = await axios.get(
-                `/profile/post?id=${id}&bookmark=yes&cnt=${cnt}`
-              );
-            } else {
-              console.log("no");
-              data = await axios.get(
-                `/profile/post?id=${id}&bookmark=no&cnt=${cnt}`
-              );
-            }
-            cnt += 1;
-            resolve(data.data);
-          }, 1000);
-        }).then((data) => {
-          if (data.code == 200) {
-            console.log(data);
-            const html = data.data.map(
-              (item) => `<img id="yeah" src="${item.src[0].src}"></img>`
-            );
-            $list.innerHTML += html.join("");
-          } else {
-            intersectionObserver.unobserve(document.querySelector(".virtual"));
-          }
-          document.querySelector(".square").classList.add("dnone");
-        });
-      }
-
-      let intersectionObserver = new IntersectionObserver(function (entries) {
-        // If intersectionRatio is 0, the target is out of view
-        // and we do not need to do anything.
+      // 새로운 옵저버 선언
+      intersectionObserver = new IntersectionObserver(function(entries) {
         if (entries[0].intersectionRatio <= 0) return;
         loadItems(isBookmark);
       });
-      // start observing
+      // 옵저빙 시작
       intersectionObserver.observe(document.querySelector(".virtual"));
-    </script>
-    <script src="../static/js/searchUser.js"></script>
-    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
-    <script src="../static/js/notification.js"></script>
-  </body>
+    }
+
+    // Simulate a request to load data and render it to the list element;
+    function loadItems(isBookmark) {
+      new Promise((resolve) => {
+        document.querySelector(".square").classList.remove("dnone");
+        setTimeout(async () => {
+          let data;
+          if (isBookmark) {
+            console.log("yes");
+            data = await axios.get(
+              `/profile/post?id=${id}&bookmark=yes&cnt=${cnt}`
+            );
+          } else {
+            console.log("no");
+            data = await axios.get(
+              `/profile/post?id=${id}&bookmark=no&cnt=${cnt}`
+            );
+          }
+          cnt += 1;
+          resolve(data.data);
+        }, 1000);
+      }).then((data) => {
+        if (data.code == 200) {
+          const html = data.data.map(
+            (item) =>
+            `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">`
+          );
+          $list.innerHTML += html.join("");
+        } else {
+          intersectionObserver.unobserve(document.querySelector(".virtual"));
+        }
+        document.querySelector(".square").classList.add("dnone");
+      });
+    }
+
+    let intersectionObserver = new IntersectionObserver(function(entries) {
+      // If intersectionRatio is 0, the target is out of view
+      // and we do not need to do anything.
+      if (entries[0].intersectionRatio <= 0) return;
+      loadItems(isBookmark);
+    });
+    // start observing
+    intersectionObserver.observe(document.querySelector(".virtual"));
+
+    // 모달 게시글 불러오기
+    function getItem(boardId) {
+      new Promise((resolve) => {
+        setTimeout(async () => {
+          const data = await axios.get(`/profile/board?id=${boardId}`);
+          resolve(data.data);
+        }, 100);
+      }).then(async (data) => {
+        console.log(data);
+        if (data.code == 200) {
+          $("#board-main").empty();
+          const main = document.querySelector("#board-main");
+          const ele = data.data;
+          const card = document.createElement("div");
+          // card.setAttribute("cnt", cnt);
+          card.classList.add("card");
+          const header = document.createElement("header");
+          const profile = document.createElement("img");
+
+          profile.setAttribute("src", ele["User.profile"]);
+          const profileWrapper = document.createElement("a");
+          profileWrapper.classList.add("profileWrapper");
+          profileWrapper.appendChild(profile);
+          profileWrapper.setAttribute(
+            "href",
+            `/profile?id=${ele["User.id"]}`
+          );
+
+          const nickName = document.createElement("span");
+          nickName.innerText = ele["User.nickName"];
+          const nickNameWrapper = document.createElement("a");
+          nickNameWrapper.classList.add("nickNameWrapper");
+          nickNameWrapper.appendChild(nickName);
+          nickNameWrapper.setAttribute(
+            "href",
+            `profile?id=${ele["User.id"]}`
+          );
+
+          const createdAt = document.createElement("span");
+          createdAt.innerText = ele.createdAt;
+          createdAt.classList.add("createdAt");
+          header.appendChild(profileWrapper);
+          header.appendChild(nickNameWrapper);
+          header.appendChild(createdAt);
+          card.appendChild(header);
+          const carousel = document.createElement("div");
+          carousel.setAttribute("id", `a${ele.id}`);
+          carousel.setAttribute("class", "carousel slide");
+          carousel.setAttribute("data-ride", "carousel");
+          const indicator = document.createElement("div");
+          indicator.setAttribute("class", "carousel-indicators");
+
+          let ccount = 1;
+          console.log(ele.src);
+          indicator.innerHTML += `<button type="button" data-bs-target="#a${ele.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>`;
+          for (let k = 0; k < ele.src.length - 1; k++) {
+            indicator.innerHTML += ` <button type="button" data-bs-target="#a${
+                ele.id
+              }" data-bs-slide-to="${ccount}" aria-label="Slide ${
+                ccount + 1
+              }"></button>`;
+            ccount += 1;
+          }
+
+          carousel.appendChild(indicator);
+          const wrapper = document.createElement("div");
+          wrapper.setAttribute("class", "carousel-inner");
+          let numCnt = 0;
+          ele.src.forEach((element) => {
+            if ((element.type = "img")) {
+              let flag = "active";
+              if (numCnt != 0) {
+                flag = "";
+              }
+              numCnt += 1;
+              const Img = document.createElement("div");
+              Img.setAttribute("class", `carousel-item ${flag}`);
+              const img = document.createElement("img");
+              img.setAttribute("src", element.src);
+              img.setAttribute("alt", "...");
+              img.setAttribute("class", "d-block w-100");
+              Img.appendChild(img);
+              wrapper.appendChild(Img);
+            } else {
+              const Img = document.createElement("div");
+              Img.setAttribute("class", "carousel-item active");
+              Img.setAttribute("data-carousel-item");
+              const video = document.createElement("video");
+              const source = document.createElement("source");
+              source.setAttribute("src", element.src);
+              source.setAttribute("type", "mp4");
+              video.appendChild(source);
+              Img.appendChild(video);
+              wrapper.appendChild(Img);
+            }
+          });
+          carousel.appendChild(wrapper);
+          carousel.innerHTML += `<button class="carousel-control-prev" type="button" data-bs-target="#a${ele.id}" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button" data-bs-target="#a${ele.id}" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button></div>
+                          `;
+          let flag = "bi-heart"; //좋아요가 없는 상태
+          let value = "0"; //좋아요가 없는 상태
+          if (ele.like) {
+            flag = "bi-heart-fill";
+            value = "1";
+          }
+          card.appendChild(carousel);
+          card.innerHTML += `<div class="info">
+                              <div class="info_left">
+                                  <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>
+                                  <i class="far fa-comment"   ></i>
+
+                              </div>
+                              <div class="info_right">
+                                  <i class="far fa-bookmark"></i>
+                              </div>
+                          </div>`;
+          card.innerHTML += ` <div class="comment">
+                              ${ele.content}
+                          </div>`;
+          card.innerHTML += `<div class="comment_form">
+                              <div class="comments" url="${ele.id}">
+                                  <div style="margin-left:10px">댓글</div>
+
+                              </div>  
+                              <div id="RegisterForm">
+                                  <input id="re" type="text" placeholder="댓글 입력..">
+                                  <button type="button" id="commentRegister" url="${ele.id}">등록</button>
+                              </div>
+                          </div>`;
+          main.appendChild(card);
+          let arr = document.querySelectorAll(`div .comments`);
+          for (const element of arr) {
+            const postId = element.getAttribute("url");
+            const data = await axios.get(
+              `/comment/comments?PostId=${postId}`
+            );
+
+            data.data.forEach(async (ele) => {
+              let tag = `<a href="/profile?id=${ele["User.id"]}"> <div class="come">
+                          <img src="${ele["User.profile"]}"> ${ele["User.nickName"]}</a> : ${ele.comment}
+                               </div>`;
+              if (ele.me == "true") {
+                tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}"><i class="fa-solid fa-trash"></i></i></button>`;
+              }
+              const temp = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
+              element.innerHTML += temp;
+            });
+          }
+          arr = document.querySelectorAll(
+            `div[cnt="${cnt}"] #commentRegister`
+          );
+          for (const ele of arr) {
+            ele.addEventListener("click", async (event) => {
+              const postId = ele.getAttribute("url");
+              const input =
+                event.target.parentNode.querySelector("input").value;
+              event.target.parentNode.querySelector("input").value = "";
+              if (input.length == 0) {
+                alert("댓글을 입력해 주세요");
+              } else {
+                const data = await axios.post("/comment/comments", {
+                  comment: input,
+                  postId: postId,
+                });
+
+                if (data.data.code == 200) {
+                  const res = await axios.get(
+                    `/comment/comments?PostId=${postId}`
+                  );
+                  document.querySelectorAll(`#c${postId}`).forEach((c) => {
+                    c.remove();
+                  });
+                  const space = document.querySelector(
+                    `div[url="${postId}"].comments`
+                  );
+                  res.data.forEach((res) => {
+                    let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">
+                                          <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
+                                          </div>`;
+
+                    if (res.me) {
+                      tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+                    }
+                    const div = `<div class="commentPlace"  id="c${postId}"> ${tag} </div>`;
+                    space.innerHTML += div;
+                    console.log(space);
+                  });
+                }
+              }
+            });
+          }
+          cnt += 1;
+        }
+        $("#boardModal").modal("show");
+      });
+    }
+  </script>
+
+  <script>
+    async function deleteComent(event) {
+      const comentD = await axios.post("comment/commentDelete", {
+        id: event.target.getAttribute("value"),
+      });
+      if (comentD.data.code == 200) {
+        const postId = event.target.getAttribute("url");
+        const commentId = event.target.getAttribute("value");
+        const res = await axios.get(`/comment/comments?PostId=${postId}`);
+        document.querySelectorAll(`#c${postId}`).forEach((c) => {
+          c.remove();
+        });
+        const space = document.querySelector(`div[url="${postId}"].comments`);
+        res.data.forEach((res) => {
+          let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">
+                <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
+                </div>`;
+          if (res.me) {
+            tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+          }
+          const div = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
+          space.innerHTML += div;
+          console.log(space);
+        });
+        swal("", "댓글 삭제 성공", "success");
+      }
+    }
+    async function like(event) {
+      if (event.target.getAttribute("value") == "1") {
+        event.target.setAttribute("value", "0");
+        event.target.classList.remove("bi-heart-fill");
+        event.target.classList.add("bi-heart");
+      } else {
+        event.target.classList.add("bi-heart-fill");
+        event.target.classList.remove("bi-heart");
+        event.target.setAttribute("value", "1");
+      }
+      const postId = event.target.getAttribute("url");
+      const res = await axios.post("like/likes", {
+        postId: postId,
+      });
+      if (res.data.code == 200) {
+        swal("", "좋아요 등록 완료!", "success");
+      } else {
+        swal("", "좋아요 취소", "success");
+      }
+    }
+  </script>
+  <script src="../static/js/searchUser.js"></script>
+  <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+  <script src="../static/js/notification.js"></script>
+</body>
+
 </html>

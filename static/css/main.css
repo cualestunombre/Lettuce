@@ -187,6 +187,11 @@ header{
       position: relative;
       margin-bottom: 10px;
   }
+  .come1{
+    display: flex;
+    justify-content: space-between;
+  }
+
   #delete{
     height: 30px;
     position:absolute;
@@ -306,6 +311,11 @@ header{
     padding: 8px 0 0 30px;
     font-size: 15px;
 }
+
+
+.fa-trash:hover{
+    cursor: pointer;
+
 .delBtn{
     padding-left: 0px;
     padding-right: 0px;
@@ -324,4 +334,5 @@ header{
 }
 .delBtn span{
    
+
 }

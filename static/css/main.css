@@ -328,7 +328,8 @@ header{
     font-size: 8px;
     padding: 0;
 }
-.delBtn span{
-   
-
+.commentTime {
+    margin-left: 10px;
+    font-size: 12px;
+    color: grey;
 }

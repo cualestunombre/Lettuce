@@ -370,7 +370,7 @@
             let tag = `<div class="come">
                         <a href="/profile?id=${res["User.id"]}">
                           <img src="${res["User.profile"]}"> ${res["User.nickName"]}
-                        </a>:${res.comment}<span class="commentTime">${res.time}</sapn>
+                        </a>:${res.comment}<span class="commentTime">${res.time}</span>
                       </div>`;
             if (res.me) {
               tag += `<i id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}" class="fa-solid fa-trash"></i>`;

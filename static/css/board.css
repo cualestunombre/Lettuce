@@ -63,6 +63,7 @@ header {
 .comment {
     margin: 0rem 1rem 1rem 1rem;
     border-bottom: 1px solid #bdbbbb;
+    padding-bottom: 1rem;
 }
 
 .comment_form form {
@@ -259,6 +260,7 @@ div.commentPlace {
 .ll {
     font-size: 12px;
     color: rgb(158, 156, 154);
+    margin-left: 10px;
 
 }
 

@@ -129,3 +129,6 @@
     background-position: center;
     border: 3px solid white;
 }
+.yeah:hover{
+    cursor: pointer;
+}

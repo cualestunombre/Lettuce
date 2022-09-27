@@ -269,5 +269,17 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
         res.send({ data: list, code: 200 });
     }
 });
+router.post("/bookmark",async(req,res,next)=>{
+    const data = await BookMark.findAll({raw:true,where:{UserId:req.user.id,PostId:req.body.postId}});
+    console.log(data);
+    if(data.length!=0){
+        await BookMark.destroy({where:{UserId:req.user.id,PostId:req.body.postId}});
+        res.send({code:300});
+    }
+    else{
+        await BookMark.create({UserId:req.user.id,PostId:req.body.postId});
+        res.send({code:200});
+    }
 
+});
 module.exports = router;

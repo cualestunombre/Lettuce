@@ -232,6 +232,12 @@
                 flag = "bi-heart-fill";
                 value = "1";
               }
+              let flag2 = "bi-bookmark";
+              let value2 = "0";
+              if (ele.bookmark) {
+                flag2 = "bi-bookmark-fill";
+                value2 = "1";
+              }
               card.appendChild(carousel);
               card.innerHTML += `<div class="info">
                               <div class="info_left">
@@ -240,7 +246,7 @@
 
                               </div>
                               <div class="info_right">
-                                    <i class="far fa-bookmark"></i>
+                                <i id="bookmark" url="${ele.id}" value="${value2}" class="bi ${flag2}" onclick="bookmark(event)"></i>
                               </div>
                           </div>`;
               //좋아요 목록
@@ -497,6 +503,23 @@
           const target = document.querySelector(`#delete[url="${postid}"]`);
           const wrap = { target: target };
           deleteComent(wrap);
+        }
+      }
+      async function bookmark(event) {
+        if (event.target.getAttribute("value") == "0") {
+          event.target.setAttribute("value", "1");
+          event.target.setAttribute("class", "bi bi-bookmark-fill");
+        } else {
+          event.target.setAttribute("value", "0");
+          event.target.setAttribute("class", "bi bi-bookmark");
+        }
+        const res = await axios.post("/profile/bookmark", {
+          postId: event.target.getAttribute("url"),
+        });
+        if (res.data.code == 200) {
+          swal("", "북마크 등록 완료!", "success");
+        } else {
+          swal("", "북마크 취소 완료!", "success");
         }
       }
     </script>

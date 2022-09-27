@@ -228,6 +228,14 @@ header{
     border: none;
     width: 480px;
 }
+.bi-bookmark{
+    margin-right: 15px;
+    color:black;
+}
+.bi-bookmark-fill{
+    margin-right: 15px;
+    color:rgb(250, 208, 103);
+}
 
 .ll{
     font-size: 12px;

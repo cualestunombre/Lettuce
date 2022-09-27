@@ -33,6 +33,21 @@ router.get("/comments",async(req,res)=>{
             ele.me='true';
         }
     });
+    const now = new Date().getTime();
+    come.forEach(ele=>{
+        if(now-ele.createdAt.getTime()>3600*1000 && now-ele.createdAt.getTime()<3600*1000*24){
+            ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/3600)}시간전`;
+        }
+        else if(now-ele.createAt.getTime()>3600*1000*24){
+            ele.time=`${parseInt(parseInt(parseInt(now-ele.createdAt.getTime())/1000)/3600*24)}일전`
+        }
+        else if(now-ele.createdAt.getTime()<=60*1000){
+            ele.time=`${parseInt((now-ele.createdAt.getTime())/1000)}초전`;
+        }
+        else{
+            ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/60)}분전`;
+        }
+    });
     res.send(come);
 })
 
@@ -51,6 +66,21 @@ router.get("/commentList", async(req,res)=>{
         console.log(req.user.id);
         if(ele['User.id']==req.user.id){
             ele.me='true';
+        }
+    });
+    const now = new Date().getTime();
+    come.forEach(ele=>{
+        if(now-ele.createdAt.getTime()>3600*1000 && now-ele.createdAt.getTime()<3600*1000*24){
+            ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/3600)}시간전`;
+        }
+        else if(now-ele.createAt.getTime()>3600*1000*24){
+            ele.time=`${parseInt(parseInt(parseInt(now-ele.createdAt.getTime())/1000)/3600*24)}일전`
+        }
+        else if(now-ele.createdAt.getTime()<=60*1000){
+            ele.time=`${parseInt((now-ele.createdAt.getTime())/1000)}초전`;
+        }
+        else{
+            ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/60)}분전`;
         }
     });
     res.send(come);

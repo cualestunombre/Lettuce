@@ -20,7 +20,8 @@ document.querySelector(".fa-heart.fa-regular").addEventListener("click",async (e
         const div = document.createElement("div");
         div.classList.add("notificationInfo");
         const data = await axios.get("/user/notificationInfo");
-        if(data.data){
+        console.log(data.data);
+        if(data.data.data.length!=0){
             data.data.data.forEach((ele)=>{
                 const info = document.createElement("div");
                 info.classList.add("notiInfo");
@@ -55,7 +56,22 @@ document.querySelector(".fa-heart.fa-regular").addEventListener("click",async (e
                 div.appendChild(info);
     
             });
+        
         }
+        else{
+            const noShow = document.createElement("div");
+            noShow.classList.add("noNoti");
+            const span = document.createElement("span");
+            const span2 = document.createElement("span");
+            span.classList.add("noShowTitle");
+            span.innerText="표시할 알림이 없어요!\n";
+            span2.classList.add("noShowInfo");
+            span2.innerText="알림이 있으면 24시간이내의 알림이 표시되요!";
+            noShow.appendChild(span);
+            noShow.appendChild(span2);
+            div.appendChild(noShow);
+        }
+        
         event.target.appendChild(div);
     }
     else{

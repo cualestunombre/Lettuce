@@ -146,10 +146,14 @@
               card.classList.add("card");
               const header = document.createElement("header");
               const profile = document.createElement("img");
-
+              const delBtn = document.createElement("button");
+              delBtn.innerHTML = "<span>삭제</span>";
+              delBtn.classList.add("delBtn");
+              delBtn.setAttribute("url", `${ele.id}`);
+              delBtn.setAttribute("onclick", "deletePost(event)");
               profile.setAttribute("src", ele["User.profile"]);
               const profileWrapper = document.createElement("a");
-              profileWrapper.classList.add("profileWrapper");
+              profileWrapper.classList.add("mainWrapper");
               profileWrapper.appendChild(profile);
               profileWrapper.setAttribute(
                 "href",
@@ -169,6 +173,10 @@
               const createdAt = document.createElement("span");
               createdAt.innerText = ele.createdAt;
               createdAt.classList.add("createdAt");
+              console.log(ele);
+              if (ele.myPost) {
+                header.appendChild(delBtn);
+              }
               header.appendChild(profileWrapper);
               header.appendChild(nickNameWrapper);
               header.appendChild(createdAt);
@@ -529,6 +537,12 @@
         } else {
           swal("", "북마크 취소 완료!", "success");
         }
+      }
+      async function deletePost(event) {
+        await axios.delete(
+          `/posting/post?id=${event.currentTarget.getAttribute("url")}`
+        );
+        window.location = "/";
       }
     </script>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>

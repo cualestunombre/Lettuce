@@ -228,3 +228,22 @@ a:hover{
     margin-top: 10px;
     margin-left: 140px;
 }
+.noNoti{
+    text-align: center;
+    color:black;
+}
+.noShowTitle{
+    display: block;
+    margin-top: 110px;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.noShowInfo{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgb(0,0,0,0.5);
+}

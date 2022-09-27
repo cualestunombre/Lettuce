@@ -51,6 +51,10 @@ router.post("/uploads",isLoggedIn,upload.array("files"), async(req,res)=>{
     res.send({code:200});
 })
 
+router.delete("/post",async (req,res,next)=>{
+    await Post.destroy({where:{id:req.query.id}});
+    res.send({code:200});
+});
 
 
 module.exports = router;

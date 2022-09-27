@@ -107,16 +107,27 @@
   <section class="post-area">
     <div class="tabs">
       <div id="line"></div>
-      <a href="/profile">
+      <button id="bookmarkBtn" type="button" onclick="reset(false);">
         <div id="posts"><i class="fa-regular fa-image"></i> POSTS</div>
-      </a>
-      <button id="bookmarkBtn" type="button" onclick="reset();">
+      </button>
+      <button id="bookmarkBtn" type="button" onclick="reset(true);">
         <div id="saved"><i class="fa-regular fa-bookmark"></i> SAVED</div>
       </button>
     </div>
     <div id="board"></div>
   </section>
 
+  <% if (data.posting == 0) {%>
+  <div class="con">
+    <div class="noFollowers">
+      <p class="noFollowText">표시할 게시물이 없어요.</p>
+      <p class="subText">
+        첫 게시물을 작성해보세요 :)
+      </p>
+      <img id="logo" src="/static/image/logo.png" alt="" />
+    </div>
+  </div>
+  <% } %>
   <!-- 게시글 -->
   <div class="container">
     <div class="list"></div>
@@ -257,9 +268,14 @@
     }
 
     // 북마크 검색을 위한 초기화
-    function reset() {
-      $(".list").empty();
-      isBookmark = true;
+    function reset(isBookmark) {
+      if (isBookmark == true) {
+        $(".subText").text("다른 사람들의 게시글을 북마크 해보세요 :)");
+        $(".list").empty();
+      } else {
+        $(".subText").text("첫 게시물을 작성해보세요 :)");
+        $(".list").empty();
+      }
 
       // 매 검색마다 무한스크롤 옵저버 초기화
       intersectionObserver.unobserve(document.querySelector(".virtual"));
@@ -467,11 +483,14 @@
             );
 
             data.data.forEach(async (ele) => {
-              let tag = `<a href="/profile?id=${ele["User.id"]}"> <div class="come">
-                          <img src="${ele["User.profile"]}"> ${ele["User.nickName"]}</a> : ${ele.comment}
-                               </div>`;
+              let tag = `<div class="come">
+                            <a href="/profile?id=${ele["User.id"]}">
+                              <img src="${ele["User.profile"]}"> ${ele["User.nickName"]}
+                            </a> : ${ele.comment} <span class=commentTime>${ele.time}</span>
+                          </div>`;
               if (ele.me == "true") {
-                tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}"><i class="fa-solid fa-trash"></i></i></button>`;
+                console.log(ele.id);
+                tag += `<i class="fa-solid fa-trash" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}"></i></i>`;
               }
               const temp = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
               element.innerHTML += temp;

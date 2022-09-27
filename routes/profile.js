@@ -134,6 +134,11 @@ router.get("/", isLoggedIn, async (req, res) => {
             UserId: id
         }
     })
+    const bookmarkCnt = await BookMark.count({
+        where: {
+            UserId: id
+        }
+    })
     const followingCnt = await Follow.count({
         where: {
             follower: id
@@ -160,7 +165,8 @@ router.get("/", isLoggedIn, async (req, res) => {
         posting: postCnt,
         following: followingCnt,
         follower: followerCnt,
-        isFollow: followCheck
+        isFollow: followCheck,
+        checkBookmark: bookmarkCnt
     }
     res.render('profile', { data });
 });

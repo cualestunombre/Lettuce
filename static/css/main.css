@@ -187,6 +187,11 @@ header{
       position: relative;
       margin-bottom: 10px;
   }
+  .come1{
+    display: flex;
+    justify-content: space-between;
+  }
+
   #delete{
     height: 30px;
     position:absolute;
@@ -304,4 +309,9 @@ header{
 .come {
     padding: 8px 0 0 30px;
     font-size: 15px;
+}
+
+.fa-trash:hover{
+    cursor: pointer;
+
 }

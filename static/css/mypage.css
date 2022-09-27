@@ -1,6 +1,7 @@
 .wrap{
     margin: auto;
     width: 550px;
+    background-color: white;
 }
 input {
     width: 400px;

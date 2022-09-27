@@ -10,7 +10,7 @@ module.exports = class User extends Sequelize.Model {
             },
             password: {
                 type: Sequelize.STRING(100),
-                allowNull: false
+                allowNull: true
             },
             nickName: {
                 type: Sequelize.STRING(10),
@@ -18,7 +18,7 @@ module.exports = class User extends Sequelize.Model {
             },
             birthday: {
                 type: Sequelize.DATEONLY,
-                allowNull: false
+                allowNull: true
 
             },
             profile: {

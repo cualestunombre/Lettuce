@@ -1,10 +1,3 @@
-@font-face {
-    font-family: 'HallymGothic-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-}
-
 .modal-body {
     padding: 0 !important;
 }
@@ -119,7 +112,7 @@ header {
     margin-left: calc(50% - 40px);
     margin-left: -webkit-calc(50% - 40px);
     margin-left: -moz-calc(50% - 40px);
-    background-color: rgb(250, 250, 250);
+    background-color: white
 }
 
 .spin {
@@ -132,7 +125,7 @@ header {
     -webkit-animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-    background-color: rgb(250, 250, 250);
+    background-color: white;
     margin-bottom: 50px;
 }
 
@@ -144,11 +137,6 @@ header {
     to {
         -webkit-transform: rotate(360deg);
     }
-}
-
-#yeah {
-    width: 500px;
-    height: 500px;
 }
 
 .noFollowText {
@@ -182,17 +170,17 @@ header {
 }
 
 .more {
-    background-color: rgb(250, 250, 250);
+    background-color: white
 }
 
 .con {
-    background-color: rgb(250, 250, 250);
+    background-color:white;
     padding-top: 100px;
     text-align: center;
 }
 
 html {
-    background-color: rgb(250, 250, 250);
+    background-color: white
 }
 
 div.commentPlace {

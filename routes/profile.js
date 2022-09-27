@@ -17,12 +17,76 @@ const upload = multer({
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const {SessionSocketIdMap, User, Follow, Post, PostMedia, BookMark } = require("../models");
+const { SessionSocketIdMap, User, Follow, Post, PostMedia, BookMark, Like, Comment } = require("../models");
 
 router.get("/test", async (req, res) => {
     res.render('test');
 });
 
+// 게시글 불러오기
+router.get("/board", isLoggedIn, async (req, res, next) => {
+    const list = [];
+    const arr = [];
+    const post = await Post.findAll({
+        raw: true,
+        attributes: ['content', 'createdAt', 'id'],
+        where: { id: req.query.id },
+        include: [{ model: PostMedia, attributes: ['createdAt', 'type', 'src'] }, { model: User, attributes: ['id', 'nickName', 'profile'] }]
+    })
+
+    post.forEach(ele => {
+        arr.push(ele);
+    });
+
+    for (let i = 0; i < arr.length; i++) {
+        let flag = true;
+        for (let j = 0; j < list.length; j++) {
+            if (list[j].id == arr[i].id) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag == false) {
+            list[list.length - 1].src.push({ src: arr[i]['Postmedia.src'], type: arr[i]['Postmedia.type'] });
+        }
+        else {
+            list.push(arr[i]);
+            list[list.length - 1].src = [{ src: arr[i]['Postmedia.src'], type: arr[i]['Postmedia.type'] }];
+        }
+    }
+
+    for (let i = 0; i < list.length; i++) {
+        let date = list[i].createdAt;
+        let sendDate = date.getFullYear() + '년 ' + (parseInt(date.getMonth()) + 1) + '월 ' + date.getDate() + "일 ";
+        if (date.getHours() < 12) {
+            sendDate += "오전 " + date.getHours() + "시 ";
+        }
+        else {
+            sendDate += '오후 ' + (parseInt(date.getHours()) - 12) + "시 ";
+        }
+        sendDate += +date.getMinutes() + "분";
+
+        list[i].createdAt = sendDate;
+        delete list[i]['Postmedia.createdAt'];
+        delete list[i]['Postmedia.type'];
+        delete list[i]['Postmedia.src'];
+    }
+
+
+    const data = await Like.findAll({ where: { UserId: req.user.id, PostId: req.query.id } });
+    const cnt = await Like.findAll({ where: { PostId: req.query.id } });
+    list[0].likeCount = cnt.length;
+    if (data.length != 0) {
+        post.like = 'true';
+    }
+
+    if (post.length == 0) {
+        res.send({ code: 400 });
+    }
+    else {
+        res.send({ data: list[0], code: 200 });
+    }
+});
 
 // 프로필 라우터
 router.get("/", isLoggedIn, async (req, res) => {
@@ -111,7 +175,7 @@ router.post("/follow", async (req, res) => {
         follower: req.user.id,
         followed: req.body.id
     })
-    await axios.post("http://localhost:8000/realtime/follow",{sender:req.user.id,receiver:req.body.id});
+    await axios.post("http://localhost:8000/realtime/follow", { sender: req.user.id, receiver: req.body.id });
     res.redirect('/');
 })
 
@@ -164,8 +228,8 @@ router.post("/mypage/update", isLoggedIn, async (req, res) => {
     res.send(req.body);
 })
 
-router.get("/logout", isLoggedIn, async(req, res) => {
-    await SessionSocketIdMap.destroy({where:{UserId:req.user.id}});
+router.get("/logout", isLoggedIn, async (req, res) => {
+    await SessionSocketIdMap.destroy({ where: { UserId: req.user.id } });
     req.logout();
     req.session.destroy();
     res.redirect("/");
@@ -203,8 +267,6 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
             attributes: ['PostId'],
             where: { UserId: id }
         });
-        console.log(bookmarkList);
-        console.log(bookmarkList.length);
 
         for (let i = 0; i < bookmarkList.length; i++) {
             const PostAll = await Post.findAll({
@@ -237,7 +299,6 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
             list[list.length - 1].src = [{ src: arr[i]['Postmedia.src'], type: arr[i]['Postmedia.type'] }];
         }
     }
-    console.log(list);
     for (let i = 0; i < list.length; i++) {
         delete list[i]['Postmedia.createdAt'];
         delete list[i]['Postmedia.type'];
@@ -249,6 +310,15 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
     while (list.length > 20) {
         list.pop();
     }
+
+    for (let i = 0; i < list.length; i++) {
+        const likeCnt = await Like.count({ where: { PostId: list[i].id } });
+        const commentCnt = await Comment.count({ where: { PostId: list[i].id } });
+        list[i].likeCnt = likeCnt;
+        list[i].commentCnt = commentCnt
+    }
+
+    console.log("LIST", list);
     // 데이터 가공
     /* 데이터 형식
     {   
@@ -269,5 +339,17 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
         res.send({ data: list, code: 200 });
     }
 });
+router.post("/bookmark",async(req,res,next)=>{
+    const data = await BookMark.findAll({raw:true,where:{UserId:req.user.id,PostId:req.body.postId}});
+    console.log(data);
+    if(data.length!=0){
+        await BookMark.destroy({where:{UserId:req.user.id,PostId:req.body.postId}});
+        res.send({code:300});
+    }
+    else{
+        await BookMark.create({UserId:req.user.id,PostId:req.body.postId});
+        res.send({code:200});
+    }
 
+});
 module.exports = router;

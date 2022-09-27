@@ -4,33 +4,40 @@
     font-weight: 400;
     font-style: normal;
 }
+
 * {
     font-family: 'HallymGothic-Regular';
 }
+
 .head-wrap {
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 30px 50px;
 }
+
 .profileDiv {
     /* width: 292px;
     height: 152px; */
     text-align: center;
 }
+
 #profilePic {
-    width: 200px; 
+    width: 200px;
     height: 200px;
     border-radius: 50%;
 }
+
 .infoDiv {
     width: 613px;
     height: 152px;
     align-items: center;
 }
+
 #nickname {
     font-size: 28px;
 }
+
 #profileEditBtn {
     border: 1px solid grey;
     border-radius: 5px;
@@ -38,6 +45,7 @@
     padding: 5px 9px; 
     font-size: 14px;
 }
+
 #followBtn {
     border: 1px solid grey;
     border-radius: 5px;
@@ -45,6 +53,7 @@
     padding: 5px 9px;
     font-size: 14px;
 }
+
 #logoutBtn {
     border: 1px solid grey;
     border-radius: 5px;
@@ -52,22 +61,27 @@
     padding: 5px 9px;
     font-size: 14px;
 }
+
 #email {
     text-align: center;
 }
+
 .seperator {
     height: 1px;
     background-color: #DBDBDB;
 }
-.tabs { 
+
+.tabs {
     display: flex;
     justify-content: space-around;
     position: relative;
 }
-.tabs div { 
+
+.tabs div {
     padding: 1em;
     cursor: pointer;
 }
+
 #line {
     height: 3px;
     background-color: black;
@@ -78,37 +92,40 @@
     padding: 0px;
     transition: 0.5s;
 }
+
 /* modal css */
-#follow-title{
+#follow-title {
     margin-left: 201px;
 }
+
 .followUser {
     height: 40px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-  }
-  .followProfile {
+}
+
+.followProfile {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-  }
+}
 
-  .userEmail {
+.userEmail {
     font-family: 'HallymGothic-Regular';
     color: rgb(140, 140, 140);
-  }
+}
 
-  .userName {
+.userName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
-  }
+}
 
-  #yeah {
+.yeah {
     width: 350px;
     height: 350px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     border: 3px solid white;
-  }
+}

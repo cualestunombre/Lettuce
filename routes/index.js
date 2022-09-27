@@ -1,7 +1,7 @@
 
 const express = require("express");
 const router = express.Router();
-const {User,Post,PostMedia,Follow,Comment,Like} = require("../models");
+const {User,Post,PostMedia,Follow,Comment,Like,BookMark} = require("../models");
 router.get("/",async(req,res) =>{
     if(req.isAuthenticated()){
         const arr=[];
@@ -98,6 +98,18 @@ router.get("/fpost",async(req,res)=>{
         list[i].likeCount= cnt.length;
         if(data.length!=0){
             list[i].like='true';
+        }
+    }
+    for(let i=0;i<list.length;i++){
+        const data = await BookMark.findAll({where:{UserId:req.user.id, PostId:list[i].id}});
+        if (data.length!=0){
+            list[i].bookmark = 'true';
+        }
+    }
+    for(let i=0;i<list.length;i++){
+        const data = await Post.findAll({raw:true,where:{UserId:req.user.id,id:list[i].id}});
+        if(data.length!=0){
+            list[i].myPost="true";
         }
     }
     if (list.length==0){

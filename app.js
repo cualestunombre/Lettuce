@@ -69,7 +69,7 @@ app.use((req, res, next) => {
   res.render("nonmatch");
 });
 app.use((err, req, res, next) => {
-  res.render("error", { error: err.message });
+  res.render("error", { error: err });
 });
 const server = app.listen(port, () => {
   console.log("Server Port : ", port);

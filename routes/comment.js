@@ -38,8 +38,8 @@ router.get("/comments",async(req,res)=>{
         if(now-ele.createdAt.getTime()>3600*1000 && now-ele.createdAt.getTime()<3600*1000*24){
             ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/3600)}시간전`;
         }
-        else if(now-ele.createdAt.getTime()>3600*1000*24){
-            ele.time=`${parseInt(parseInt(parseInt(now-ele.createdAt.getTime())/1000)/3600*24)}일전`
+        else if(now-ele.createdAt.getTime()>=3600*1000*24){
+            ele.time=`${parseInt(parseInt((now-ele.createdAt)/1000)/(86400))}일전`;
         }
         else if(now-ele.createdAt.getTime()<=60*1000){
             ele.time=`${parseInt((now-ele.createdAt.getTime())/1000)}초전`;
@@ -73,8 +73,9 @@ router.get("/commentList", async(req,res)=>{
         if(now-ele.createdAt.getTime()>3600*1000 && now-ele.createdAt.getTime()<3600*1000*24){
             ele.time=`${parseInt(parseInt((now-ele.createdAt.getTime())/1000)/3600)}시간전`;
         }
-        else if(now-ele.createdAt.getTime()>3600*1000*24){
-            ele.time=`${parseInt(parseInt(parseInt(now-ele.createdAt.getTime())/1000)/3600*24)}일전`
+        else if((now-ele.createdAt.getTime())>=3600*1000*24){
+            console.log((now-ele.createdAt)/1000)
+            ele.time=`${parseInt(parseInt((now-ele.createdAt)/1000)/(86400))}일전`
         }
         else if(now-ele.createdAt.getTime()<=60*1000){
             ele.time=`${parseInt((now-ele.createdAt.getTime())/1000)}초전`;

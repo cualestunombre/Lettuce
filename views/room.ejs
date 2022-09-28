@@ -1,0 +1,62 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      dnone {
+        display: none;
+      }
+
+      .square {
+        border: 0;
+        width: 80px;
+        padding: 0px;
+        margin-top: 40px;
+        margin-left: calc(50% - 40px);
+        margin-left: -webkit-calc(50% - 40px);
+        margin-left: -moz-calc(50% - 40px);
+        background-color: rgb(250, 250, 250);
+      }
+
+      .spin {
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+        border: dashed 5px #87c228;
+        -webkit-animation-name: spin;
+        -webkit-animation-duration: 1.5s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+        background-color: rgb(250, 250, 250);
+        margin-bottom: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="more">
+      <div
+        class="virtual"
+        style="height: 30px; background-color: rgb(250, 250, 250)"
+      ></div>
+      <div class="square dnone">
+        <div class="spin"></div>
+      </div>
+    </div>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="../static/js/notification.js"></script>
+    <script>
+      const roomSocket = io.connect(`http://localhost:8000/room`, {
+        path: "/socket.io",
+      });
+    </script>
+  </body>
+</html>

@@ -69,9 +69,8 @@ module.exports = (server,app,sessionMiddleware)=>{
         const {headers:{referer}} = req;
         socket.join(referer);
         
-
+        
         socket.on("disconnect",()=>{
-
         });
         
     });

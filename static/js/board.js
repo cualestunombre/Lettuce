@@ -137,7 +137,7 @@ function getItem(boardId) {
                                 </div>
                             </div>`;
             main.appendChild(card);
-            let arr = document.querySelectorAll(`div .comments`);
+            let arr = document.querySelectorAll(`#boardModal div .comments`);
             for (const element of arr) {
                 const postId = element.getAttribute("url");
                 const data = await axios.get(
@@ -183,7 +183,7 @@ function getItem(boardId) {
                                 c.remove();
                             });
                             const space = document.querySelector(
-                                `div[url="${postId}"].comments`
+                                `#boardModal div[url="${postId}"].comments`
                             );
                             res.data.forEach((res) => {
                                 let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">

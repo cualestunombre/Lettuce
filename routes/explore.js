@@ -5,7 +5,9 @@ const { User, Post, PostMedia, Follow, HashTag, Like, Comment } = require("../mo
 const { isLoggedIn } = require("./middlewares");
 
 router.get("/", async (req, res, next) => {
-    res.render("explore");
+    console.log(req.query.tag);
+    if (req.query.tag) res.render("explore", { hash: req.query.tag });
+    else res.render("explore", { hash: undefined });
 });
 
 router.get("/board", isLoggedIn, async (req, res, next) => {

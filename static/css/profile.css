@@ -123,8 +123,8 @@
 }
 
 .yeah {
-    width: 350px;
-    height: 350px;
+    width: 430px;
+    height: 430px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -139,4 +139,10 @@
 .videoPosting{
     width: 100%;
     height: 100%;
+}
+.noFollowers {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

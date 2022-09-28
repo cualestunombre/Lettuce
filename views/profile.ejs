@@ -464,9 +464,25 @@
           card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
                 <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
                   명이 좋아합니다.</a><div>`;
+          let result = [];
 
+          if (ele.content) {
+            let spaceAdd = ele.content.replace(/#/gi, ' #');
+            console.log("sapceAdd",spaceAdd)
+            let content = spaceAdd.split(" ");
+            console.log("content",content)
+            for (let i = 0; i < content.length; i++) {
+              if (content[i].includes("#")) {
+                result.push(`<a class="hash">${content[i]}</a>`);
+              } else {
+                result.push(content[i]);
+              }
+            }
+            console.log(result);
+            result = result.join(" ");
+          }
           card.innerHTML += ` <div class="comment">
-                              ${ele.content}
+                              ${result}
                           </div>`;
           card.innerHTML += `<div class="comment_form">
                               <div class="comments" url="${ele.id}">

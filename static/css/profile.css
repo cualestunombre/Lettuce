@@ -133,6 +133,8 @@
 .yeah:hover{
     cursor: pointer;
 }
+.hash {
+    color: blue;
 
 .videoPosting{
     width: 100%;

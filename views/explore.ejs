@@ -1,168 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <a
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+    ></a>
+    <link rel="stylesheet" href="/static/css/board.css" />
+    <title>Document</title>
+    <style>
+      @font-face {
+        font-family: "HallymGothic-Regular";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2")
+          format("woff2");
+        font-weight: 400;
+        font-style: normal;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-  <a href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"></a>
-  <link rel="stylesheet" href="/static/css/board.css" />
-  <title>Document</title>
-  <style>
-    @font-face {
-      font-family: "HallymGothic-Regular";
-      src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2") format("woff2");
-      font-weight: 400;
-      font-style: normal;
-    }
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+        width: 80%;
+        margin: auto;
+      }
 
-    .list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 80%;
-      margin: auto;
-    }
+      .dnone {
+        display: none;
+      }
 
-    .dnone {
-      display: none;
-    }
+      .square {
+        border: 0;
+        width: 80px;
+        padding: 0px;
+        margin-top: 40px;
+        margin-left: calc(50% - 40px);
+        margin-left: -webkit-calc(50% - 40px);
+        margin-left: -moz-calc(50% - 40px);
+      }
 
-    .square {
-      border: 0;
-      width: 80px;
-      padding: 0px;
-      margin-top: 40px;
-      margin-left: calc(50% - 40px);
-      margin-left: -webkit-calc(50% - 40px);
-      margin-left: -moz-calc(50% - 40px);
-    }
+      .spin {
+        box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        border: dashed 5px #87c228;
+        -webkit-animation-name: spin;
+        -webkit-animation-duration: 1.5s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+      }
 
-    .spin {
-      box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
-      height: 80px;
-      width: 80px;
-      border-radius: 50%;
-      border: dashed 5px #87c228;
-      -webkit-animation-name: spin;
-      -webkit-animation-duration: 1.5s;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-timing-function: linear;
-    }
+      @-webkit-keyframes spin {
+        from {
+          -webkit-transform: rotate(0deg);
+        }
 
-    @-webkit-keyframes spin {
-      from {
-        -webkit-transform: rotate(0deg);
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      .seperator {
+        height: 1px;
+        background-color: #dbdbdb;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: space-around;
+        position: relative;
+      }
+
+      .tabs div {
+        padding: 1em;
+        cursor: pointer;
+      }
+
+      #line {
+        height: 3px;
+        background-color: black;
+        position: absolute;
+        width: 0;
+        left: 0;
+        top: 52;
+        padding: 0px;
+        transition: 0.5s;
+      }
+
+      #tagBtn {
+        border: none;
+        background-color: transparent;
+      }
+
+      #tagSearch {
+        display: none;
+      }
+      .yeah {
+        width: 330px;
+        height: 330px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        border: 3px solid white;
+        z-index: 0;
+      }
+      .imgWrap {
+        width: 330px;
+        height: 330px;
+        cursor: pointer;
+        transition: 0.5s;
+        position: relative;
+      }
+      .imgWrap > .icons{
+        display: none;
+
       }
 
       to {
         -webkit-transform: rotate(360deg);
       }
-    }
+      .icons{
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+      }
+      .dnone{
+        display: none;
+      }
+      #searchBtn {
+        border: none;
+        background-color: #87c228;
+        border-radius: 5px;
+        color: white;
+        padding: 2px 5px;
+      }
+      #paragraph {
+        padding-top: 10px;
+        font-size: 14px;
+      }
+      .hash{
+        color: blue;
+      }     
+    </style>
+  </head>
 
-    .seperator {
-      height: 1px;
-      background-color: #dbdbdb;
-    }
+  <body>
+    <%-include('navbar.ejs') %>
 
-    .tabs {
-      display: flex;
-      justify-content: space-around;
-      position: relative;
-    }
-
-    .tabs div {
-      padding: 1em;
-      cursor: pointer;
-    }
-
-    #line {
-      height: 3px;
-      background-color: black;
-      position: absolute;
-      width: 0;
-      left: 0;
-      top: 52;
-      padding: 0px;
-      transition: 0.5s;
-    }
-
-    #tagBtn {
-      border: none;
-      background-color: transparent;
-    }
-
-    #tagSearch {
-      display: none;
-    }
-
-    .yeah {
-      width: 200px;
-      height: 200px;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      border: 3px solid white;
-      z-index: 0;
-    }
-
-    .imgWrap {
-      width: 200px;
-      height: 200px;
-      cursor: pointer;
-      transition: 0.5s;
-      position: relative;
-    }
-
-    .imgWrap>.icons {
-      display: none;
-    }
-
-    .imgWrap:hover>.icons {
-      display: block;
-    }
-
-    .icons {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-    }
-
-    .dnone {
-      display: none;
-    }
-
-    #searchBtn {
-      border: none;
-      background-color: #87c228;
-      border-radius: 5px;
-      color: white;
-      padding: 2px 5px;
-    }
-
-    #paragraph {
-      padding-top: 10px;
-      font-size: 14px;
-    }
-  </style>
-</head>
-
-<body>
-  <%-include('navbar.ejs') %>
-
-  <div class="seperator"></div>
-  <!-- 게시글 탭  게시글 본문 -->
-  <section class="post-area">
-    <div class="tabs">
-      <div id="line"></div>
-      <a href="/explore">
-        <div id="posts"><i class="fa-regular fa-image"></i> ALL</div>
-      </a>
-      <button id="tagBtn" type="button" onclick="reset();">
-        <div id="saved"><i class="fa-solid fa-tag"></i> TAG</div>
-      </button>
+    <div class="seperator"></div>
+    <!-- 게시글 탭  게시글 본문 -->
+    <section class="post-area">
+      <div class="tabs">
+        <div id="line"></div>
+        <a href="/explore">
+          <div id="posts"><i class="fa-regular fa-image"></i> ALL</div>
+        </a>
+        <button id="tagBtn" type="button" onclick="reset();">
+          <div id="saved"><i class="fa-solid fa-tag"></i> TAG</div>
+        </button>
+      </div>
+      <div id="tagSearch" style="text-align: center">
+        <input style="width: 300px;" type="text" id="tag" name="name" />
+        <button id="searchBtn" type="button" onclick="tagSearch();">검색</button>
+        <div id="paragraph">
+          <p>
+            해시태그를 통한 검색을 할 수 있습니다. 단, '#' 문자를 제외하고
+            검색해주세요. (ex: #고양이(X), 고양이(O))
+          </p>
+        </div>
+      </div>
+    </section>
+    <!--  -->
+    <div class="container">
+      <div class="list"></div>
     </div>
     <div id="tagSearch" style="text-align: center">
       <input style="width: 300px;" type="text" id="tag" name="name" />
@@ -394,8 +423,23 @@
                                   <i class="far fa-bookmark"></i>
                               </div>
                           </div>`;
-          card.innerHTML += ` <div class="comment">
-                              ${ele.content}
+            let result = [];
+
+            if (ele.content) {
+              let spaceAdd = ele.content.replace(/#/gi, ' #');
+              let content = spaceAdd.split(" ");
+              for (let i = 0; i < content.length; i++) {
+                if (content[i].includes("#")) {
+                  result.push(`<a class="hash">${content[i]}</a>`);
+                } else {
+                  result.push(content[i]);
+                }
+              }
+              console.log(result);
+              result = result.join(" ");
+            }
+            card.innerHTML += ` <div class="comment">
+                              ${result}
                           </div>`;
           card.innerHTML += `<div class="comment_form">
                               <div class="comments" url="${ele.id}">

@@ -52,10 +52,10 @@
     </div>
 
     <div class="up">
-      <a href="#"><img class="upBtn" src="/static/image/up.png" /></a>
+      <a href="#"><i id="upIcon" class="fa-solid fa-circle-up"></i></a>
     </div>
     <div class="down">
-      <a href="#"><img class="downBtn" src="/static/image/down.png" /></a>
+      <a href="#"><i id="downIcon" class="fa-solid fa-circle-down"></i></a>
     </div>
 
     <div class="main"></div>
@@ -286,7 +286,8 @@
               let result = [];
 
               if (ele.content) {
-                let content = ele.content.split(" ");
+                let spaceAdd = ele.content.replace(/#/gi, ' #');
+                let content = spaceAdd.split(" ");
                 for (let i = 0; i < content.length; i++) {
                   if (content[i].includes("#")) {
                     result.push(`<a class="hash">${content[i]}</a>`);
@@ -595,7 +596,7 @@
         window.location = "/";
       }
 
-      $(".downBtn").click(function () {
+      $("#downIcon").click(function () {
         $("html, body").scrollTop($(document).height());
       });
     </script>

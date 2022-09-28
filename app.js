@@ -37,6 +37,7 @@ const exploreRouter = require("./routes/explore");
 const commentRouter = require("./routes/comment");
 const realtimeRouter = require("./routes/realtime");
 const chatRouter = require("./routes/chat");
+const recommendRouter = require("./routes/recommend");
 const {SessionSocketIdMap} = require("./models");
 app.set("view engine", "ejs");
 app.use(morgan("dev")); // 패킷 정보 공개
@@ -64,6 +65,7 @@ app.use("/like", likeRouter);
 app.use("/comment", commentRouter);
 app.use("/realtime", realtimeRouter);
 app.use("/chat",chatRouter);
+app.use("/recommend",recommendRouter);
 app.get("/socketTest", (req, res) => {
   res.render("socketTest");
 });

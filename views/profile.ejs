@@ -403,7 +403,7 @@
           wrapper.setAttribute("class", "carousel-inner");
           let numCnt = 0;
           ele.src.forEach((element) => {
-            if ((element.type = "img")) {
+            if ((element.type == "img")) {
               let flag = "active";
               if (numCnt != 0) {
                 flag = "";
@@ -420,11 +420,15 @@
             } else {
               const Img = document.createElement("div");
               Img.setAttribute("class", "carousel-item active");
-              Img.setAttribute("data-carousel-item");
+              Img.setAttribute("data-carousel-item","");
               const video = document.createElement("video");
               const source = document.createElement("source");
               source.setAttribute("src", element.src);
-              source.setAttribute("type", "mp4");
+              source.setAttribute("type", "video/mp4");
+              video.setAttribute("class","videoPosting");
+              video.setAttribute("controls","");
+              video.setAttribute("autoplay","");
+              video.setAttribute("muted","");
               video.appendChild(source);
               Img.appendChild(video);
               wrapper.appendChild(Img);

@@ -133,3 +133,6 @@
 .yeah:hover{
     cursor: pointer;
 }
+.hash {
+    color: blue;
+}

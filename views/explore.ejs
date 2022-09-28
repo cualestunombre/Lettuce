@@ -38,7 +38,7 @@
       .list {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: left;
         width: 80%;
         margin: auto;
       }
@@ -115,8 +115,8 @@
         display: none;
       }
       .yeah {
-        width: 200px;
-        height: 200px;
+        width: 330px;
+        height: 330px;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -124,8 +124,8 @@
         z-index: 0;
       }
       .imgWrap {
-        width: 200px;
-        height: 200px;
+        width: 330px;
+        height: 330px;
         cursor: pointer;
         transition: 0.5s;
         position: relative;
@@ -156,6 +156,9 @@
         padding-top: 10px;
         font-size: 14px;
       }
+      .hash{
+        color: blue;
+      }     
     </style>
   </head>
 
@@ -396,8 +399,23 @@
                                   <i class="far fa-bookmark"></i>
                               </div>
                           </div>`;
+            let result = [];
+
+            if (ele.content) {
+              let spaceAdd = ele.content.replace(/#/gi, ' #');
+              let content = spaceAdd.split(" ");
+              for (let i = 0; i < content.length; i++) {
+                if (content[i].includes("#")) {
+                  result.push(`<a class="hash">${content[i]}</a>`);
+                } else {
+                  result.push(content[i]);
+                }
+              }
+              console.log(result);
+              result = result.join(" ");
+            }
             card.innerHTML += ` <div class="comment">
-                              ${ele.content}
+                              ${result}
                           </div>`;
             card.innerHTML += `<div class="comment_form">
                               <div class="comments" url="${ele.id}">

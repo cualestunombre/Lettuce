@@ -64,6 +64,7 @@
     margin: 0rem 1rem 1rem 1rem;
     border-bottom: 1px solid #bdbbbb;
     padding-bottom: 1rem;
+    padding-top: 1rem;
 }
 
 #boardModal .comment_form form {

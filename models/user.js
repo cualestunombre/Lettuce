@@ -22,7 +22,7 @@ module.exports = class User extends Sequelize.Model {
 
             },
             profile: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(300),
                 defaultValue: "/static/image/default.jpg"
             },
             comment: {

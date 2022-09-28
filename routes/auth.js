@@ -68,10 +68,16 @@ router.post("/emailCheck",isNotLoggedIn, (req, res) => {
 });
 
 
+//네이버
+router.get('/naver', passport.authenticate('naver', { authType: 'reprompt' }));
 
+router.get("/naver/callback",passport.authenticate("naver",{
+  failureRedirect : "/"
+  }),
+  (req,res) => {res.redirect("/");}
+);
 
-
-
+//카카오
 router.get("/kakao", passport.authenticate("kakao"));//로그인 요청
 
 router.get("/kakao/callback",passport.authenticate("kakao", {

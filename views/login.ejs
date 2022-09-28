@@ -25,17 +25,18 @@
             </form>
             <div class="line"></div>
             <button class="kakaoBtn" onclick="kakaoLogin()"><i class="fa-sharp fa-solid fa-comment"></i>카카오톡 계정으로 로그인</button>
+            <button class="kakaoBtn" onclick="naverLogin()"><i class="fa-sharp fa-solid fa-comment"></i>네이버 계정으로 로그인</button>
         </div>
     </div>
     <script>
 
 
         // 카카오 로그인
-
-        
         function kakaoLogin() {
-            
            location.href = '/auth/kakao'
+        }
+        function naverLogin(){
+            location.href = '/auth/naver'
         }
 
         function dynamicForm() {

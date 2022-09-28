@@ -12,7 +12,10 @@
     min-width: 1000px;
   }
   .chatWrapper {
-    text-align: center;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .chatList {
     margin-top: 20px;

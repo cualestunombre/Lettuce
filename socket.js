@@ -4,7 +4,7 @@ const {User,SessionSocketIdMap} = require("./models");
 const passport = require("passport");
 const { QueryTypes } = require('sequelize');
 const { sequelize } = require("./models");
-
+const axios = require("axios");
 module.exports = (server,app,sessionMiddleware)=>{
     const io = SocketIO(server,{path:'/socket.io'});
     app.set("io",io);
@@ -68,6 +68,11 @@ module.exports = (server,app,sessionMiddleware)=>{
         const req = socket.request;
         const {headers:{referer}} = req;
         socket.join(referer);
+        
+
+        socket.on("disconnect",()=>{
+
+        });
         
     });
 }

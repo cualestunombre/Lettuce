@@ -45,8 +45,6 @@
           </div>
 
           <% } %>
-
-          <div class="chatFooter"></div>
         </div>
         <div class="roomList chatCard">
           <div class="chatHeader"><span>채팅방 목록</span></div>
@@ -66,7 +64,6 @@
             </div>
             <% } %>
           </div>
-          <div class="chatFooter"></div>
         </div>
       </div>
     </div>
@@ -86,6 +83,31 @@
     });
     chatSocket.on("room", (data) => {
       const list = document.querySelector(".roomContent");
+      const room = document.createElement("div");
+      room.classList.add("roomWrapper");
+      room.setAttribute("url", data.RoomId);
+      room.setAttribute("onclick", `location.href="/chat/room/${data.RoomId}"`);
+      const profile = document.createElement("img");
+      profile.setAttribute("src", data.profile);
+      room.appendChild(profile);
+      const roomNickName = document.createElement("div");
+      roomNickName.classList.add("roomNickName");
+      const span1 = document.createElement("span");
+      const span2 = document.createElement("span");
+      span1.innerText = data.nickName;
+      span2.innerText = data.email;
+      const time = document.createElement("div");
+      time.classList.add("roomTime");
+      time.innerText = data.time;
+      room.append(time);
+      roomNickName.appendChild(span1);
+      roomNickName.appendChild(span2);
+      room.appendChild(roomNickName);
+      list.prepend(room);
+    });
+    chatSocket.on("chat", (data) => {
+      const list = document.querySelector(".roomContent");
+      document.querySelector(`.roomWrapper[url="${data.RoomId}"]`).remove();
       const room = document.createElement("div");
       room.classList.add("roomWrapper");
       room.setAttribute("url", data.RoomId);

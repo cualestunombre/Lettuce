@@ -12,11 +12,15 @@
         font-weight: 400;
         font-style: normal;
       }
-
+      body {
+        font-family: "HallymGothic-Regular";
+      }
       .dnone {
         display: none;
       }
-
+      .virtual {
+        margin-top: 0px;
+      }
       .square {
         border: 0;
         width: 80px;
@@ -25,7 +29,7 @@
         margin-left: calc(50% - 40px);
         margin-left: -webkit-calc(50% - 40px);
         margin-left: -moz-calc(50% - 40px);
-        background-color: white;
+        background-color: rgb(240, 245, 240);
       }
       @-webkit-keyframes spin {
         from {
@@ -45,7 +49,7 @@
         -webkit-animation-duration: 1.5s;
         -webkit-animation-iteration-count: infinite;
         -webkit-animation-timing-function: linear;
-        background-color: white;
+        background-color: rgb(240, 245, 240);
         margin-bottom: 50px;
       }
       .mWrapper {
@@ -53,11 +57,12 @@
         text-align: center;
       }
       .mList {
+        position: relative;
         display: inline-block;
-        height: 600px;
+        height: 650px;
         width: 700px;
         border-radius: 10px;
-        background-color: white;
+        background-color: #f9f4d9;
         box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
       }
       .mHeader {
@@ -82,22 +87,130 @@
         font-size: 14px;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
       }
+      div.mTitle {
+        text-align: center;
+        font-size: 25px;
+        padding-top: 15px;
+      }
+      .chatInput {
+        border: none;
+        background-color: rgb(255, 255, 255, 0.9);
+        border-radius: 5px;
+        position: absolute;
+        bottom: 7px;
+        left: 80px;
+        width: 550px;
+        height: 25px;
+      }
+      .chatInput:focus {
+        outline: none;
+      }
+      .mChat {
+        overflow-y: auto;
+        overflow-x: none;
+        margin-top: 0px;
+        padding-top: 0px;
+        height: 550px;
+        width: 100%;
+        background-color: rgb(240, 245, 240);
+      }
+      .sendBtn {
+        cursor: pointer;
+        font-family: "HallymGothic-Regular";
+        position: absolute;
+        bottom: 7px;
+        right: 10px;
+        background-color: #87c228;
+        border: none;
+        color: #ffffff;
+        border-radius: 5px;
+        height: 25px;
+        width: 50px;
+        font-size: 14px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      }
+      .pWrapper {
+        text-align: left;
+      }
+      .pWrapper.right {
+        text-align: right;
+      }
+      .pinner {
+        margin-top: 50px;
+        width: 50%;
+        display: inline-block;
+        position: relative;
+      }
+      .flex.me {
+        position: absolute;
+        left: 270px;
+        display: flex;
+        width: 60px;
+        justify-content: space-between;
+      }
+      .flex.other {
+        position: absolute;
+        left: 20px;
+        display: flex;
+        width: 60px;
+        justify-content: space-between;
+      }
+      .flex img {
+        width: 15px;
+        height: 15px;
+        border-radius: 100%;
+      }
+      .flex span {
+        font-size: 13px;
+      }
+      .contentBox.other {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 30px;
+        text-align: left;
+        position: relative;
+        right: -20px;
+        max-width: 200px;
+        display: inline-block;
+        background-color: white;
+        word-break: break-all;
+        border-radius: 5px;
+      }
+      .contentBox.me {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 30px;
+        text-align: left;
+        position: relative;
+        left: -20px;
+        max-width: 200px;
+        display: inline-block;
+        background-color: yellow;
+        word-break: break-all;
+        border-radius: 5px;
+      }
     </style>
   </head>
   <body>
-    <div class="mWrapper">
+    <div class="mWrapper" me="<%= me %>" value="<%= id %>">
       <div class="mList">
         <div class="mHeader">
+          <div class="mTitle"><%= data[0].nickName %></div>
           <button class="mExit" onclick='location.href ="/chat" '>
             나가기
           </button>
         </div>
-        <div class="more">
-          <p class="virtual" style="height: 50px"></p>
-          <div class="square dnone">
-            <div class="spin"></div>
+        <div class="mChat">
+          <div class="realChat"></div>
+          <div class="more">
+            <p class="virtual" style="height: 50px"></p>
+            <div class="square dnone">
+              <div class="spin"></div>
+            </div>
           </div>
         </div>
+        <input class="chatInput" type="text" />
+        <button class="sendBtn" onclick="sendFunc(event)">전송</button>
       </div>
     </div>
 
@@ -117,19 +230,47 @@
       const roomSocket = io.connect(`http://localhost:8000/room`, {
         path: "/socket.io",
       });
-      let cnt = 0;
     </script>
     <script>
-      function loadItems(number) {
-        new Promise((resolve) => {
-          document.querySelector(".square").classList.remove("dnone");
-          setTimeout(async () => {
-            cnt += 1;
-            resolve();
-          }, 1000);
-        }).then(() => {});
-      }
-
+      const me = document.querySelector(".mWrapper").getAttribute("me");
+      console.log(me);
+      roomSocket.on("message", (data) => {
+        offset += 1;
+        const target = document.querySelector(".realChat");
+        const profileWrapper = document.createElement("div");
+        profileWrapper.classList.add("pWrapper");
+        if (me == data.UserId) {
+          profileWrapper.classList.add("right");
+        }
+        const flexWrapper = document.createElement("div");
+        flexWrapper.classList.add("pinner");
+        const flex = document.createElement("div");
+        flex.classList.add("flex");
+        const img = document.createElement("img");
+        img.setAttribute("src", data.profile);
+        const nickName = document.createElement("span");
+        const contentBox = document.createElement("div");
+        contentBox.classList.add("contentBox");
+        contentBox.innerText = data.content;
+        if (me == data.UserId) {
+          contentBox.classList.add("me");
+          flex.classList.add("me");
+        } else {
+          contentBox.classList.add("other");
+          flex.classList.add("other");
+        }
+        nickName.innerText = data.nickName;
+        flex.appendChild(img);
+        flex.appendChild(nickName);
+        flexWrapper.appendChild(flex);
+        flexWrapper.appendChild(contentBox);
+        profileWrapper.appendChild(flexWrapper);
+        target.prepend(profileWrapper);
+      });
+    </script>
+    <script>
+      let cnt = 0;
+      let offset = 0;
       const intersectionObserver = new IntersectionObserver(function (entries) {
         // If intersectionRatio is 0, the target is out of view
         // and we do not need to do anything.
@@ -139,6 +280,84 @@
       });
       // start observing
       intersectionObserver.observe(document.querySelector(".virtual"));
+      const RoomId = document.querySelector(".mWrapper").getAttribute("value");
+      function loadItems(number) {
+        new Promise((resolve) => {
+          document.querySelector(".square").classList.remove("dnone");
+          setTimeout(async () => {
+            const data = await axios.get(
+              `/chat/comment?id=${RoomId}&count=${cnt}&offset=${offset}`
+            );
+            cnt += 1;
+            resolve(data.data);
+          }, 1000);
+        }).then((a) => {
+          const data = a.data;
+
+          if (a.code == "200") {
+            console.log(data);
+            data.forEach((data) => {
+              const target = document.querySelector(".realChat");
+              const profileWrapper = document.createElement("div");
+              profileWrapper.classList.add("pWrapper");
+              if (me == data.UserId) {
+                profileWrapper.classList.add("right");
+              }
+              const flexWrapper = document.createElement("div");
+              flexWrapper.classList.add("pinner");
+              const flex = document.createElement("div");
+              flex.classList.add("flex");
+              const img = document.createElement("img");
+              img.setAttribute("src", data.profile);
+              const nickName = document.createElement("span");
+              const contentBox = document.createElement("div");
+              contentBox.classList.add("contentBox");
+              contentBox.innerText = data.content;
+              if (me == data.UserId) {
+                contentBox.classList.add("me");
+                flex.classList.add("me");
+              } else {
+                contentBox.classList.add("other");
+                flex.classList.add("other");
+              }
+              nickName.innerText = data.nickName;
+              flex.appendChild(img);
+              flex.appendChild(nickName);
+              flexWrapper.appendChild(flex);
+              flexWrapper.appendChild(contentBox);
+              profileWrapper.appendChild(flexWrapper);
+              target.appendChild(profileWrapper);
+            });
+
+            if (document.querySelector(".mChat").scrollHeight <= 550) {
+              document.querySelector(".square").classList.add("dnone");
+              intersectionObserver.unobserve(
+                document.querySelector(".virtual")
+              );
+            }
+          } else {
+            document.querySelector(".square").classList.add("dnone");
+            intersectionObserver.unobserve(document.querySelector(".virtual"));
+          }
+        });
+      }
+    </script>
+    <script>
+      async function sendFunc(event) {
+        console.log("sdasd");
+        const input = event.target.parentNode.querySelector("input");
+        if (input.value.length == 0) {
+          alert("내용을 입력해 주세요!");
+          return;
+        } else {
+          const data = await axios.post("/chat/chat", {
+            roomId: RoomId,
+            content: input.value,
+          });
+          input.value = "";
+          document.querySelector(".mChat").scrollTop = this.scrollTop;
+        }
+      }
     </script>
   </body>
 </html>

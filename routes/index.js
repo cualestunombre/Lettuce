@@ -34,6 +34,7 @@ router.get("/fpost",async(req,res)=>{
     const arr=[];
     const list = []; 
     const offset = req.query.cnt*5-1;
+    console.log(req.user.id)
     const FollowingList = await User.findAll({
         raw: true,
         attributes: ['id'],

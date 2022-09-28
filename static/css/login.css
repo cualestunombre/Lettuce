@@ -14,7 +14,7 @@
 }
 .container {
     width: 400px !important;
-    height: 470px !important;
+    height: 520px !important;
     background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -23,7 +23,7 @@
 }
 .signupContainer {
     width: 400px !important;
-    height: 670px !important;
+    height: 690px !important;
     background-color: #F9F4D9;
     border-radius: 20px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -116,6 +116,21 @@
     border: none;
 }
 .kakaoBtn:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.naverBtn {
+    background-color: #03c75a;
+    color: white;
+    width: 250px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+.naverBtn:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 .registered {

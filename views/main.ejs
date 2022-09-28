@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -31,6 +32,13 @@
       <span class="recommendHeader">회원님을 위한 추천</span><a href="#">모두보기</a>
     </div>
     <div id="recommendList">
+
+    <div class="up">
+      <a href="#"><i id="upIcon" class="fa-solid fa-circle-up"></i></a>
+    </div>
+    <div class="down">
+      <a href="#"><i id="downIcon" class="fa-solid fa-circle-down"></i></a>
+
     </div>
     <div class="otherprofile"></div>
   </div>
@@ -183,16 +191,43 @@
               ccount += 1;
             }
 
-            carousel.appendChild(indicator);
-            const wrapper = document.createElement("div");
-            wrapper.setAttribute("class", "carousel-inner");
-            let numCnt = 0;
-            ele.src.forEach((element) => {
-              console.log(element.type);
-              if ((element.type == "img")) {
-                let flag = "active";
-                if (numCnt != 0) {
-                  flag = "";
+
+              carousel.appendChild(indicator);
+              const wrapper = document.createElement("div");
+              wrapper.setAttribute("class", "carousel-inner");
+              let numCnt = 0;
+              ele.src.forEach((element) => {
+                console.log(element.type);
+                if (element.type == "img") {
+                  let flag = "active";
+                  if (numCnt != 0) {
+                    flag = "";
+                  }
+                  numCnt += 1;
+                  const Img = document.createElement("div");
+                  Img.setAttribute("class", `carousel-item ${flag}`);
+                  const img = document.createElement("img");
+                  img.setAttribute("src", element.src);
+                  img.setAttribute("alt", "...");
+                  img.setAttribute("class", "d-block w-100");
+                  Img.appendChild(img);
+                  wrapper.appendChild(Img);
+                } else {
+                  const Img = document.createElement("div");
+                  Img.setAttribute("class", "carousel-item active");
+                  Img.setAttribute("data-carousel-item", "");
+                  const video = document.createElement("video");
+                  const source = document.createElement("source");
+                  source.setAttribute("src", element.src);
+                  source.setAttribute("type", "video/mp4");
+                  video.setAttribute("class", "videoPosting");
+                  video.setAttribute("controls", "");
+                  video.setAttribute("autoplay", "");
+                  video.setAttribute("muted", "");
+                  video.appendChild(source);
+                  Img.appendChild(video);
+                  wrapper.appendChild(Img);
+
                 }
                 numCnt += 1;
                 const Img = document.createElement("div");
@@ -251,15 +286,18 @@
             card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
                 <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
                   명이 좋아합니다.</a><div>`;
-            let result = [];
 
-            if (ele.content) {
-              let content = ele.content.split(" ");
-              for (let i = 0; i < content.length; i++) {
-                if (content[i].includes("#")) {
-                  result.push(`<a class="hash">${content[i]}</a>`);
-                } else {
-                  result.push(content[i]);
+              let result = [];
+
+              if (ele.content) {
+                let spaceAdd = ele.content.replace(/#/gi, " #");
+                let content = spaceAdd.split(" ");
+                for (let i = 0; i < content.length; i++) {
+                  if (content[i].includes("#")) {
+                    result.push(`<a class="hash">${content[i]}</a>`);
+                  } else {
+                    result.push(content[i]);
+                  }
                 }
               }
               console.log(result);
@@ -597,7 +635,8 @@
                       <div class="recCnt">님 외 ${data[i].cnt} 명이 팔로우중입니다.</div>`;
           form.append(div);
         }
-
+      $("#downIcon").click(function () {
+        $("html, body").scrollTop($(document).height());
       });
     });
   </script>

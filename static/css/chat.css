@@ -12,7 +12,10 @@
     min-width: 1000px;
   }
   .chatWrapper {
-    text-align: center;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .chatList {
     margin-top: 20px;
@@ -40,6 +43,7 @@
     display: inline-block;
   }
   .chatHeader {
+   
     font-family: "HallymGothic-Regular";
     font-size: 20px;
     text-align: center;
@@ -72,6 +76,36 @@
       width: 100%;
       background-color: white;
   }
+  .roomWrapper{
+      cursor: pointer;
+      position:relative;
+      height:50px;
+      width: 100%;
+      background-color: white;
+  }
+  .roomWrapper img{
+      border-radius: 100%;
+      border-radius: 100%;
+      width: 30px;
+      height: 30px;
+      position:absolute;
+      top:10px;
+      left:25px;
+  }
+  .roomNickName{
+      display: flex;
+      position:absolute;
+      flex-direction: column;
+      top:5px;
+      left:65px;
+  }
+  .roomNickName span:nth-child(2){
+    color:rgb(0,0,0,0.4);
+    font-size: 11px;
+}
+.roomNickName span{
+    text-align: left;
+}
   .followWrapper img{
     cursor:pointer;
     border-radius: 100%;
@@ -103,7 +137,7 @@
       display: flex;
       justify-content: space-between;
       width:70px;
-      right:30px;
+      right:120px;
   }
   .userActive{
       margin-top: 4px;
@@ -119,3 +153,23 @@
       height: 15px;
       border-radius: 100%;
   }
+.chatButton{
+    margin-top: 10px;
+    font-size: 11px;
+    position:absolute;
+    right:20px;
+    width:60px;
+    border: none;
+    border-radius: 5px;
+    background-color: #87C228;
+    color: white;
+    padding: 5px 9px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.roomTime{
+    font-size: 11px;
+    position:absolute;
+    right:10px;
+    color:rgb(0,0,0,0.4);
+
+}

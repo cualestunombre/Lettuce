@@ -1,0 +1,144 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @font-face {
+        font-family: "HallymGothic-Regular";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2")
+          format("woff2");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      .dnone {
+        display: none;
+      }
+
+      .square {
+        border: 0;
+        width: 80px;
+        padding: 0px;
+        margin-top: 40px;
+        margin-left: calc(50% - 40px);
+        margin-left: -webkit-calc(50% - 40px);
+        margin-left: -moz-calc(50% - 40px);
+        background-color: white;
+      }
+      @-webkit-keyframes spin {
+        from {
+          -webkit-transform: rotate(0deg);
+        }
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+      .spin {
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+        border: dashed 5px #87c228;
+        -webkit-animation-name: spin;
+        -webkit-animation-duration: 1.5s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+        background-color: white;
+        margin-bottom: 50px;
+      }
+      .mWrapper {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .mList {
+        display: inline-block;
+        height: 600px;
+        width: 700px;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+      }
+      .mHeader {
+        position: relative;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: #f9f4d9;
+        height: 60px;
+        width: 100%;
+      }
+      .mExit {
+        cursor: pointer;
+        font-family: "HallymGothic-Regular";
+        position: absolute;
+        top: 15px;
+        left: 10px;
+        background-color: #87c228;
+        border: none;
+        color: #ffffff;
+        border-radius: 5px;
+        padding: 5px 9px;
+        font-size: 14px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mWrapper">
+      <div class="mList">
+        <div class="mHeader">
+          <button class="mExit" onclick='location.href ="/chat" '>
+            나가기
+          </button>
+        </div>
+        <div class="more">
+          <p class="virtual" style="height: 50px"></p>
+          <div class="square dnone">
+            <div class="spin"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      const socket = io.connect(`http://localhost:8000/notification`, {
+        path: "/socket.io",
+      });
+    </script>
+    <script>
+      const roomSocket = io.connect(`http://localhost:8000/room`, {
+        path: "/socket.io",
+      });
+      let cnt = 0;
+    </script>
+    <script>
+      function loadItems(number) {
+        new Promise((resolve) => {
+          document.querySelector(".square").classList.remove("dnone");
+          setTimeout(async () => {
+            cnt += 1;
+            resolve();
+          }, 1000);
+        }).then(() => {});
+      }
+
+      const intersectionObserver = new IntersectionObserver(function (entries) {
+        // If intersectionRatio is 0, the target is out of view
+        // and we do not need to do anything.
+        if (entries[0].intersectionRatio <= 0) return;
+        loadItems(20);
+        console.log("Loaded new items");
+      });
+      // start observing
+      intersectionObserver.observe(document.querySelector(".virtual"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,222 @@
+@font-face {
+    font-family: "HallymGothic-Regular";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2")
+      format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
+  body {
+    font-family: "HallymGothic-Regular";
+  }
+  .dnone {
+    display: none;
+  }
+  .virtual {
+    margin-top: 0px;
+  }
+  .square {
+    border: 0;
+    width: 80px;
+    padding: 0px;
+    margin-top: 40px;
+    margin-left: calc(50% - 40px);
+    margin-left: -webkit-calc(50% - 40px);
+    margin-left: -moz-calc(50% - 40px);
+    background-color: rgb(240, 245, 240);
+  }
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  .spin {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+    border: dashed 5px #87c228;
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    background-color: rgb(240, 245, 240);
+    margin-bottom: 50px;
+  }
+  .mWrapper {
+    display: flex;
+    justify-content: center;
+    height: 98vh;
+    align-items: center;
+  }
+  .mList {
+    position: relative;
+    display: inline-block;
+    height: 650px;
+    width: 700px;
+    overflow-x: none;
+    border-radius: 10px;
+    background-color: #f9f4d9;
+    box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
+  }
+  .mHeader {
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #f9f4d9;
+    height: 60px;
+    width: 100%;
+  }
+  .mExit {
+    cursor: pointer;
+    font-family: "HallymGothic-Regular";
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    background-color: #87c228;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 5px 9px;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+  div.mTitle {
+    text-align: center;
+    font-size: 25px;
+    padding-top: 15px;
+  }
+  .chatInput {
+    border: none;
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 5px;
+    position: absolute;
+    bottom: 7px;
+    left: 80px;
+    width: 550px;
+    height: 25px;
+  }
+  .chatInput:focus {
+    outline: none;
+  }
+  .mChat {
+    position:relative;
+    overflow-y: auto;
+    overflow-x: none;
+    margin-top: 0px;
+    padding-top: 0px;
+    height: 550px;
+    width: 100%;
+    background-color: rgb(240, 245, 240);
+  }
+  .sendBtn {
+    cursor: pointer;
+    font-family: "HallymGothic-Regular";
+    position: absolute;
+    bottom: 7px;
+    right: 10px;
+    background-color: #87c228;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    height: 25px;
+    width: 50px;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+  .pWrapper {
+    text-align: left;
+  }
+  .pWrapper.right {
+    text-align: right;
+  }
+  .pinner {
+    margin-top: 50px;
+    width: 50%;
+    display: inline-block;
+    position: relative;
+  }
+  .flex.me {
+    position: absolute;
+    left: 270px;
+    display: flex;
+    width: 60px;
+    justify-content: space-between;
+  }
+  .flex.other {
+    position: absolute;
+    left: 20px;
+    display: flex;
+    width: 60px;
+    justify-content: space-between;
+  }
+  .flex img {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+  }
+  .flex span {
+    font-size: 13px;
+  }
+  .contentBox.other {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 30px;
+    text-align: left;
+    position: relative;
+    right: -20px;
+    max-width: 200px;
+    display: inline-block;
+    background-color: white;
+    word-break: break-all;
+    border-radius: 5px;
+  }
+  .contentBox.me {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 30px;
+    text-align: left;
+    position: relative;
+    left: -20px;
+    max-width: 200px;
+    display: inline-block;
+    background-color: yellow;
+    word-break: break-all;
+    border-radius: 5px;
+  }
+  .typing{
+    font-size: 11px;
+    position:absolute;
+    left:30px;
+    top:10px;
+    font-weight: 100;
+  }
+  .typing-demo {
+    width: 22ch;
+    animation: typing 1.5s steps(22), blink .5s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+
+    font-size: 13px;
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0
+    }
+  }
+.noCheck{
+  position:absolute;
+  color: #87c228;
+  font-weight: 600;
+  font-size: 15px;
+  right:8px;
+  bottom:-20px;
+  
+}
+.dnone{
+  display: none;
+}

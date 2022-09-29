@@ -65,13 +65,18 @@ module.exports = (server,app,sessionMiddleware)=>{
     room.use(wrap(passport.initialize()));
     room.use(wrap(passport.session()));
     room.on("connection",async(socket)=>{
-        console.log("dsfsdfd");
         const req = socket.request;
         const {headers:{referer}} = req;
         socket.join(referer);
-        console.log(req.user);
+        
+        room.to(referer).emit("enter",{id:req.user.id});
         await SessionSocketIdMap.create({socketId:socket.id, sessionId:req.session.id,UserId:req.user.id, type:referer.split("/").pop()});
+        socket.on("onTyping",(data)=>{
+            room.to(referer).emit("onTyping",{data:req.user.id});
+            console.log(referer);
+        });
         socket.on("disconnect",async()=>{
+            room.to(referer).emit("exit",{id:req.user.id});
             await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
 
         });

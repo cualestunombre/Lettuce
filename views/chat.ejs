@@ -61,6 +61,7 @@
                 <span><%= room[i].email %></span>
               </div>
               <div class="roomTime"><%= room[i].time %></div>
+              <div class="roomCnt"><%= room[i].chatCnt %></div>
             </div>
             <% } %>
           </div>
@@ -99,7 +100,11 @@
       const time = document.createElement("div");
       time.classList.add("roomTime");
       time.innerText = data.time;
+      const chatCnt = document.createElement("div");
+      chatCnt.classList.add("roomCnt");
+      chatCnt.innerText = "0";
       room.append(time);
+      room.appendChild(chatCnt);
       roomNickName.appendChild(span1);
       roomNickName.appendChild(span2);
       room.appendChild(roomNickName);
@@ -124,6 +129,10 @@
       const time = document.createElement("div");
       time.classList.add("roomTime");
       time.innerText = data.time;
+      const chatCnt = document.createElement("div");
+      chatCnt.classList.add("roomCnt");
+      chatCnt.innerText = data.chatCnt;
+      room.appendChild(chatCnt);
       room.append(time);
       roomNickName.appendChild(span1);
       roomNickName.appendChild(span2);

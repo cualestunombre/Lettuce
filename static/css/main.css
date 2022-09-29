@@ -405,3 +405,14 @@ header{
     width: 100%;
     height: 100%;
 }
+
+@media (max-width: 1261px) {
+    .UserList {
+        display: none;
+    }
+}
+@media (max-width: 769px) {
+    .up, .down {
+        display: none;
+    }
+}

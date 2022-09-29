@@ -65,7 +65,7 @@ function getItem(boardId) {
             wrapper.setAttribute("class", "carousel-inner");
             let numCnt = 0;
             ele.src.forEach((element) => {
-                if ((element.type = "img")) {
+                if ((element.type == "img")) {
                     let flag = "active";
                     if (numCnt != 0) {
                         flag = "";
@@ -82,11 +82,15 @@ function getItem(boardId) {
                 } else {
                     const Img = document.createElement("div");
                     Img.setAttribute("class", "carousel-item active");
-                    Img.setAttribute("data-carousel-item");
+                    Img.setAttribute("data-carousel-item", "");
                     const video = document.createElement("video");
                     const source = document.createElement("source");
                     source.setAttribute("src", element.src);
-                    source.setAttribute("type", "mp4");
+                    source.setAttribute("type", "video/mp4");
+                    video.setAttribute("class", "videoPosting");
+                    video.setAttribute("controls", "");
+                    video.setAttribute("autoplay", "");
+                    video.setAttribute("muted", "");
                     video.appendChild(source);
                     Img.appendChild(video);
                     wrapper.appendChild(Img);
@@ -220,9 +224,11 @@ async function deleteComent(event) {
         });
         const space = document.querySelector(`div[url="${postId}"].comments`);
         res.data.forEach((res) => {
-            let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">
-                  <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
-                  </div>`;
+            let tag = `<div class="come">
+                        <a href="/profile?id=${res["User.id"]}">
+                          <img src="${res["User.profile"]}"> ${res["User.nickName"]}
+                        </a>:${res.comment}<span class="commentTime">${res.time}</span>
+                      </div>`;
             if (res.me) {
                 tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
             }
@@ -275,12 +281,13 @@ function likeList(event) {
         let html = "";
         let ListMode = response.data.data;
         for (let i = 0; i < ListMode.length; i++) {
-            html += `<div style="cursor: pointer">
-                        <div class="likeUser" onclick="location.href='profile?id=${ListMode[i].id}';">
-                          <img class="likeProfile" src="${ListMode[i].profile}" alt="">
-                          <span class="userName">${ListMode[i].nickName}</span>
-                          <span class="userEmail">${ListMode[i].email}</span>
-                        </div>
+            html += `<div class="likeUser">
+                      <div style="cursor: pointer"  onclick="location.href='profile?id=${ListMode[i].id}';" >
+                        <img class="likeProfile" src="${ListMode[i].profile}" alt="">
+                        <span class="userName">${ListMode[i].nickName}</span>
+                      </div>
+                        &nbsp;
+                        <span class="userEmail">${ListMode[i].email}</span>
                       </div>`;
         }
         modalBody.innerHTML = html;
@@ -289,95 +296,106 @@ function likeList(event) {
 
 function commentlist(event) {
     const postid = event.target.getAttribute("value");
-    const data = {
-        PostId: postid
-    };
+    const data = { PostId: postid };
+    console.log("data", data);
     axios({
+      url: "/comment/commentList",
+      method: "get",
+      params: data,
+    }).then((response) => {
+      console.log("!!",response.data);
+      let modalBody = document.querySelector("#clist");
+      modalBody.innerHTML = "";
+      let html = "";
+      let ListMode = response.data;
+      for (let i = 0; i < ListMode.length; i++) {
+        if (ListMode[i].me) {
+          html += `<div class="commentPlace1">
+                    <div class="come1">
+                      <div>
+                        <a href="/profile?id=${ListMode[i]["User.id"]}">
+                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                          ${ListMode[i]["User.nickName"]}:
+                        </a>
+                          &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
+                      </div>
+                      <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
+                    </div>
+                  </div>`;
+        } else {
+          html += `<div class="commentPlace1">
+                      <div class="come1">
+                        <div>
+                          <a href="/profile?id=${ListMode[i]["User.id"]}">
+                            <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                            ${ListMode[i]["User.nickName"]}:
+                          </a>
+                            &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
+                        </div>
+                      </div>
+                    </div>`;
+        }
+      }
+      modalBody.innerHTML = html;
+    });
+  }
+
+  async function listDelete(event) {
+    const comentD = await axios.post("comment/commentDelete", {
+      id: event.target.getAttribute("value"),
+    });
+
+    if (comentD.data.code == 200) {
+      event.target.parentNode.parentNode.innerHTML = "";
+      console.log(event.target.parentNode.parentNode);
+      const postid = event.target.getAttribute("url");
+      const data = { PostId: postid };
+      axios({
         url: "/comment/commentList",
         method: "get",
         params: data,
-    }).then((response) => {
+      }).then((response) => {
         console.log(response.data);
         let modalBody = document.querySelector("#clist");
         modalBody.innerHTML = "";
         let html = "";
         let ListMode = response.data;
         for (let i = 0; i < ListMode.length; i++) {
-            if (ListMode[i].me) {
-                html += `<div style="cursor: pointer">
-                        <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
-                          <span class="commentuserComment">${ListMode[i]["comment"]}</span>
+          if (ListMode[i].me) {
+            html += `<div class="commentPlace1">
+                      <div class="come1">
+                        <div>
+                          <a href="/profile?id=${ListMode[i]["User.id"]}">
+                            <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                            ${ListMode[i]["User.nickName"]}:
+                          </a>
+                            &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
                         </div>
                         <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
-                      </div>`;
-            } else {
-                html += `<div style="cursor: pointer">
-                        <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
-                          <span class="commentuserComment">${ListMode[i]["comment"]}</span>
+                      </div>
+                    </div>`;
+          } else {
+            html += `<div class="commentPlace1">
+                      <div class="come1">
+                        <div>
+                          <a href="/profile?id=${ListMode[i]["User.id"]}">
+                            <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
+                            ${ListMode[i]["User.nickName"]}:
+                          </a>
+                            &nbsp;${ListMode[i]["comment"]} <span class=commentTime>${ListMode[i].time}</span>
                         </div>
-                      </div>`;
-            }
+                      </div>
+                    </div>`;
+          }
         }
+
         modalBody.innerHTML = html;
-    });
-}
-
-async function listDelete(event) {
-    const comentD = await axios.post("comment/commentDelete", {
-        id: event.target.getAttribute("value"),
-    });
-
-    if (comentD.data.code == 200) {
-        event.target.parentNode.parentNode.innerHTML = "";
-        console.log(event.target.parentNode.parentNode);
-        const postid = event.target.getAttribute("url");
-        const data = {
-            PostId: postid
-        };
-        axios({
-            url: "/comment/commentList",
-            method: "get",
-            params: data,
-        }).then((response) => {
-            console.log(response.data);
-            let modalBody = document.querySelector("#clist");
-            modalBody.innerHTML = "";
-            let html = "";
-            let ListMode = response.data;
-            for (let i = 0; i < ListMode.length; i++) {
-                if (ListMode[i].me) {
-                    html += `<div style="cursor: pointer">
-                        <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
-                          <span class="commentuserComment">${ListMode[i]["comment"]}</span>
-                        </div>
-                        <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
-                      </div>`;
-                } else {
-                    html += `<div style="cursor: pointer">
-                        <div class="commentUser" onclick="location.href='profile?id=${ListMode[i]["User.id"]}';">
-                          <img class="commentProfile" src="${ListMode[i]["User.profile"]}" alt="">
-                          <span class="commentuserName">${ListMode[i]["User.nickName"]}</span>
-                          <span class="commentuserComment">${ListMode[i]["comment"]}</span>
-                        </div>
-                      </div>`;
-                }
-            }
-
-            modalBody.innerHTML = html;
-        });
-        const target = document.querySelector(`#delete[url="${postid}"]`);
-        const wrap = {
-            target: target
-        };
-        deleteComent(wrap);
+      });
+      const target = document.querySelector(`#delete[url="${postid}"]`);
+      const wrap = { target: target };
+      deleteComent(wrap);
     }
-}
+  }
 
 async function bookmark(event) {
     if (event.target.getAttribute("value") == "0") {
@@ -396,3 +414,10 @@ async function bookmark(event) {
         swal("", "북마크 취소 완료!", "success");
     }
 }
+
+async function deletePost(event) {
+    await axios.delete(
+      `/posting/post?id=${event.currentTarget.getAttribute("url")}`
+    );
+    window.location = "/";
+  }

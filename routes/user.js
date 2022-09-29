@@ -3,6 +3,7 @@ const router = express.Router();
 const { isLoggedIn } = require("./middlewares");
 const { QueryTypes } = require('sequelize');
 const { sequelize } = require("../models");
+const {Sequelize:{Op}} = require("sequelize");
 const {Notification,User} = require("../models");
 router.get("/",isLoggedIn,async (req,res,next)=>{
     const info = req.query.search;
@@ -20,7 +21,7 @@ router.get("/",isLoggedIn,async (req,res,next)=>{
     res.send(arr);
 });
 router.get("/notification",isLoggedIn,async(req,res,next)=>{
-    const result = await Notification.findAll({where:{receiver:req.user.id, reached:"false"}});
+    const result = await Notification.findAll({where:{receiver:req.user.id, reached:"false", type: {[Op.ne]:"chat"},}});
     res.send({cnt:result.length});
 });
 router.get("/notificationInfo",isLoggedIn,async(req,res,next)=>{

@@ -291,6 +291,7 @@
                 let spaceAdd = ele.content.replace(/#/gi, " #");
                 let content = spaceAdd.split(" ");
                 for (let i = 0; i < content.length; i++) {
+                  var tag = content[i].substring(1);
                   if (content[i].includes("#")) {
                     result.push(`<a href = "/explore?tag=${tag}" class="hash">#${tag}</a>`);
                   } else {

@@ -100,8 +100,9 @@
         method: "post",
         data: data
       }).then((response) => {
-        console.log(response);
+        console.log(response.data);
         if (response.status == 200) {
+          console.log("if문 들어옴")
             swal("", "프로필 업데이트 완료", "success").then((value) => {
               $('input[name=name]').attr('value', response.data.name);
               $('input[name=comment]').attr('value', response.data.comment);
@@ -130,6 +131,7 @@
       }).then((response) => {
         var img_url = response.data.path;
         $("#profile_img").attr("src", '/' + img_url);
+        swal("","프로필 사진이 성공적으로 변경되었습니다!", "success")
       })
     }
 

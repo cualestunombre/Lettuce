@@ -17,6 +17,9 @@ body{
     height: 100%;
     width: 100%;
 }
+#downScroll{
+    background-color: rgb(250,250,250);
+}
 .carousel-item img{
     width:548px;
     height: 500px;

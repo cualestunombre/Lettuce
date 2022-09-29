@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const {Follow,User,Room,Allocate,Chat,SessionSocketIdMap} = require("../models");
+const {Follow,User,Room,Allocate,Chat,SessionSocketIdMap,Notification} = require("../models");
 const {isLoggedIn, isNotLoggedIn} = require("./middlewares");
 const { QueryTypes } = require('sequelize');
 const { sequelize } = require("../models");
@@ -68,7 +68,9 @@ router.get("/enter",isLoggedIn,async(req,res,next)=>{
 router.get("/room/:id",isLoggedIn,async(req,res,next)=>{
     const query = `select * from users inner join allocate on users.id=allocate.UserId where allocate.RoomId="${req.params.id}" and users.id!="${req.user.id}"`;
     const data = await sequelize.query(query,{type:QueryTypes.SELECT});
-    console.log(data);
+    await Notification.update({reached:"true"},{where:{RoomId:req.params.id,receiver:req.user.id}});
+    await Chat.update({reached:"true"},{where:{RoomId:req.params.id,UserId:{[Op.ne]:req.user.id}}});
+
     res.render("room",{id:req.params.id,data:data,me:req.user.id});
 });
 
@@ -88,11 +90,23 @@ router.get("/comment",isLoggedIn,async(req,res,next)=>{
     }
 });
 router.post("/chat",isLoggedIn,async (req,res,next)=>{
-    await Chat.create({content:req.body.content, type:"one",UserId:req.user.id,RoomId:req.body.roomId});
     await Room.update({time:new Date()},{where:{id:req.body.roomId}});
     req.app.get("io").of("/room").to(req.headers.referer).emit("message",{profile:req.user.profile, nickName:req.user.nickName,content:req.body.content, UserId:req.user.id});
     const query2 = `select *  from sessionSocketIdMap inner join allocate on sessionSocketIdMap.UserId = allocate.UserId inner join rooms on rooms.id = allocate.RoomId where rooms.id="${req.body.roomId}" and sessionSocketIdMap.UserId !="${req.user.id}"`;
     const result =  await sequelize.query(query2,{type:QueryTypes.SELECT});
+    const query3 = `select *  from sessionSocketIdMap inner join allocate on sessionSocketIdMap.UserId = allocate.UserId inner join rooms on rooms.id = allocate.RoomId where rooms.id="${req.body.roomId}" and sessionSocketIdMap.UserId !="${req.user.id}" and sessionSocketIdMap.type="${req.body.roomId}"`;
+    const result3 =  await sequelize.query(query3,{type:QueryTypes.SELECT});
+    const query1 = `select *  from allocate where UserId!="${req.user.id}" and RoomId="${req.body.roomId}"`;
+    const result1 =  await sequelize.query(query1,{type:QueryTypes.SELECT});
+    if(result3.length!=0){
+        await Chat.create({content:req.body.content, type:"one",UserId:req.user.id,RoomId:req.body.roomId,reached:"true"});
+        await Notification.create({reached:"true", type:"chat", sender:req.user.id, receiver: result1[0].UserId ,RoomId:req.body.roomId });
+    }
+    else{
+        await Chat.create({content:req.body.content, type:"one",UserId:req.user.id,RoomId:req.body.roomId,reached:"false"});
+        await Notification.create({reached:"false", type:"chat", sender:req.user.id, receiver: result1[0].UserId ,RoomId:req.body.roomId });
+    }
+    
     const query = `select rooms.time, rooms.id  from rooms inner join allocate on allocate.RoomId = rooms.id where rooms.id="${req.body.roomId}" and rooms.type="one"`;
     const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
     const now = new Date().getTime();
@@ -116,5 +130,8 @@ router.post("/chat",isLoggedIn,async (req,res,next)=>{
     res.send({code:200});
 
 });
-
+router.get("/chatnoti",async(req,res,next)=>{
+    const data = await Notification.findAll({raw:true,where:{type:"chat",reached:"false",receiver:req.user.id}});
+    res.send({cnt:data.length});
+});
 module.exports = router;

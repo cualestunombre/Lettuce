@@ -89,3 +89,9 @@ document.querySelector(".fa-heart.fa-regular").addEventListener("click", async (
     }
 
 });
+
+const chatNoti = document.querySelector(".fa-regular.fa-comments div");
+axios.get("/chat/chatnoti").then(result=>{
+    
+    chatNoti.innerText=result.data.cnt;
+});

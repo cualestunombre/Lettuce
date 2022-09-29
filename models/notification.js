@@ -10,6 +10,10 @@ module.exports= class Notification extends Sequelize.Model{
                 type: Sequelize.STRING(20),
                 allowNull: false
             },
+            RoomId:{
+                type: Sequelize.STRING(20),
+                allowNull:true 
+            }
             
         },{
             sequelize,

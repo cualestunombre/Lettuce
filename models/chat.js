@@ -8,6 +8,10 @@ module.exports= class Post extends Sequelize.Model{
             type : {
                 type:Sequelize.STRING(20),
                 allowNull:false
+            },
+            reached:{
+                type:Sequelize.STRING(20),
+                allowNull:false
             }
         },{
             sequelize,

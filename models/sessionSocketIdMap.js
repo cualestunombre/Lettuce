@@ -30,8 +30,8 @@ module.exports= class Post extends Sequelize.Model{
         db.SessionSocketIdMap.belongsTo(db.User,{
             'foreignKey':"UserId",
             'sourceKey':"id",
-            ondelete:"cascade",
-            onupdate:"cascade"
+            onDelete:"cascade",
+            onUpdate:"cascade"
         });
     
 };

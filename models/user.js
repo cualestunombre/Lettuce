@@ -63,14 +63,14 @@ module.exports = class User extends Sequelize.Model {
         db.User.hasMany(db.SessionSocketIdMap, {
             'foreignKey': "UserId",
             'targetKey': "id",
-            ondelete: "cascade",
-            onupdate: "cascade"
+            onDelete: "cascade",
+            onUpdate: "cascade"
         });
         db.User.hasMany(db.Comment,{
             'foreignKey':"UserId",
             'targetKey':"id",
-            ondelete:"cascade",
-            onupdate:"cascade"
+            onDelete:"cascade",
+            onUpdate:"cascade"
         });
         db.User.hasMany(db.Chat,{
             'foreignKey':"UserId",

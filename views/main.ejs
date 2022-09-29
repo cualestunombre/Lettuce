@@ -56,7 +56,7 @@
       <a href="#"><i id="upIcon" class="fa-solid fa-circle-up"></i></a>
     </div>
     <div class="down">
-      <a href="#"><i id="downIcon" class="fa-solid fa-circle-down"></i></a>
+      <a href="#downScroll"><i id="downIcon" class="fa-solid fa-circle-down"></i></a>
     </div>
 
     <div class="main"></div>
@@ -129,6 +129,7 @@
         </div>
       </div>
     </div>
+    <div id="downScroll"></div>
 
     <script src="../static/js/searchUser.js"></script>
 
@@ -391,6 +392,7 @@
       }
     </script>
     <script>
+      // 댓글 지우기
       async function deleteComent(event) {
         console.log(event.target);
         console.log(event.target.getAttribute("value"));
@@ -421,6 +423,7 @@
           swal("", "댓글 삭제 성공", "success");
         }
       }
+      //좋아요
       async function like(event) {
         if (event.target.getAttribute("value") == "1") {
           event.target.setAttribute("value", "0");
@@ -473,7 +476,7 @@
           modalBody.innerHTML = html;
         });
       }
-
+      //댓글리스트
       function commentlist(event) {
         const postid = event.target.getAttribute("value");
         const data = { PostId: postid };
@@ -518,7 +521,7 @@
           modalBody.innerHTML = html;
         });
       }
-
+      //댓글 리스트에서 삭제
       async function listDelete(event) {
         const comentD = await axios.post("comment/commentDelete", {
           id: event.target.getAttribute("value"),
@@ -575,6 +578,7 @@
           deleteComent(wrap);
         }
       }
+      //북마크
       async function bookmark(event) {
         if (event.target.getAttribute("value") == "0") {
           event.target.setAttribute("value", "1");
@@ -598,10 +602,11 @@
         );
         window.location = "/";
       }
+      //버튼
+      // $("#downIcon").click(function () {
+      //   $("html, body").scrollTop($(document).height());
+      // });
 
-      $("#downIcon").click(function () {
-        $("html, body").scrollTop($(document).height());
-      });
 
       $(document).ready(function() {
       axios({

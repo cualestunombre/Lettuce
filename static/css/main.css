@@ -411,7 +411,7 @@ header{
         display: none;
     }
 }
-@media (max-width: 728px) {
+@media (max-width: 769px) {
     .up, .down {
         display: none;
     }

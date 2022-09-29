@@ -133,28 +133,35 @@
       })
     }
 
-    function deleteUser() {
-      axios({
-        url: "/profile/deleteUser",
-        method: "post",
-      }).then((response) => {
-        swal({
+
+
+    function deleteUser(){
+      swal({
             title: "",
             text: "회원탈퇴를 정말 진행하시겠습니까?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
-        }).then((willDelete) => {
-          if (willDelete) {
+      }).then(function(result){
+        console.log(result);
+        if(result == true){
+        axios({
+          url: "/profile/deleteUser",
+          method: "post",
+        }).then((response)=>{
+          if(response.data == true){
             swal("","회원탈퇴가 완료되었습니다.","success").then((value) => {
               window.location = "/";
             });
-          } else {
-            swal("","잘 생각하셨습니다!","success");
-          }
-        }) 
-    });
-  }
+          }else{swal("","회원탈퇴 실패","warning")}
+        })
+        }
+        else{
+          swal("","잘 생각하셨습니다!","success");
+        }
+      })
+      
+    }
   </script>
 
   <script src="../static/js/searchUser.js"></script>

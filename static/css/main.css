@@ -350,30 +350,6 @@ header{
     color: grey;
 }
 
-.UserList{
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.4)  5px 4px 12px;
-    position: fixed;
-    margin-top: 53px;
-    right: 50px;
-    width: 300px;
-    height: 400px;
-}
-.recommendForm{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: 14px;
-}
-.recommendForm a {
-    font-weight: bolder;
-}
-.recommend{
-    color:#4b9853;
-    font-size: 15px;
-}
 #likeModal{
     --bs-modal-width: 300px !important;
 }

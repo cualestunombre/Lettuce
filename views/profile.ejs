@@ -157,41 +157,6 @@
     </div>
   </div>
 
-  <!-- 게시물 모달 -->
-  <div class="modal" id="boardModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-body board-body" id="board-main"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 좋아요 모달 -->
-  <div class="modal" id="likeModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="Like-title">좋아요 리스트</h5>
-          <button type="button" class="btn-close" style="margin: 0; padding: 0" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="llist"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 댓글 모달 -->
-  <div class="modal" id="commentModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="Comment-title">댓글</h5>
-          <button type="button" class="btn-close" style="margin: 0; padding: 0" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="clist"></div>
-      </div>
-    </div>
-  </div>
-
   <script type="text/javascript" defer src="/static/js/profile.js"></script>
 
   <!-- 스크립트 -->
@@ -314,8 +279,7 @@
       }).then((data) => {
         if (data.code == 200) {
           const html = data.data.map(
-            (item) =>
-            `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">`
+            (item) => ( item.src[0].type == "img" ?  `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">` :`<div class="yeah"><video class="videoPosting" controls="" onmouseover="videoPlay(this);" onmouseout="videoStop(this);" muted="" onclick = "getItem(${item.id});" id="${item.id}"><source src="${item.src[0].src}" type="video/mp4"></video></div>`)
           );
           $list.innerHTML += html.join("");
         } else {
@@ -333,237 +297,6 @@
     });
     // start observing
     intersectionObserver.observe(document.querySelector(".virtual"));
-
-    // 모달 게시글 불러오기
-    function getItem(boardId) {
-      new Promise((resolve) => {
-        setTimeout(async () => {
-          const data = await axios.get(`/profile/board?id=${boardId}`);
-          resolve(data.data);
-        }, 100);
-      }).then(async (data) => {
-        console.log(data);
-        if (data.code == 200) {
-          $("#board-main").empty();
-          const main = document.querySelector("#board-main");
-          const ele = data.data;
-          const card = document.createElement("div");
-          // card.setAttribute("cnt", cnt);
-          card.classList.add("card");
-          const header = document.createElement("header");
-          const profile = document.createElement("img");
-
-          profile.setAttribute("src", ele["User.profile"]);
-          const profileWrapper = document.createElement("a");
-          profileWrapper.classList.add("profileWrapper");
-          profileWrapper.appendChild(profile);
-          profileWrapper.setAttribute(
-            "href",
-            `/profile?id=${ele["User.id"]}`
-          );
-
-          const nickName = document.createElement("span");
-          nickName.innerText = ele["User.nickName"];
-          const nickNameWrapper = document.createElement("a");
-          nickNameWrapper.classList.add("nickNameWrapper");
-          nickNameWrapper.appendChild(nickName);
-          nickNameWrapper.setAttribute(
-            "href",
-            `profile?id=${ele["User.id"]}`
-          );
-
-          const createdAt = document.createElement("span");
-          createdAt.innerText = ele.createdAt;
-          createdAt.classList.add("createdAt");
-          header.appendChild(profileWrapper);
-          header.appendChild(nickNameWrapper);
-          header.appendChild(createdAt);
-          card.appendChild(header);
-          const carousel = document.createElement("div");
-          carousel.setAttribute("id", `a${ele.id}`);
-          carousel.setAttribute("class", "carousel slide");
-          carousel.setAttribute("data-ride", "carousel");
-          const indicator = document.createElement("div");
-          indicator.setAttribute("class", "carousel-indicators");
-
-          let ccount = 1;
-          console.log(ele.src);
-          indicator.innerHTML += `<button type="button" data-bs-target="#a${ele.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>`;
-          for (let k = 0; k < ele.src.length - 1; k++) {
-            indicator.innerHTML += ` <button type="button" data-bs-target="#a${
-                ele.id
-              }" data-bs-slide-to="${ccount}" aria-label="Slide ${
-                ccount + 1
-              }"></button>`;
-            ccount += 1;
-          }
-
-          carousel.appendChild(indicator);
-          const wrapper = document.createElement("div");
-          wrapper.setAttribute("class", "carousel-inner");
-          let numCnt = 0;
-          ele.src.forEach((element) => {
-            if ((element.type == "img")) {
-              let flag = "active";
-              if (numCnt != 0) {
-                flag = "";
-              }
-              numCnt += 1;
-              const Img = document.createElement("div");
-              Img.setAttribute("class", `carousel-item ${flag}`);
-              const img = document.createElement("img");
-              img.setAttribute("src", element.src);
-              img.setAttribute("alt", "...");
-              img.setAttribute("class", "d-block w-100");
-              Img.appendChild(img);
-              wrapper.appendChild(Img);
-            } else {
-              const Img = document.createElement("div");
-              Img.setAttribute("class", "carousel-item active");
-              Img.setAttribute("data-carousel-item","");
-              const video = document.createElement("video");
-              const source = document.createElement("source");
-              source.setAttribute("src", element.src);
-              source.setAttribute("type", "video/mp4");
-              video.setAttribute("class","videoPosting");
-              video.setAttribute("controls","");
-              video.setAttribute("autoplay","");
-              video.setAttribute("muted","");
-              video.appendChild(source);
-              Img.appendChild(video);
-              wrapper.appendChild(Img);
-            }
-          });
-          carousel.appendChild(wrapper);
-          carousel.innerHTML += `<button class="carousel-control-prev" type="button" data-bs-target="#a${ele.id}" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button" data-bs-target="#a${ele.id}" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button></div>
-                          `;
-          let flag = "bi-heart"; //좋아요가 없는 상태
-          let value = "0"; //좋아요가 없는 상태
-          if (ele.like) {
-            flag = "bi-heart-fill";
-            value = "1";
-          }
-          let flag2 = "bi-bookmark";
-          let value2 = "0";
-          console.log("ele", ele);
-          if (ele.bookmark) {
-            flag2 = "bi-bookmark-fill";
-            value2 = "1";
-          }
-          card.appendChild(carousel);
-          card.innerHTML += `<div class="info">
-                             <div class="info_left">
-                                  <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>
-                                  <i class="far fa-comment" data-bs-toggle="modal" data-bs-target="#commentModal" value="${ele.id}"  onclick="commentlist(event)"></i>
-                              </div>
-                              <div class="info_right">
-                                <i id="bookmark" url="${ele.id}" value="${value2}" class="bi ${flag2}" onclick="bookmark(event)"></i>
-                              </div>
-                          </div>`;
-          //좋아요 목록
-          card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
-                <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
-                  명이 좋아합니다.</a><div>`;
-          let result = [];
-
-          if (ele.content) {
-            let spaceAdd = ele.content.replace(/#/gi, ' #');
-            console.log("sapceAdd",spaceAdd)
-            let content = spaceAdd.split(" ");
-            console.log("content",content)
-            for (let i = 0; i < content.length; i++) {
-              if (content[i].includes("#")) {
-                result.push(`<a class="hash">${content[i]}</a>`);
-              } else {
-                result.push(content[i]);
-              }
-            }
-            console.log(result);
-            result = result.join(" ");
-          }
-          card.innerHTML += ` <div class="comment">
-                              ${result}
-                          </div>`;
-          card.innerHTML += `<div class="comment_form">
-                              <div class="comments" url="${ele.id}">
-                                  <div style="margin-left:10px">댓글</div>
-
-                              </div>  
-                              <div id="RegisterForm">
-                                  <input id="re" type="text" placeholder="댓글 입력..">
-                                  <button type="button" id="commentRegister" url="${ele.id}">등록</button>
-                              </div>
-                          </div>`;
-          main.appendChild(card);
-          let arr = document.querySelectorAll(`div .comments`);
-          for (const element of arr) {
-            const postId = element.getAttribute("url");
-            const data = await axios.get(
-              `/comment/comments?PostId=${postId}`
-            );
-
-            data.data.forEach(async (ele) => {
-              let tag = `<div class="come">
-                            <a href="/profile?id=${ele["User.id"]}">
-                              <img src="${ele["User.profile"]}"> ${ele["User.nickName"]}
-                            </a> : ${ele.comment} <span class=commentTime>${ele.time}</span>
-                          </div>`;
-              if (ele.me == "true") {
-                console.log(ele.id);
-                tag += `<i class="fa-solid fa-trash" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}"></i></i>`;
-              }
-              const temp = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
-              element.innerHTML += temp;
-            });
-          }
-          arr = document.querySelectorAll(
-            `#commentRegister`
-          );
-          for (const ele of arr) {
-            ele.addEventListener("click", async (event) => {
-              const postId = ele.getAttribute("url");
-              const input =
-                event.target.parentNode.querySelector("input").value;
-              event.target.parentNode.querySelector("input").value = "";
-              if (input.length == 0) {
-                alert("댓글을 입력해 주세요");
-              } else {
-                const data = await axios.post("/comment/comments", {
-                  comment: input,
-                  postId: postId,
-                });
-
-                if (data.data.code == 200) {
-                  const res = await axios.get(
-                    `/comment/comments?PostId=${postId}`
-                  );
-                  document.querySelectorAll(`#c${postId}`).forEach((c) => {
-                    c.remove();
-                  });
-                  const space = document.querySelector(
-                    `div[url="${postId}"].comments`
-                  );
-                  res.data.forEach((res) => {
-                    let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">
-                                          <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
-                                          </div>`;
-
-                    if (res.me) {
-                      tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
-                    }
-                    const div = `<div class="commentPlace"  id="c${postId}"> ${tag} </div>`;
-                    space.innerHTML += div;
-                    console.log(space);
-                  });
-                }
-              }
-            });
-          }
-          cnt += 1;
-        }
-        $("#boardModal").modal("show");
-      });
-    }
   </script>
 
   <script>
@@ -756,10 +489,19 @@
         swal("", "북마크 취소 완료!", "success");
       }
     }
+
+  function videoPlay(e) {
+    e.play();
+  }
+  function videoStop(e) {
+    e.pause();
+  }
+
   </script>
   <script src="../static/js/searchUser.js"></script>
   <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
   <script src="../static/js/notification.js"></script>
+  <script src="/static/js/board.js"></script>
 </body>
 
 </html>

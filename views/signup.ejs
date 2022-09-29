@@ -108,27 +108,11 @@
     </div>
 
     <script>
-      // 카카오 로그인
-      Kakao.init("ab090e8facdf4f8e66da98314978c363"); //발급키
 
       function kakaoLogin() {
-        Kakao.Auth.login({
-          success: function (response) {
-            Kakao.API.request({
-              url: "/auth/kakao",
-              success: function (response) {
-                console.log(response);
-              },
-              fail: function (error) {
-                console.log(error);
-              },
-            });
-          },
-          fail: function (error) {
-            console.log(error);
-          },
-        });
+        location.href = '/auth/kakao'
       }
+     
       // 네이버 로그인
       function naverLogin(){
             location.href = '/auth/naver'

@@ -159,7 +159,10 @@
       }
       .hash{
         color: blue;
-      }     
+      }  
+      #downScroll{
+        background-color: rgb(250,250,250);
+      }   
     </style>
   </head>
 
@@ -201,6 +204,15 @@
     </div>
   </div>
 
+  <div class="up">
+    <a href="#"><i id="upIcon" class="fa-solid fa-circle-up"></i></a>
+  </div>
+  <div class="down">
+    <a href="#downScroll"><i id="downIcon" class="fa-solid fa-circle-down"></i></a>
+  </div>
+
+ 
+  <div id="downScroll"></div>
   <script>
     let cnt = 0;
     let isHash = false;

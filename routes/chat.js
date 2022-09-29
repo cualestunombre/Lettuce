@@ -37,6 +37,11 @@ router.get("/",isLoggedIn,async(req,res,next)=>{
             arr[i].time=`${parseInt(parseInt((now-arr[i].time.getTime())/1000)/60)}분전`;
         }
     }
+    for(let i=0; i<arr.length; i++){
+        const query = `select * from notifications where RoomId="${arr[i].RoomId}" and receiver = "${req.user.id}"`;
+        const data = await sequelize.query(query,{type:QueryTypes.SELECT});
+        arr[i].chatCnt = data.length;
+    }
     res.render("chat",{data:data,room:arr});
 });
 router.get("/enter",isLoggedIn,async(req,res,next)=>{
@@ -106,7 +111,11 @@ router.post("/chat",isLoggedIn,async (req,res,next)=>{
         await Chat.create({content:req.body.content, type:"one",UserId:req.user.id,RoomId:req.body.roomId,reached:"false"});
         await Notification.create({reached:"false", type:"chat", sender:req.user.id, receiver: result1[0].UserId ,RoomId:req.body.roomId });
     }
-    
+    const query4 = `select *  from sessionSocketIdMap inner join allocate on sessionSocketIdMap.UserId = allocate.UserId inner join rooms on rooms.id = allocate.RoomId where rooms.id="${req.body.roomId}" and sessionSocketIdMap.UserId !="${req.user.id}" and sessionSocketIdMap.type="notification"`;
+    const result4 =  await sequelize.query(query4,{type:QueryTypes.SELECT});
+    result4.forEach(ele=>{
+        req.app.get("io").of("/notification").to(ele.socketId).emit("chatNoti");
+    });
     const query = `select rooms.time, rooms.id  from rooms inner join allocate on allocate.RoomId = rooms.id where rooms.id="${req.body.roomId}" and rooms.type="one"`;
     const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
     const now = new Date().getTime();

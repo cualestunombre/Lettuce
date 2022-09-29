@@ -4,6 +4,10 @@ const socket = io.connect(`http://localhost:8000/notification`, {
 socket.on("notification", () => {
     document.querySelector(".notification").innerText = parseInt(document.querySelector(".notification").innerText) + 1;
 });
+socket.on("chatNoti",()=>{
+    console.log("sfdsf");
+    document.querySelector(".fa-regular.fa-comments div").innerText = parseInt(document.querySelector(".fa-regular.fa-comments div").innerText )+1;
+});
 const noti = document.querySelector(".notification");
 axios.get("/user/notification").then((result) => {
     console.log(result.data);

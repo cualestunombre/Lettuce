@@ -199,6 +199,9 @@ header{
 .hash{
     color:blue;
 }
+.hash:hover {
+    color: blue;
+}
   #delete{
     height: 30px;
     position:absolute;
@@ -357,9 +360,13 @@ header{
 .recommendForm{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 14px;
 }
-.recommendForm a{
-    font-size: 15px;
+.recommendForm a {
+    font-weight: bolder;
 }
 .recommend{
     color:#4b9853;
@@ -372,13 +379,13 @@ header{
     position: fixed;
     bottom: 100px;
     right: 40px;
-    width: 60px;
-    height: 60px;
+    width: auto;
+    height: auto;
     border-radius: 50%;
     z-index: 100;
 }
 #upIcon, #downIcon {
-    font-size: 50px; 
+    font-size: 40px; 
     color: #87C128;
     opacity: 0.8;
 }
@@ -386,8 +393,8 @@ header{
     position: fixed;
     bottom: 35px;
     right: 40px;
-    width: 60px;
-    height: 60px;
+    width: auto;
+    height: auto;
     border-radius: 50%;
     z-index: 100;
 }

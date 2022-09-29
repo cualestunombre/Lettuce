@@ -193,21 +193,7 @@
     <div class="container">
       <div class="list"></div>
     </div>
-    <div id="tagSearch" style="text-align: center">
-      <input style="width: 300px;" type="text" id="tag" name="name" />
-      <button id="searchBtn" type="button" onclick="tagSearch();">검색</button>
-      <div id="paragraph">
-        <p>
-          해시태그를 통한 검색을 할 수 있습니다. 단, '#' 문자를 제외하고
-          검색해주세요. (ex: #고양이(X), 고양이(O))
-        </p>
-      </div>
-    </div>
-  </section>
-  <!--  -->
-  <div class="container">
-    <div class="list"></div>
-  </div>
+
   <div class="more">
     <p class="virtual"></p>
     <div class="square dnone">
@@ -260,7 +246,7 @@
       }).then((data) => {
         if (data.code == 200) {
           const html = data.data.map(
-            (item) => ( item.src[0].type == "img" ?  `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">` :`<div class="yeah"><video class="videoPosting" controls="" onmouseover="videoPlay(this);" onmouseout="videoStop(this);" muted="" onclick = "getItem(${item.id});" id="${item.id}"><source src="${item.src[0].src}" type="video/mp4"></video></div>`)
+            (item) => ( item.src[0].type == "img" ?  `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">` :`<div class="yeah"><video class="videoPosting" controls="" onmouseover="videoPlay(this);" onmouseout="videoStop(this);" muted="" loop="loop" onclick = "getItem(${item.id});" id="${item.id}"><source src="${item.src[0].src}" type="video/mp4"></video></div>`)
           );
           $list.innerHTML += html.join("");
         } else {

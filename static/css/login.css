@@ -8,7 +8,7 @@
     font-family: 'HallymGothic-Regular';
 }
 .wrap {
-    height: 100vh;
+    height: 98vh;
     display: flex;
     align-items: center;
 }
@@ -85,7 +85,7 @@
 .loginBtn, .signupBtn {
     width: 180px;
     height: 30px;
-    background-color: #ffffff;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -152,6 +152,7 @@ a{
     border-radius: 3px;
     width: 70px;
     height: 35px;
+    color: white;
 }
 #emailCheckBtn:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;

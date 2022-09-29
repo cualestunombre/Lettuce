@@ -292,7 +292,7 @@
                 let content = spaceAdd.split(" ");
                 for (let i = 0; i < content.length; i++) {
                   if (content[i].includes("#")) {
-                    result.push(`<a class="hash">${content[i]}</a>`);
+                    result.push(`<a href = "/explore?tag=${tag}" class="hash">#${tag}</a>`);
                   } else {
                     result.push(content[i]);
                   }

@@ -47,16 +47,24 @@
         <div style="margin-bottom: 50px;">
           이메일<input type="text" name="email" value="<%=data.email %>" style="margin-left: 84px;" disabled>
         </div>
-
+      <% if(!data.provider){ %>
         <div style="margin-bottom: 50px;">
           변경비밀번호<input class="pwInput" name="password" id="check1" type="password" placeholder="  비밀번호를 입력하세요" style="margin-left: 38px;" required>
         </div>
-
         <div style="margin-bottom: 50px;">
           변경비밀번호확인<input class="pwInput" name="passwordCheck" id="check2" type="password" placeholder="  비밀번호를 한번 더 입력해 주세요" style="margin-left: 8px;" oninput="checkPw();" required>
           <input id="originalPw" type="password" value="<%=data.password%>" style="display: none;">
           <div id="checkMsg"></div>
         </div>
+        <% } else if(data.provider == 'kakao') { %>
+          <div style="margin-bottom: 50px;">
+            <i class="fa-sharp fa-solid fa-comment"></i> 카카오톡 계정으로 로그인 하였습니다.
+          </div>
+        <% } else if(data.provider == 'naver') { %>
+          <div style="margin-bottom: 50px;">
+           소셜 로그인 연동&nbsp;&nbsp;&nbsp;&nbsp;<span class="naver"><img style="width: 23x; height: 23px" src="/static/image/naver_icon.png">네이버 계정으로 로그인하였습니다.</span>
+          </div>
+        <% } %>
 
         <div id="btnDiv">
           <button id="submitBtn" type="button" onclick="updateUser();">제출</button>

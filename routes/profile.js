@@ -214,6 +214,7 @@ router.post("/unfollow", async (req, res) => {
 // 개인정보수정 페이지(마이페이지) 렌더링
 router.get("/mypage", isLoggedIn, async (req, res) => {
     var data = req.user;
+    console.log(data.provider);
     res.render('mypage', { data });
 })
 

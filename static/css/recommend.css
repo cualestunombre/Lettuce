@@ -1,12 +1,44 @@
+.myprofile {
+    margin: 10px 0px;
+}
+
+.UserList{
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4)  5px 4px 12px;
+    position: fixed;
+    margin-top: 53px;
+    right: 50px;
+    width: 300px;
+    height: 400px;
+}
+.recommendForm{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+.recommendForm a{
+    font-size: 15px;
+}
+.recommend{
+    color:#4b9853;
+    font-size: 15px;
+}
+
+.recommendForm {
+    margin-bottom: 10px;
+}
+
 .recProfile {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
 .recUser {
-    margin: 10px;
-    height: 40px;
+    height: 30px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -50,4 +82,20 @@
     font-size: 14px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     margin-right: 10px;
+}
+
+#recModal .recommendForm{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+#recModal .recommendForm a {
+    font-weight: bolder;
+}
+#recModal .recommend{
+    color:#4b9853;
+    font-size: 15px;
 }

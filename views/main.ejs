@@ -43,14 +43,16 @@
   <body>
     <%-include('navbar.ejs') %>
 
+    <div id="recPreview">
     <div class="UserList">
       <div class="myprofile"></div>
       <div class="recommendForm">
-        <span class="recommendHeader">회원님을 위한 추천</span><a href="#">모두보기</a>
+        <span class="recommendHeader">회원님을 위한 추천</span><span style="cursor: pointer;" onclick="getRecList();">모두보기</span>
       </div>
       <div id="recommendList">
       </div>
     </div>
+  </div>
 
     <div class="up">
       <a href="#"><i id="upIcon" class="fa-solid fa-circle-up"></i></a>
@@ -615,7 +617,7 @@
       }).then((response) => {
         otherD = response.data.otherData;
         myD = response.data.myData;
-        var myForm = $(".myprofile");
+        var myForm = $("#recPreview .myprofile");
         var myDiv = document.createElement("div");
         myDiv.innerHTML =
           `<div class="recUser">
@@ -628,10 +630,14 @@
                       </div>`;
         myForm.append(myDiv);
         
-
         // 팔로우 추천 기능
-        var form = $("#recommendList");
-        for (var i = 0; i < otherD.length; i++) {
+        if (otherD.length > 5) {
+        var len = 5
+      } else {
+        len = otherD.length;
+      }
+        var form = $("#recPreview #recommendList");
+        for (var i = 0; i < len; i++) {
           var div = document.createElement("div");
           var text;
           text =

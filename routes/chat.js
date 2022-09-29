@@ -38,7 +38,7 @@ router.get("/",isLoggedIn,async(req,res,next)=>{
         }
     }
     for(let i=0; i<arr.length; i++){
-        const query = `select * from notifications where RoomId="${arr[i].RoomId}" and receiver = "${req.user.id}"`;
+        const query = `select * from notifications where RoomId="${arr[i].RoomId}" and receiver = "${req.user.id}" and reached="false"`;
         const data = await sequelize.query(query,{type:QueryTypes.SELECT});
         arr[i].chatCnt = data.length;
     }
@@ -132,9 +132,13 @@ router.post("/chat",isLoggedIn,async (req,res,next)=>{
         else{
             data[0].time=`${parseInt(parseInt((now-data[0].time.getTime())/1000)/60)}분전`;
         }
-  
+    for(let i =0;i<result.length;i++){
+        const query2 = `select * from notifications where notifications.RoomId="${req.body.roomId}" and receiver != "${req.user.id}" and reached="false" `;
+        const result2 =  await sequelize.query(query2,{type:QueryTypes.SELECT});
+        result[i].chatCnt=result2.length;
+    }
     result.forEach(ele=>{
-        req.app.get("io").of("/chat").to(ele.socketId).emit("chat",{id:req.user.id,nickName:req.user.nickName, email:req.user.email,profile:req.user.profile,RoomId:data[0].id,time:data[0].time});
+        req.app.get("io").of("/chat").to(ele.socketId).emit("chat",{id:req.user.id,nickName:req.user.nickName, email:req.user.email,profile:req.user.profile,RoomId:data[0].id,time:data[0].time,chatCnt:ele.chatCnt});
     });
     res.send({code:200});
 

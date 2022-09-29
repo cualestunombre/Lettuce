@@ -61,8 +61,11 @@
             <i class="fa-sharp fa-solid fa-comment"></i> 카카오톡 계정으로 로그인 하였습니다.
           </div>
         <% } else if(data.provider == 'naver') { %>
-          <div style="margin-bottom: 50px;">
-           소셜 로그인 연동&nbsp;&nbsp;&nbsp;&nbsp;<span class="naver"><img style="width: 23x; height: 23px" src="/static/image/naver_icon.png">네이버 계정으로 로그인하였습니다.</span>
+          <div style="margin-bottom: 50px; display: flex; align-items: center;">
+           소셜 로그인 연동&nbsp;&nbsp;&nbsp;&nbsp;
+           <div style="background-color: #02c75a; border-radius: 2px; width: 280px; text-align: center; padding: 3px 0">
+            <span class="naver"><img style="width: 23x; height: 23px" src="/static/image/naver_icon.png">네이버 계정으로 로그인하였습니다.</span>
+           </div>
           </div>
         <% } %>
 

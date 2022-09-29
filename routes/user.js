@@ -25,7 +25,7 @@ router.get("/notification",isLoggedIn,async(req,res,next)=>{
     res.send({cnt:result.length});
 });
 router.get("/notificationInfo",isLoggedIn,async(req,res,next)=>{
-    const result = await Notification.findAll({raw:true,where:{type:"notification",receiver:req.user.id},order:[['createdAt','DESC']],include:[
+    const result = await Notification.findAll({raw:true,where:{type:{[Op.ne]:"chat"},receiver:req.user.id},order:[['createdAt','DESC']],include:[
         {model:User, as:"send",attributes:["nickName","profile"]}
     ]});
     await Notification.update({reached:"true"},{where:{receiver:req.user.id}});

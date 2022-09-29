@@ -20,18 +20,15 @@
 
           <div class="followWrapper" value="<%= data[i].id %>">
             <img
-              onclick="location.href=`/profile?id=<%= data[i]['followings.id'] %>`"
+              onclick="location.href=`/profile?id=<%= data[i].id %>`"
               src="<%= data[i].profile %>"
               alt=""
             />
             <div class="chatNickName">
-              <span
-                onclick="location.href=`/profile?id=<%= data[i]['followings.id'] %>`"
+              <span onclick="location.href=`/profile?id=<%= data[i].id %>`"
                 ><%= data[i].nickName %></span
               >
-              <span
-                onclick="location.href=`/profile?id=<%= data[i]['followings.id'] %>`"
-              >
+              <span onclick="location.href=`/profile?id=<%= data[i].id %>`">
                 <%= data[i].email %></span
               >
             </div>

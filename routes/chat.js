@@ -42,6 +42,7 @@ router.get("/",isLoggedIn,async(req,res,next)=>{
         const data = await sequelize.query(query,{type:QueryTypes.SELECT});
         arr[i].chatCnt = data.length;
     }
+    console.log(data);
     res.render("chat",{data:data,room:arr});
 });
 router.get("/enter",isLoggedIn,async(req,res,next)=>{

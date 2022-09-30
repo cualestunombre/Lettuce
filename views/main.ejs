@@ -312,7 +312,7 @@
                           <div class="comment">
                               ${result}
                           </div>`;
-              if(ele.commentCount){
+              
                 card.innerHTML += `<div class="comment_form">
                               <div class="comments" url="${ele.id}">
                                   <div style="margin-left:16px" id = "cocount" url="${ele.id}">댓글<span class ="commentTime">${ele.commentCount}개의 댓글이 있습니다.</span></div>
@@ -323,18 +323,6 @@
                                   <button type="button" id="commentRegister" url="${ele.id}">등록</button>
                               </div>
                           </div>`;
-              }else{
-                card.innerHTML += `<div class="comment_form">
-                              <div class="comments" url="${ele.id}">
-                                  <div style="margin-left:16px" id = "cocount" url="${ele.id}">댓글</div>
-
-                              </div>  
-                              <div id="RegisterForm">
-                                  <input id="re" type="text" placeholder="댓글 입력..">
-                                  <button type="button" id="commentRegister" url="${ele.id}">등록</button>
-                              </div>
-                          </div>`;
-              }        
               
               main.appendChild(card);
             });
@@ -518,9 +506,9 @@
             html += `<div class="likeUser">
                       <div style="cursor: pointer"  onclick="location.href='profile?id=${ListMode[i].id}';" >
                         <img class="likeProfile" src="${ListMode[i].profile}" alt="">
-                        <span class="userName">${ListMode[i].nickName}</span>
+                        <span>${ListMode[i].nickName}</span>
                       </div>
-                        &nbsp;
+                        &nbsp; 
                         <span class="userEmail">${ListMode[i].email}</span>
                       </div>`;
           }

@@ -295,12 +295,16 @@ div.commentPlace {
     font-family: 'HallymGothic-Regular';
     color: rgb(140, 140, 140);
     font-size: 12px !important;
+    position: absolute;
+    right: 50px;
   }
 
   .userName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
     font-size: 15px !important;
+    position: absolute;
+    left: 170px;
   }
 
   /*commentlist modal css */

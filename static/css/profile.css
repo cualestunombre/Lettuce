@@ -146,3 +146,9 @@
     justify-content: center;
     align-items: center;
 }
+
+.introduction {
+    display: flex;
+    justify-content: space-around;
+    font-size: 15px;
+}

@@ -43,9 +43,20 @@
       .imgWrap:hover > .icons{
         display: block;
       }
+      .imgWrap > .video-icons {
+        display: none;
+      }
+      .imgWrap:hover > .video-icons {
+        display: block;
+      }
       .icons{
         position: absolute;
         bottom: 10px;
+        left: 10px;
+      }
+      .video-icons{
+        position: absolute;
+        bottom: 60px;
         left: 10px;
       }
   </style>
@@ -147,8 +158,8 @@
   <% if (data.posting == 0) {%>
   <div class="con">
     <div class="noFollowers">
-      <p class="noFollowText">표시할 게시물이 없어요.</p>
-      <p class="subText">
+      <p style="color: lightgrey;" class="noFollowText">표시할 게시물이 없어요.</p>
+      <p style="color: lightgrey;" class="subText">
         첫 게시물을 작성해보세요 :)
       </p>
       <img id="logo" src="/static/image/logo.png" alt="" />
@@ -312,7 +323,13 @@
                     <i class="fa-regular fa-heart"> ${item.likeCnt}</i>
                   </div>
                   <img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">
-                </div>` :`<div class="yeah"><video class="videoPosting" controls="" onmouseover="videoPlay(this);" onmouseout="videoStop(this);" muted="" loop="loop" onclick = "getItem(${item.id});" id="${item.id}"><source src="${item.src[0].src}" type="video/mp4"></video></div>`)
+                </div>` :`<div class="imgWrap">
+                            <div class="video-icons">
+                              <i class="fa-regular fa-comments"> ${item.commentCnt}</i>
+                              <i class="fa-regular fa-heart"> ${item.likeCnt}</i>
+                            </div>
+                            <div class="yeah"><video class="videoPosting" controls="" onmouseover="videoPlay(this);" onmouseout="videoStop(this);" muted="" loop="loop" onclick = "getItem(${item.id});" id="${item.id}"><source src="${item.src[0].src}" type="video/mp4"></video></div>
+                            </div>`)
           );
           $list.innerHTML += html.join("");
         } else {

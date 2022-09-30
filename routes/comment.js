@@ -26,7 +26,6 @@ router.get("/comments",async(req,res)=>{
                 PostId:req.query.PostId},
         order: [['createdAt','DESC']],
         limit:4
-
     });
     come.forEach(ele=>{
         console.log(ele['User.id']);
@@ -52,6 +51,22 @@ router.get("/comments",async(req,res)=>{
     });
     res.send(come);
 })
+
+
+
+//댓글 카운트
+router.get("/commentCount", async(req,res)=>{
+    const Count  = await Comment.findAll({
+        raw:true,
+        attributes:["comment","createdAt","id"],
+        include:[{model:User, attributes:["nickName","profile","id"]}],
+        where:{
+                PostId:req.query.PostId}
+    });
+    res.send(Count);
+})
+
+
 
 //댓글 리스트
 router.get("/commentList", async(req,res)=>{

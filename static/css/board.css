@@ -296,11 +296,24 @@ div.commentPlace {
     font-family: 'HallymGothic-Regular';
     color: rgb(140, 140, 140);
     font-size: 12px !important;
+  }
+
+  .userName {
+    font-weight: bolder;
+    font-family: 'HallymGothic-Regular';
+    font-size: 15px !important;
+  }
+
+  /* 팔로우 형식 */
+  .followUser .userEmail {
+    font-family: 'HallymGothic-Regular';
+    color: rgb(140, 140, 140);
+    font-size: 12px !important;
     position: absolute;
     right: 50px;
   }
 
-  .userName {
+  .followUser .userName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
     font-size: 15px !important;
@@ -370,32 +383,7 @@ div.commentPlace {
 #likeModal{
     --bs-modal-width: 300px !important;
 }
-.up{
-    position: fixed;
-    bottom: 100px;
-    right: 40px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    z-index: 100;
-}
-#upIcon, #downIcon {
-    font-size: 50px; 
-    color: #87C128;
-    opacity: 0.8;
-}
-.down{
-    position: fixed;
-    bottom: 35px;
-    right: 40px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    z-index: 100;
-}
-#upIcon:hover, #downIcon:hover {
-    opacity: 1;
-}
+
 .videoPosting{
     width: 100%;
     height: 494px;

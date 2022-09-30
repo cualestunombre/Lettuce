@@ -15,7 +15,10 @@ router.get("/", isLoggedIn, async (req, res, next) => {
     let hasFriend = true;
 
     if (rec_data.length == 0) {
-            const rec_top5 = `select u.id, u.profile, u.nickName, u.email, f.followed, count(f.followed) as cnt from follow as f join users as u on u.id = f.followed where followed not in(select followed from follow where follower = "${id}") group by f.followed order by count(f.followed) desc limit 5;`;
+            const rec_top5 = `select u.id, u.profile, u.nickName, u.email, f.followed, count(f.followed) as cnt
+            from follow as f join users as u on u.id = f.followed
+            where followed not in(select followed from follow where follower = "${id}") and f.followed != "${id}"
+            group by f.followed order by count(f.followed) desc limit 5;`;
             rec_data = await sequelize.query(rec_top5, { type: QueryTypes.SELECT });
             hasFriend = false;
     }

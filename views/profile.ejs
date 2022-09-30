@@ -120,7 +120,11 @@
         <% } %>
       </div>
       <div class="introduction">
-        <span style="font-weight: bolder;">" <%=data.comment%> "</span>
+        <% if(data.comment) { %>
+          <span style="font-weight: bolder;">" <%=data.comment%> "</span>
+        <%} else {%>
+          <span style="color: lightgrey;">소개글이 비어있습니다.</span>
+        <%}%>
       </div>
     </div>
   </div>

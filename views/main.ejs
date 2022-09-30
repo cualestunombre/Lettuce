@@ -285,9 +285,13 @@
                               </div>
                           </div>`;
               //좋아요 목록
-              card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
+              
+                card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
                 <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
                   명이 좋아합니다.</a><div>`;
+
+     
+
               let result = [];
 
               if (ele.content) {
@@ -308,9 +312,10 @@
                           <div class="comment">
                               ${result}
                           </div>`;
-              card.innerHTML += `<div class="comment_form">
+              if(ele.commentCount){
+                card.innerHTML += `<div class="comment_form">
                               <div class="comments" url="${ele.id}">
-                                  <div style="margin-left:16px">댓글</div>
+                                  <div style="margin-left:16px" id = "cocount" url="${ele.id}">댓글<span class ="commentTime">${ele.commentCount}개의 댓글이 있습니다.</span></div>
 
                               </div>  
                               <div id="RegisterForm">
@@ -318,6 +323,19 @@
                                   <button type="button" id="commentRegister" url="${ele.id}">등록</button>
                               </div>
                           </div>`;
+              }else{
+                card.innerHTML += `<div class="comment_form">
+                              <div class="comments" url="${ele.id}">
+                                  <div style="margin-left:16px" id = "cocount" url="${ele.id}">댓글</div>
+
+                              </div>  
+                              <div id="RegisterForm">
+                                  <input id="re" type="text" placeholder="댓글 입력..">
+                                  <button type="button" id="commentRegister" url="${ele.id}">등록</button>
+                              </div>
+                          </div>`;
+              }        
+              
               main.appendChild(card);
             });
             let arr = document.querySelectorAll(`div[cnt="${cnt}"] .comments`);
@@ -361,12 +379,27 @@
                     const res = await axios.get(
                       `/comment/comments?PostId=${postId}`
                     );
+                    const co = await axios.get(
+                      `/comment/commentCount?PostId=${postId}`
+                    );
+
+                    console.log(co.data.length+"안녕하세요");
+                    
                     document.querySelectorAll(`#c${postId}`).forEach((c) => {
                       c.remove();
                     });
                     const space = document.querySelector(
                       `div[url="${postId}"].comments`
                     );
+                   
+                    const coBody = document.querySelector(
+                      `div[url="${postId}"]#cocount`
+                    );
+                    coBody.innerHTML = "";
+                    let count = `댓글<span class ="commentTime">${co.data.length}개의 댓글이 있습니다.</span>`
+                    coBody.innerHTML += count;
+
+
                     res.data.forEach((res) => {
                       let tag = `<div class="come">
                                   <a href="/profile?id=${res["User.id"]}">
@@ -405,6 +438,12 @@
           const postId = event.target.getAttribute("url");
           const commentId = event.target.getAttribute("value");
           const res = await axios.get(`/comment/comments?PostId=${postId}`);
+          const co = await axios.get(`/comment/commentCount?PostId=${postId}`);
+          const coBody = document.querySelector(`div[url="${postId}"]#cocount`);
+          coBody.innerHTML = "";
+          let count = `댓글<span class ="commentTime">${co.data.length}개의 댓글이 있습니다.</span>`
+          coBody.innerHTML += count;
+
           document.querySelectorAll(`#c${postId}`).forEach((c) => {
             c.remove();
           });
@@ -425,6 +464,7 @@
           swal("", "댓글 삭제 성공", "success");
         }
       }
+
       //좋아요
       async function like(event) {
         if (event.target.getAttribute("value") == "1") {
@@ -444,10 +484,14 @@
           swal("", "좋아요 취소", "success");
         }
         const send = await axios.get(`like/likeCount?PostId=${postId}`);
+        
+        console.log(send.data.Count+"와우");
+
         document.querySelector(
           `#like${postId}`
         ).innerHTML = `<a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${postId}"  onclick="likeList(event)">${send.data.Count}명이 좋아합니다.</a>`;
         console.log(send);
+   
       }
 
       function likeList(event) {
@@ -465,6 +509,11 @@
           modalBody.innerHTML = "";
           let html = "";
           let ListMode = response.data.data;
+          if(ListMode.length == 0){
+            html += `<div id="No">아직 좋아요가 없습니다.</div>`;
+            modalBody.innerHTML = html
+          }
+
           for (let i = 0; i < ListMode.length; i++) {
             html += `<div class="likeUser">
                       <div style="cursor: pointer"  onclick="location.href='profile?id=${ListMode[i].id}';" >
@@ -487,12 +536,19 @@
           method: "get",
           params: data,
         }).then((response) => {
-          console.log(response.data);
           let modalBody = document.querySelector("#clist");
           modalBody.innerHTML = "";
+          let commentBody = document.querySelector("#cocount");
           let html = "";
           let ListMode = response.data;
-          for (let i = 0; i < ListMode.length; i++) {
+          
+          if(ListMode.length == 0){
+            html += `<div id="No">아직 작성된 게시글이 없습니다.</div>`;
+            modalBody.innerHTML = html
+          }
+
+        
+          for (let i = 0; i < ListMode.length; i++) {     
             if (ListMode[i].me) {
               html += `<div class="commentPlace1">
                         <div class="come1">
@@ -506,6 +562,7 @@
                           <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
                         </div>
                       </div>`;
+
             } else {
               html += `<div class="commentPlace1">
                           <div class="come1">
@@ -520,7 +577,9 @@
                         </div>`;
             }
           }
+          
           modalBody.innerHTML = html;
+          
         });
       }
       //댓글 리스트에서 삭제
@@ -542,6 +601,7 @@
             console.log(response.data);
             let modalBody = document.querySelector("#clist");
             modalBody.innerHTML = "";
+            let commentBody = document.querySelector("#cocount");
             let html = "";
             let ListMode = response.data;
             for (let i = 0; i < ListMode.length; i++) {
@@ -557,7 +617,7 @@
                             </div>
                             <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
                           </div>
-                        </div>`;
+                        </div>`;      
               } else {
                 html += `<div class="commentPlace1">
                           <div class="come1">

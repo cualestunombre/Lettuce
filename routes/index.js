@@ -110,14 +110,22 @@ router.get("/fpost",async(req,res)=>{
     for(let i=0;i<list.length;i++){
         const data = await Post.findAll({raw:true,where:{UserId:req.user.id,id:list[i].id}});
         if(data.length!=0){
-            list[i].myPost="true";
+            list[i].myPost="true";   
         }
+        const Count  = await Comment.findAll({
+            raw:true,
+            attributes:["comment","createdAt","id"],
+            include:[{model:Post}],
+            where:{PostId:list[i].id},
+        });
+        list[i].commentCount= Count.length;
     }
     if (list.length==0){
         res.send({code:400});
     }
     else{
         res.send({code:200,data:list});
+
     }
     // 데이터 가공
     /* 데이터 형식

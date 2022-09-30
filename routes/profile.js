@@ -94,7 +94,12 @@ router.get("/board", isLoggedIn, async (req, res, next) => {
             list[i].bookmark = 'true';
         }
     }
-
+    for(let i=0;i<list.length;i++){
+        const data = await Post.findAll({raw:true,where:{UserId:req.user.id,id:list[i].id}});
+        if(data.length!=0){
+            list[i].myPost="true";
+        }
+    }
     if (post.length == 0) {
         res.send({ code: 400 });
     }
@@ -123,7 +128,7 @@ router.get("/", isLoggedIn, async (req, res) => {
 
     // 프로필에 나타날 정보 쿼리로 불러옴
     const userinfo = await User.findOne({
-        attributes: ['email', 'nickName', 'profile'],
+        attributes: ['email', 'nickName', 'profile', 'comment'],
         where: {
             id: id
         }
@@ -160,6 +165,7 @@ router.get("/", isLoggedIn, async (req, res) => {
         id: id,
         email: userinfo.email,
         nickName: userinfo.nickName,
+        comment: userinfo.comment,
         profile: userinfo.profile,
         isMyprofile: isMyprofile,
         posting: postCnt,

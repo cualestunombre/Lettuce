@@ -54,6 +54,7 @@ document.querySelector(".fa-heart.fa-regular").addEventListener("click", async (
                 }
                 else {
                     content.classList.add("typeComment");
+                    content.setAttribute("onclick", `getItem(${ele.PostId})`);
                     content.innerText = "님이 댓글을 달았어요"
                     info.setAttribute("url", ele.PostId);
                 }

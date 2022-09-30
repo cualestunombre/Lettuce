@@ -26,7 +26,7 @@ module.exports = class User extends Sequelize.Model {
                 defaultValue: "/static/image/default.jpg"
             },
             comment: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(100),
                 allowNull: true
             },
             provider: {

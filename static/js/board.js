@@ -12,11 +12,14 @@ function getItem(boardId) {
             const main = document.querySelector("#board-main");
             const ele = data.data;
             const card = document.createElement("div");
-            // card.setAttribute("cnt", cnt);
             card.classList.add("card");
             const header = document.createElement("header");
             const profile = document.createElement("img");
-
+            const delBtn = document.createElement("button");
+            delBtn.innerHTML = "<span>삭제</span>";
+            delBtn.classList.add("delBtn");
+            delBtn.setAttribute("url", `${ele.id}`);
+            delBtn.setAttribute("onclick", "deletePost(event)");
             profile.setAttribute("src", ele["User.profile"]);
             const profileWrapper = document.createElement("a");
             profileWrapper.classList.add("profileWrapper");
@@ -39,6 +42,10 @@ function getItem(boardId) {
             const createdAt = document.createElement("span");
             createdAt.innerText = ele.createdAt;
             createdAt.classList.add("createdAt");
+            console.log("!!",ele.myPost);
+            if (ele.myPost) {
+              createdAt.append(delBtn);
+            }
             header.appendChild(profileWrapper);
             header.appendChild(nickNameWrapper);
             header.appendChild(createdAt);
@@ -122,24 +129,40 @@ function getItem(boardId) {
                                   <i id="bookmark" url="${ele.id}" value="${value2}" class="bi ${flag2}" onclick="bookmark(event)"></i>
                                 </div>
                             </div>`;
-            //좋아요 목록
-            card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
-                    명이 좋아합니다.</a><div>`;
+             //좋아요 목록
+             card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
+             <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
+               명이 좋아합니다.</a><div>`;
+           let result = [];
 
-            card.innerHTML += ` <div class="comment">
-                                ${ele.content}
-                            </div>`;
-            card.innerHTML += `<div class="comment_form">
-                                <div class="comments" url="${ele.id}">
-                                    <div style="margin-left:10px">댓글</div>
-  
-                                </div>  
-                                <div id="RegisterForm">
-                                    <input id="re" type="text" placeholder="댓글 입력..">
-                                    <button type="button" id="commentRegister" url="${ele.id}">등록</button>
-                                </div>
-                            </div>`;
+           if (ele.content) {
+             let spaceAdd = ele.content.replace(/#/gi, " #");
+             let content = spaceAdd.split(" ");
+             for (let i = 0; i < content.length; i++) {
+               var tag = content[i].substring(1);
+               if (content[i].includes("#")) {
+                 result.push(`<a href = "/explore?tag=${tag}" class="hash">#${tag}</a>`);
+               } else {
+                 result.push(content[i]);
+               }
+             }
+             console.log(result);
+             result = result.join(" ");
+           }
+           card.innerHTML += ` 
+                       <div class="comment">
+                           ${result}
+                       </div>`;
+           card.innerHTML += `<div class="comment_form">
+                           <div class="comments" url="${ele.id}">
+                               <div style="margin-left:16px">댓글</div>
+
+                           </div>  
+                           <div id="RegisterForm">
+                               <input id="re" type="text" placeholder="댓글 입력..">
+                               <button type="button" id="commentRegister" url="${ele.id}">등록</button>
+                           </div>
+                       </div>`;
             main.appendChild(card);
             let arr = document.querySelectorAll(`#boardModal div .comments`);
             for (const element of arr) {
@@ -230,7 +253,7 @@ async function deleteComent(event) {
                         </a>:${res.comment}<span class="commentTime">${res.time}</span>
                       </div>`;
             if (res.me) {
-                tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+              tag += `<i id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}" class="fa-solid fa-trash"></i>`;
             }
             const div = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
             space.innerHTML += div;
@@ -419,5 +442,5 @@ async function deletePost(event) {
     await axios.delete(
       `/posting/post?id=${event.currentTarget.getAttribute("url")}`
     );
-    window.location = "/";
+    window.location = "/profile";
   }

@@ -258,7 +258,7 @@ a:hover {
     color: black;
     font-size: 12px;
     padding-left: 50px;
-
+    cursor: pointer;
 }
 
 .notificationNickName {

@@ -1,11 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const path = require("path");
 const {Follow,User,Room,Allocate,Chat,SessionSocketIdMap,Notification} = require("../models");
 const {isLoggedIn, isNotLoggedIn} = require("./middlewares");
 const { QueryTypes } = require('sequelize');
 const { sequelize } = require("../models");
 const {Sequelize:{Op}}=require("sequelize");
+const multer = require("multer");
+const {v4:uuidv4}=require('uuid');
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            done(null, 'uploads/');
+        },
+        filename(req, file, done) {
+            const ext = path.extname(file.originalname);
+            done(null, uuidv4() + ext);
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024*1024*1024 },
+})
+
 router.get("/",isLoggedIn,async(req,res,next)=>{
     const data = await User.findAll({raw:true,include:[{model:User,as:"followings",attributes:['id','email','nickName','profile','comment'],where:{id:req.user.id}}]});//팔로잉 정보
     const rooms = await Allocate.findAll({raw:true,attributes:["RoomId"],where:{UserId:req.user.id}});
@@ -85,8 +101,24 @@ router.get("/comment",isLoggedIn,async(req,res,next)=>{
     const cnt = req.query.count;
     const offset = req.query.offset;
     const num = parseInt(cnt)*10+parseInt(offset);
-    const query = `select * from users inner join chats on users.id=chats.UserId where chats.RoomId="${id}" order by chats.createdAt DESC limit ${10} offset ${num} `;
+    const query = `select * from chats inner join users on users.id=chats.UserId where chats.RoomId="${id}" order by chats.createdAt DESC limit ${10} offset ${num} `;
     const data = await sequelize.query(query,{type:QueryTypes.SELECT});
+    const query2 = `select chats.createdAt from chats inner join users on users.id=chats.UserId where chats.RoomId="${id}" order by chats.createdAt DESC limit ${10} offset ${num} `;
+    const data2 = await sequelize.query(query2,{type:QueryTypes.SELECT});
+    console.log(data2);
+    for(let i = 0; i<data.length;i++){
+        let date = data2[i].createdAt;
+        let sendDate = date.getFullYear()+'년 '+(parseInt(date.getMonth())+1)+'월 '+date.getDate()+"일 ";         
+        if(date.getHours()<12){
+            sendDate+="오전 "+date.getHours()+"시 ";
+        }
+        else{
+            sendDate+='오후 '+(parseInt(date.getHours())-12)+"시 ";
+        }
+        sendDate+=+date.getMinutes()+"분";
+        data[i].time = sendDate;
+        
+    }
     if(data.length==0){
         res.send({code:400});
     }
@@ -103,12 +135,32 @@ router.post("/chat",isLoggedIn,async (req,res,next)=>{
     const query1 = `select *  from allocate where UserId!="${req.user.id}" and RoomId="${req.body.roomId}"`;
     const result1 =  await sequelize.query(query1,{type:QueryTypes.SELECT});
     if(result3.length!=0){
-        req.app.get("io").of("/room").to(req.headers.referer).emit("message",{profile:req.user.profile, nickName:req.user.nickName,content:req.body.content, UserId:req.user.id,reached:"true"});
+        const now = new Date();
+        let date = now;
+        let sendDate = date.getFullYear()+'년 '+(parseInt(date.getMonth())+1)+'월 '+date.getDate()+"일 ";         
+        if(date.getHours()<12){
+            sendDate+="오전 "+date.getHours()+"시 ";
+        }
+        else{
+            sendDate+='오후 '+(parseInt(date.getHours())-12)+"시 ";
+        }
+        sendDate+=+date.getMinutes()+"분";
+        req.app.get("io").of("/room").to(req.headers.referer).emit("message",{profile:req.user.profile, nickName:req.user.nickName,content:req.body.content, UserId:req.user.id,reached:"true",time:sendDate});
         await Chat.create({content:req.body.content, type:"one",UserId:req.user.id,RoomId:req.body.roomId,reached:"true"});
         await Notification.create({reached:"true", type:"chat", sender:req.user.id, receiver: result1[0].UserId ,RoomId:req.body.roomId });
     }
     else{
-        req.app.get("io").of("/room").to(req.headers.referer).emit("message",{profile:req.user.profile, nickName:req.user.nickName,content:req.body.content, UserId:req.user.id,reached:"false"});
+        const now = new Date();
+        let date = now;
+        let sendDate = date.getFullYear()+'년 '+(parseInt(date.getMonth())+1)+'월 '+date.getDate()+"일 ";         
+        if(date.getHours()<12){
+            sendDate+="오전 "+date.getHours()+"시 ";
+        }
+        else{
+            sendDate+='오후 '+(parseInt(date.getHours())-12)+"시 ";
+        }
+        sendDate+=+date.getMinutes()+"분";
+        req.app.get("io").of("/room").to(req.headers.referer).emit("message",{profile:req.user.profile, nickName:req.user.nickName,content:req.body.content, UserId:req.user.id,reached:"false",time:sendDate});
         await Chat.create({content:req.body.content, type:"one",UserId:req.user.id,RoomId:req.body.roomId,reached:"false"});
         await Notification.create({reached:"false", type:"chat", sender:req.user.id, receiver: result1[0].UserId ,RoomId:req.body.roomId });
     }
@@ -147,5 +199,75 @@ router.post("/chat",isLoggedIn,async (req,res,next)=>{
 router.get("/chatnoti",async(req,res,next)=>{
     const data = await Notification.findAll({raw:true,where:{type:"chat",reached:"false",receiver:req.user.id}});
     res.send({cnt:data.length});
+});
+router.post("/image/:roomId",upload.single("image"),async(req,res,next)=>{
+    console.log(req.body);
+    await Room.update({time:new Date()},{where:{id:req.params.roomId}});
+    const query2 = `select *  from sessionSocketIdMap inner join allocate on sessionSocketIdMap.UserId = allocate.UserId inner join rooms on rooms.id = allocate.RoomId where rooms.id="${req.params.roomId}" and sessionSocketIdMap.UserId !="${req.user.id}"`;
+    const result =  await sequelize.query(query2,{type:QueryTypes.SELECT});
+    const query3 = `select *  from sessionSocketIdMap inner join allocate on sessionSocketIdMap.UserId = allocate.UserId inner join rooms on rooms.id = allocate.RoomId where rooms.id="${req.params.roomId}" and sessionSocketIdMap.UserId !="${req.user.id}" and sessionSocketIdMap.type="${req.params.roomId}"`;
+    const result3 =  await sequelize.query(query3,{type:QueryTypes.SELECT});
+    const query1 = `select *  from allocate where UserId!="${req.user.id}" and RoomId="${req.params.roomId}"`;
+    const result1 =  await sequelize.query(query1,{type:QueryTypes.SELECT});
+    if(result3.length!=0){
+        const now = new Date();
+        let date = now;
+        let sendDate = date.getFullYear()+'년 '+(parseInt(date.getMonth())+1)+'월 '+date.getDate()+"일 ";         
+        if(date.getHours()<12){
+            sendDate+="오전 "+date.getHours()+"시 ";
+        }
+        else{
+            sendDate+='오후 '+(parseInt(date.getHours())-12)+"시 ";
+        }
+        sendDate+=+date.getMinutes()+"분";
+        req.app.get("io").of("/room").to(req.headers.referer).emit("image",{profile:req.user.profile, nickName:req.user.nickName, UserId:req.user.id,reached:"true",time:sendDate,src:"/"+req.file.path});
+        await Chat.create({ type:"one",UserId:req.user.id,RoomId:req.params.roomId,reached:"true",src:"/"+req.file.path});
+        await Notification.create({reached:"true", type:"chat", sender:req.user.id, receiver: result1[0].UserId ,RoomId:req.params.roomId });
+    }
+    else{
+        const now = new Date();
+        let date = now;
+        let sendDate = date.getFullYear()+'년 '+(parseInt(date.getMonth())+1)+'월 '+date.getDate()+"일 ";         
+        if(date.getHours()<12){
+            sendDate+="오전 "+date.getHours()+"시 ";
+        }
+        else{
+            sendDate+='오후 '+(parseInt(date.getHours())-12)+"시 ";
+        }
+        sendDate+=+date.getMinutes()+"분";
+        req.app.get("io").of("/room").to(req.headers.referer).emit("image",{profile:req.user.profile, nickName:req.user.nickName, UserId:req.user.id,reached:"false",time:sendDate,src:"/"+req.file.path});
+        await Chat.create({ type:"one",UserId:req.user.id,RoomId:req.params.roomId,reached:"false",src:"/"+req.file.path});
+        await Notification.create({reached:"false", type:"chat", sender:req.user.id, receiver: result1[0].UserId ,RoomId:req.params.roomId });
+    }
+    const query4 = `select *  from sessionSocketIdMap inner join allocate on sessionSocketIdMap.UserId = allocate.UserId inner join rooms on rooms.id = allocate.RoomId where rooms.id="${req.params.roomId}" and sessionSocketIdMap.UserId !="${req.user.id}" and sessionSocketIdMap.type="notification"`;
+    const result4 =  await sequelize.query(query4,{type:QueryTypes.SELECT});
+    result4.forEach(ele=>{
+        req.app.get("io").of("/notification").to(ele.socketId).emit("chatNoti");
+    });
+    const query = `select rooms.time, rooms.id  from rooms inner join allocate on allocate.RoomId = rooms.id where rooms.id="${req.params.roomId}" and rooms.type="one"`;
+    const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
+    const now = new Date().getTime();
+  
+        if(now-data[0].time.getTime()>3600*1000 && now-data[0].time.getTime()<3600*1000*24){
+            data[0].time=`${parseInt(parseInt((now-data[0].time.getTime())/1000)/3600)}시간전`;
+        }
+        else if(now-data[0].time.getTime()>=3600*1000*24){
+            data[0].time=`${parseInt(parseInt((now-data[0].time)/1000)/(86400))}일전`;
+        }
+        else if(now-data[0].time.getTime()<=60*1000){
+            data[0].time=`${parseInt((now-data[0].time.getTime())/1000)}초전`;
+        }
+        else{
+            data[0].time=`${parseInt(parseInt((now-data[0].time.getTime())/1000)/60)}분전`;
+        }
+    for(let i =0;i<result.length;i++){
+        const query2 = `select * from notifications where notifications.RoomId="${req.params.roomId}" and receiver != "${req.user.id}" and reached="false" `;
+        const result2 =  await sequelize.query(query2,{type:QueryTypes.SELECT});
+        result[i].chatCnt=result2.length;
+    }
+    result.forEach(ele=>{
+        req.app.get("io").of("/chat").to(ele.socketId).emit("chat",{id:req.user.id,nickName:req.user.nickName, email:req.user.email,profile:req.user.profile,RoomId:data[0].id,time:data[0].time,chatCnt:ele.chatCnt});
+    });
+    res.send({code:200});
 });
 module.exports = router;

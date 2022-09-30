@@ -24,10 +24,20 @@
             </div>
           </div>
         </div>
+        <div class="inputFlex">
+          <div class="filebox" onclick="clickE(event)">
+            <label for="ex_file">사진</label>
+            <input type="file"  accept="image/*" id="files" onchange="LoadImage(event)"> 
+          </div>
+
         <input class="chatInput" type="text" />
         <button class="sendBtn" onclick="sendFunc(event)">전송</button>
+        </div>
+        
       </div>
     </div>
+  
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.6.1.min.js"
       integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -40,7 +50,26 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-
+    <script>
+      function clickE(event){
+        event.currentTarget.querySelector("input").click();
+      }
+      async function LoadImage(event){
+        if(event.target.files){
+          const uploadFile = event.target.files[0]
+          const formData = new FormData()
+          formData.append('image',uploadFile);
+          await axios({
+            method: 'post',
+            url: `/chat/image/${document.querySelector(".mWrapper").getAttribute("value")}`,
+            data: formData ,
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+        }
+      }
+    </script>
     <script>
       const socket = io.connect(`http://localhost:8000/notification`, {
         path: "/socket.io",
@@ -119,22 +148,73 @@
         contentBox.classList.add("contentBox");
         contentBox.innerText = data.content;
         const noCheck = document.createElement("div");
+        const time = document.createElement("div"); 
+        time.classList.add("timeStamp");
+        time.innerText=data.time;
+        flexWrapper.appendChild(time);
         noCheck.innerText = "1";
         noCheck.classList.add("noCheck");
         if (me == data.UserId) {
+          time.classList.add("me");
           contentBox.classList.add("me");
           flex.classList.add("me");
           if (data.reached == "false") {
             flexWrapper.appendChild(noCheck);
           }
         } else {
+          time.classList.add("other");
           contentBox.classList.add("other");
           flex.classList.add("other");
         }
         nickName.innerText = data.nickName;
         flex.appendChild(img);
         flex.appendChild(nickName);
-        flexWrapper.appendChild(flex);
+        contentBox.appendChild(flex);
+        flexWrapper.appendChild(contentBox);
+        profileWrapper.appendChild(flexWrapper);
+        target.prepend(profileWrapper);
+      });
+      roomSocket.on("image", (data) => {
+        offset += 1;
+        const target = document.querySelector(".realChat");
+        const profileWrapper = document.createElement("div");
+        profileWrapper.classList.add("pWrapper");
+        if (me == data.UserId) {
+          profileWrapper.classList.add("right");
+        }
+        const flexWrapper = document.createElement("div");
+        flexWrapper.classList.add("pinner");
+        const flex = document.createElement("div");
+        flex.classList.add("flex");
+        const img = document.createElement("img");
+        img.setAttribute("src", data.profile);
+        const nickName = document.createElement("span");
+        const contentBox = document.createElement("div");
+        contentBox.classList.add("imgBox");
+        contentBox.setAttribute("style",`background-image: URL(${data.src});`);
+        const noCheck = document.createElement("div");
+        const time = document.createElement("div"); 
+        time.classList.add("timeStamp");
+        time.innerText=data.time;
+        flexWrapper.appendChild(time);
+        noCheck.innerText = "1";
+        noCheck.classList.add("noCheck");
+        if (me == data.UserId) {
+          time.classList.add("me");
+          contentBox.classList.add("me");
+          flex.classList.add("me");
+          if (data.reached == "false") {
+            flexWrapper.appendChild(noCheck);
+          }
+        } else {
+          time.classList.add("other");
+          contentBox.classList.add("other");
+          flex.classList.add("other");
+        }
+        nickName.innerText = data.nickName;
+        flex.appendChild(img);
+        flex.appendChild(nickName);
+        contentBox.appendChild(flex);
         flexWrapper.appendChild(contentBox);
         profileWrapper.appendChild(flexWrapper);
         target.prepend(profileWrapper);
@@ -182,27 +262,43 @@
               const img = document.createElement("img");
               img.setAttribute("src", data.profile);
               const nickName = document.createElement("span");
-              const contentBox = document.createElement("div");
-              contentBox.classList.add("contentBox");
-              contentBox.innerText = data.content;
+              let contentBox = document.createElement("div");
+              if(data.src){
+                contentBox = document.createElement("div");
+                contentBox.setAttribute("style",`background-image: URL(${data.src});`);
+                contentBox.classList.add("imgBox");
+                
+              }
+              else{
+                contentBox.classList.add("contentBox");
+                contentBox.innerText = data.content;
+              }
+             
+              
               const noCheck = document.createElement("div");
               noCheck.innerText = "1";
               noCheck.classList.add("noCheck");
-
+              const time = document.createElement("div"); 
+              time.classList.add("timeStamp");
+              time.innerText=data.time;
+              flexWrapper.appendChild(time);
               if (me == data.UserId) {
+                
+                time.classList.add("me");
                 contentBox.classList.add("me");
                 flex.classList.add("me");
                 if (data.reached == "false") {
                   flexWrapper.appendChild(noCheck);
                 }
               } else {
+                time.classList.add("other");
                 contentBox.classList.add("other");
                 flex.classList.add("other");
               }
               nickName.innerText = data.nickName;
               flex.appendChild(img);
               flex.appendChild(nickName);
-              flexWrapper.appendChild(flex);
+              contentBox.appendChild(flex);
               flexWrapper.appendChild(contentBox);
               profileWrapper.appendChild(flexWrapper);
               target.appendChild(profileWrapper);
@@ -224,9 +320,9 @@
     <script>
       async function sendFunc(event) {
         console.log("sdasd");
-        const input = event.target.parentNode.querySelector("input");
+        const input = event.target.parentNode.querySelector(".chatInput");
         if (input.value.length == 0) {
-          alert("내용을 입력해 주세요!");
+          swal("", "채팅을 입력해 주세요!", "warning");
           return;
         } else {
           const data = await axios.post("/chat/chat", {

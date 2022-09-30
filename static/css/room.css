@@ -92,9 +92,8 @@
     border: none;
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 5px;
-    position: absolute;
-    bottom: 7px;
-    left: 80px;
+  
+  
     width: 550px;
     height: 25px;
   }
@@ -114,7 +113,6 @@
   .sendBtn {
     cursor: pointer;
     font-family: "HallymGothic-Regular";
-    position: absolute;
     bottom: 7px;
     right: 10px;
     background-color: #87c228;
@@ -140,14 +138,16 @@
   }
   .flex.me {
     position: absolute;
-    left: 270px;
+    right: 0px;
+    top:-25px;
     display: flex;
     width: 60px;
     justify-content: space-between;
   }
   .flex.other {
     position: absolute;
-    left: 20px;
+    left:0px;
+    top:-25px;
     display: flex;
     width: 60px;
     justify-content: space-between;
@@ -176,7 +176,7 @@
   .contentBox.me {
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 30px;
+    margin-top: 10px;
     text-align: left;
     position: relative;
     left: -20px;
@@ -217,6 +217,94 @@
   bottom:-20px;
   
 }
-.dnone{
-  display: none;
+
+.timeStamp.me{
+  position:absolute;
+  width:200px;
+  right:25px;
+  bottom:-20px;
+  font-size: 10px;
+  color:rgb(0,0,0,0.4)
+}
+.timeStamp.other{
+  position:absolute;
+  width:200px;
+  left:25px;
+  bottom:-20px;
+  font-size: 10px;
+  color:rgb(0,0,0,0.4)
+}
+.inputFlex{
+  margin-left: 20px;
+  margin-right: 20px;
+  align-items: center;
+  margin-top: 7px;
+  width: 660px;
+  justify-content: space-between;
+  display: flex;
+
+}
+.filebox{
+  text-align: center;
+  width:40px;
+  height: 25px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.filebox label {
+
+  padding-top: 5px;
+  display: inline-block;
+  cursor: pointer;
+    font-family: "HallymGothic-Regular";
+  
+    color: black;
+    font-size: 11px;
+   
+
+  
+ 
+
+}
+
+.filebox input[type="file"] {  /* 파일 필드 숨기기 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0;
+}
+.imgBox.me{
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
+  text-align: left;
+  position: relative;
+  left: 0px;
+  width: 300px;
+  height: 300px;
+  display: block;
+  margin-right: 0px;
+  background-repeat : no-repeat;
+        background-size : cover;
+  
+}
+.imgBox.other {
+  margin-right: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 30px;
+  text-align: left;
+  position: relative;
+  right: -20px;
+  width: 300px;
+  height:300px;
+  display: block;
+  background-repeat : no-repeat;
+        background-size : cover;
+
 }

@@ -224,14 +224,14 @@
               const wrapper = document.createElement("div");
               wrapper.setAttribute("class", "carousel-inner");
               let numCnt = 0;
+
               ele.src.forEach((element) => {
-                console.log(element.type);
-                if (element.type == "img") {
-                  let flag = "active";
+                let flag = "active";
                   if (numCnt != 0) {
                     flag = "";
                   }
                   numCnt += 1;
+                if (element.type == "img") {
                   const Img = document.createElement("div");
                   Img.setAttribute("class", `carousel-item ${flag}`);
                   const img = document.createElement("img");
@@ -242,7 +242,7 @@
                   wrapper.appendChild(Img);
                 } else {
                   const Img = document.createElement("div");
-                  Img.setAttribute("class", "carousel-item active");
+                  Img.setAttribute("class", `carousel-item ${flag}`);
                   Img.setAttribute("data-carousel-item", "");
                   const video = document.createElement("video");
                   const source = document.createElement("source");

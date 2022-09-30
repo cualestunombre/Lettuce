@@ -28,6 +28,26 @@
       border: none;
       background-color: transparent;
     }
+
+    .imgWrap {
+        width: 430px;
+        height: 430px;
+        cursor: pointer;
+        transition: 0.5s;
+        position: relative;
+      }
+      .imgWrap > .icons{
+        display: none;
+
+      }
+      .imgWrap:hover > .icons{
+        display: block;
+      }
+      .icons{
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+      }
   </style>
 </head>
 
@@ -279,7 +299,13 @@
       }).then((data) => {
         if (data.code == 200) {
           const html = data.data.map(
-            (item) => ( item.src[0].type == "img" ?  `<img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">` :`<div class="yeah"><video class="videoPosting" controls="" onmouseover="videoPlay(this);" onmouseout="videoStop(this);" muted="" loop="loop" onclick = "getItem(${item.id});" id="${item.id}"><source src="${item.src[0].src}" type="video/mp4"></video></div>`)
+            (item) => ( item.src[0].type == "img" ?  `<div class="imgWrap">
+                  <div class="icons">
+                    <i class="fa-regular fa-comments"> ${item.commentCnt}</i>
+                    <i class="fa-regular fa-heart"> ${item.likeCnt}</i>
+                  </div>
+                  <img id="${item.id}" class="yeah" src="${item.src[0].src}" onclick = "getItem(${item.id});" data-bs-target = "#boardModal" like = "${item.likeCnt}" comment = "${item.commentCnt}">
+                </div>` :`<div class="yeah"><video class="videoPosting" controls="" onmouseover="videoPlay(this);" onmouseout="videoStop(this);" muted="" loop="loop" onclick = "getItem(${item.id});" id="${item.id}"><source src="${item.src[0].src}" type="video/mp4"></video></div>`)
           );
           $list.innerHTML += html.join("");
         } else {

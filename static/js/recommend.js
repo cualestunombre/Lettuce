@@ -32,6 +32,7 @@ function getRecList() {
         method: "get"
       }).then((response) => {
         otherD = response.data.otherData;
+        console.log("oD", response);
         myD = response.data.myData;
         $("#recModal #recommendList").empty();
         $("#recModal .myprofile").empty();
@@ -63,7 +64,10 @@ function getRecList() {
                         &nbsp;
                         <span class="recUserEmail">${otherD[i].email}</span>
                       </div>`;
-          if (otherD[i].cnt > 1) {
+          if (response.data.hasFriend == false){
+            text += `<div class = "recBottmom"><span class="recCnt">TOP ${i+1}. ${otherD[i].cnt}명이 팔로우중입니다.</span><button class = "followButton" onclick ="follow(${otherD[i].id});">팔로우</button></div>`
+          }
+          else if (otherD[i].cnt > 1) {
             text += `<div class = "recBottmom"><span class="recCnt">${otherD[i].friend}님 외 ${otherD[i].cnt-1} 명이 팔로우중입니다.</span><button class = "followButton" onclick ="follow(${otherD[i].id});">팔로우</button></div>`
           } else {
             text += `<div class = "recBottmom"><span class="recCnt">${otherD[i].friend}님이 팔로우중입니다.</span><button class = "followButton" onclick ="follow(${otherD[i].id});">팔로우</button></div>`

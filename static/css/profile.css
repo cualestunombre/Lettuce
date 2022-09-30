@@ -30,7 +30,6 @@
 
 .infoDiv {
     width: 613px;
-    height: 152px;
     align-items: center;
 }
 
@@ -149,7 +148,9 @@
 }
 
 .introduction {
+    width: 500px;
     display: flex;
-    justify-content: space-around;
+    margin: auto;
+    justify-content: center;
     font-size: 15px;
 }

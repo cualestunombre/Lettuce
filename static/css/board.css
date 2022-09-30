@@ -5,6 +5,7 @@
 #boardModal .carousel-item img {
     width: 548px;
     height: 500px;
+    object-fit: contain;
 }
 
 #boardModal .card {
@@ -396,6 +397,12 @@ div.commentPlace {
     opacity: 1;
 }
 .videoPosting{
+    width: 100%;
+    height: 494px;
+}
+
+
+.yeah .videoPosting{
     width: 100%;
     height: 100%;
 }

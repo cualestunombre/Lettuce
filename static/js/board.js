@@ -6,7 +6,6 @@ function getItem(boardId) {
             resolve(data.data);
         }, 100);
     }).then(async (data) => {
-        console.log(data);
         if (data.code == 200) {
             $("#board-main").empty();
             const main = document.querySelector("#board-main");
@@ -42,7 +41,6 @@ function getItem(boardId) {
             const createdAt = document.createElement("span");
             createdAt.innerText = ele.createdAt;
             createdAt.classList.add("createdAt");
-            console.log("!!",ele.myPost);
             if (ele.myPost) {
               createdAt.append(delBtn);
             }
@@ -58,7 +56,6 @@ function getItem(boardId) {
             indicator.setAttribute("class", "carousel-indicators");
 
             let ccount = 1;
-            console.log(ele.src);
             indicator.innerHTML += `<button type="button" data-bs-target="#a${ele.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>`;
             for (let k = 0; k < ele.src.length - 1; k++) {
                 indicator.innerHTML += ` <button type="button" data-bs-target="#a${ele.id
@@ -72,12 +69,12 @@ function getItem(boardId) {
             wrapper.setAttribute("class", "carousel-inner");
             let numCnt = 0;
             ele.src.forEach((element) => {
+              let flag = "active";
+              if (numCnt != 0) {
+                flag = "";
+              }
+              numCnt += 1;
                 if ((element.type == "img")) {
-                    let flag = "active";
-                    if (numCnt != 0) {
-                        flag = "";
-                    }
-                    numCnt += 1;
                     const Img = document.createElement("div");
                     Img.setAttribute("class", `carousel-item ${flag}`);
                     const img = document.createElement("img");
@@ -88,7 +85,7 @@ function getItem(boardId) {
                     wrapper.appendChild(Img);
                 } else {
                     const Img = document.createElement("div");
-                    Img.setAttribute("class", "carousel-item active");
+                    Img.setAttribute("class", `carousel-item ${flag}`);
                     Img.setAttribute("data-carousel-item", "");
                     const video = document.createElement("video");
                     const source = document.createElement("source");
@@ -114,7 +111,6 @@ function getItem(boardId) {
             }
             let flag2 = "bi-bookmark";
             let value2 = "0";
-            console.log("ele", ele);
             if (ele.bookmark) {
                 flag2 = "bi-bookmark-fill";
                 value2 = "1";
@@ -146,7 +142,6 @@ function getItem(boardId) {
                  result.push(content[i]);
                }
              }
-             console.log(result);
              result = result.join(" ");
            }
            card.innerHTML += ` 
@@ -178,7 +173,6 @@ function getItem(boardId) {
                               </a> : ${ele.comment} <span class=commentTime>${ele.time}</span>
                             </div>`;
                     if (ele.me == "true") {
-                        console.log(ele.id);
                         tag += `<i class="fa-solid fa-trash" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${ele.id}"></i></i>`;
                     }
                     const temp = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
@@ -222,7 +216,6 @@ function getItem(boardId) {
                                 }
                                 const div = `<div class="commentPlace"  id="c${postId}"> ${tag} </div>`;
                                 space.innerHTML += div;
-                                console.log(space);
                             });
                         }
                     }
@@ -257,7 +250,6 @@ async function deleteComent(event) {
             }
             const div = `<div class="commentPlace" id="c${postId}"> ${tag} </div>`;
             space.innerHTML += div;
-            console.log(space);
         });
         swal("", "댓글 삭제 성공", "success");
     }
@@ -285,7 +277,6 @@ async function like(event) {
     document.querySelector(
         `#like${postId}`
     ).innerHTML = `<a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${postId}"  onclick="likeList(event)">${send.data.Count}명이 좋아합니다.</a>`;
-    console.log(send);
 }
 
 function likeList(event) {
@@ -320,13 +311,11 @@ function likeList(event) {
 function commentlist(event) {
     const postid = event.target.getAttribute("value");
     const data = { PostId: postid };
-    console.log("data", data);
     axios({
       url: "/comment/commentList",
       method: "get",
       params: data,
     }).then((response) => {
-      console.log("!!",response.data);
       let modalBody = document.querySelector("#clist");
       modalBody.innerHTML = "";
       let html = "";
@@ -370,7 +359,6 @@ function commentlist(event) {
 
     if (comentD.data.code == 200) {
       event.target.parentNode.parentNode.innerHTML = "";
-      console.log(event.target.parentNode.parentNode);
       const postid = event.target.getAttribute("url");
       const data = { PostId: postid };
       axios({
@@ -378,7 +366,6 @@ function commentlist(event) {
         method: "get",
         params: data,
       }).then((response) => {
-        console.log(response.data);
         let modalBody = document.querySelector("#clist");
         modalBody.innerHTML = "";
         let html = "";

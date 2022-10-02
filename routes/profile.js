@@ -191,7 +191,8 @@ router.get("/getFollowList", async (req, res) => {
     })
     var data = {
         following: getFollowingList,
-        follower: getFollowerList
+        follower: getFollowerList,
+        id: req.user.id
     }
     res.send(data);
 })
@@ -214,7 +215,16 @@ router.post("/unfollow", async (req, res) => {
             followed: req.body.id
         }
     })
-    res.redirect('/');
+
+    const followingCnt = await Follow.count({
+        where: {
+            follower: id
+        }
+    })
+    var data = {
+        following : followingCnt
+    }
+    res.send(data);
 })
 
 // 개인정보수정 페이지(마이페이지) 렌더링

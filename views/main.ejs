@@ -113,24 +113,7 @@
       </div>
     </div>
 
-    <!-- 댓글 모달 -->
-    <div class="modal" id="commentModal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="Comment-title">댓글</h5>
-            <button
-              type="button"
-              class="btn-close"
-              style="margin: 0; padding: 0"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body" id="clist"></div>
-        </div>
-      </div>
-    </div>
+  
     <div id="downScroll"></div>
 
     <script src="../static/js/searchUser.js"></script>
@@ -276,10 +259,7 @@
               card.appendChild(carousel);
               card.innerHTML += `<div class="info">
                               <div class="info_left">
-                                  <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>
-                                  <i class="far fa-comment" data-bs-toggle="modal" data-bs-target="#commentModal" value="${ele.id}"  onclick="commentlist(event)"></i>
-
-                              </div>
+                                  <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>                              </div>
                               <div class="info_right">
                                 <i id="bookmark" url="${ele.id}" value="${value2}" class="bi ${flag2}" onclick="bookmark(event)"></i>
                               </div>
@@ -503,14 +483,14 @@
           }
 
           for (let i = 0; i < ListMode.length; i++) {
-            html += `<div class="likeUser">
-                      <div style="cursor: pointer"  onclick="location.href='profile?id=${ListMode[i].id}';" >
+            html += `<a href='profile?id=${ListMode[i].id}' class="userLink">
                         <img class="likeProfile" src="${ListMode[i].profile}" alt="">
-                        <span>${ListMode[i].nickName}</span>
                       </div>
-                        &nbsp; 
+                      <div class="userInfo">
                         <span class="userEmail">${ListMode[i].email}</span>
-                      </div>`;
+                        <span class="userName">${ListMode[i].nickName}</span>
+                      </div>  
+                      </a>`;
           }
           modalBody.innerHTML = html;
         });

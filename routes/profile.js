@@ -244,15 +244,34 @@ router.post("/mypage/fileupload", isLoggedIn, upload.single("userfile"), async (
 
 // 개인정보수정
 router.post("/mypage/update", isLoggedIn, async (req, res) => {
-    const hash = await bcrypt.hash(req.body.password, 12);
-    const profileUpdate = await User.update({
-        nickName: req.body.name,
-        comment: req.body.comment,
-        birthday: req.body.birthday,
-        password: hash
-    },
-        { where: { id: req.user.id } }
-    )
+    console.log(req.body);
+    let hash ;
+    if(req.body.password.length==0){
+        hash="";
+    }
+    else{
+        await bcrypt.hash(req.body.password, 12);
+    }
+    if(req.body.birthday.length==0){
+        const profileUpdate = await User.update({
+            nickName: req.body.name,
+            comment: req.body.comment,
+            password: hash
+        },
+            { where: { id: req.user.id } }
+        )
+    }
+    else{
+        const profileUpdate = await User.update({
+            nickName: req.body.name,
+            comment: req.body.comment,
+            birthday: req.body.birthday,
+            password: hash
+        },
+            { where: { id: req.user.id } }
+        )
+    }
+    
     res.send(req.body);
 })
 

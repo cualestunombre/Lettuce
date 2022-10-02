@@ -25,7 +25,7 @@ router.get("/comments",async(req,res)=>{
         where:{
                 PostId:req.query.PostId},
         order: [['createdAt','DESC']],
-        limit:4
+    
     });
     come.forEach(ele=>{
         console.log(ele['User.id']);

@@ -97,14 +97,25 @@
     }
 
     function updateUser() {
+      let data;
       var form = document.getElementById("profileForm");
-      var data = {
-        name: form.name.value,
-        comment: form.comment.value,
-        birthday: form.birth.value,
-        password: form.passwordCheck.value
+      if(form.passwordCheck){
+        data = {
+          name: form.name.value,
+          comment: form.comment.value,
+          birthday: form.birth.value,
+          password: form.passwordCheck.value
+        }
       }
-      console.log(data.name);
+      else{
+        data = {
+          name: form.name.value,
+          comment: form.comment.value,
+          birthday: form.birth.value,
+          password: ""
+        }
+      }
+      console.log(data.birthday);
 
       axios({
         url: "/profile/mypage/update",

@@ -399,3 +399,8 @@ header{
 #No{
     text-align: center;
 }
+.comments {
+    overflow-y: auto;
+    max-height: 300px;
+
+}

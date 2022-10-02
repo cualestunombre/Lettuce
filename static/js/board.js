@@ -212,7 +212,7 @@ function getItem(boardId) {
                                             </div>`;
 
                                 if (res.me) {
-                                    tag += `<button type="button" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}">삭제</button>`;
+                                  tag += `<i class="fa-solid fa-trash" id ="delete" onclick="deleteComent(event)" url="${postId}"value="${res.id}"></i>`;
                                 }
                                 const div = `<div class="commentPlace"  id="c${postId}"> ${tag} </div>`;
                                 space.innerHTML += div;

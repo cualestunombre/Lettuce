@@ -239,7 +239,7 @@ div.commentPlace {
 #boardModal #re {
     margin-left: 10px;
     border: none;
-    width: 300px;
+    width: 420px;
 }
 
 #boardModal .bi-heart,
@@ -389,8 +389,40 @@ div.commentPlace {
     height: 494px;
 }
 
-
 .yeah .videoPosting{
     width: 100%;
     height: 100%;
+}
+
+.up{
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    z-index: 100;
+}
+#upIcon, #downIcon {
+    font-size: 40px; 
+    color: #87C128;
+    opacity: 0.8;
+}
+.down{
+    position: fixed;
+    bottom: 35px;
+    right: 40px;
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    z-index: 100;
+}
+#upIcon:hover, #downIcon:hover {
+    opacity: 1;
+}
+
+@media (max-width: 769px) {
+    .up, .down {
+        display: none;
+    }
 }

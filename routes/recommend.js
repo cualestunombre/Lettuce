@@ -24,7 +24,9 @@ router.get("/", isLoggedIn, async (req, res, next) => {
     }
     else{
         for (var i = 0; i < rec_data.length; i++) {
-            const rec_query2 = `select nickName from users as u join follow as f on u.id = f.follower where followed = "${rec_data[i].followed}" and follower != "${id}" limit 1;`
+            const rec_query2 = `select nickName
+            from users as u join follow as f on u.id = f.follower
+            where followed = "${rec_data[i].followed}" and follower != "${id}" and follower in (select followed from follow where follower = "${id}");`
             const rec_data2 = await sequelize.query(rec_query2, { type: QueryTypes.SELECT });
             rec_data[i].friend = rec_data2[0].nickName;
         };

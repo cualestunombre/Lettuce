@@ -6,7 +6,10 @@ const { QueryTypes } = require('sequelize');
 const { sequelize } = require("./models");
 const axios = require("axios");
 module.exports = (server,app,sessionMiddleware)=>{
-    const io = SocketIO(server,{path:'/socket.io'});
+    const io = SocketIO(server,{path:'/socket.io',  cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+      }});
     app.set("io",io);
     const wrap = middleware => (socket,next)=>middleware(socket.request,{},next);
     const notification = io.of("/notification");

@@ -71,13 +71,13 @@
       }
     </script>
     <script>
-      const socket = io.connect(`http://localhost:8000/notification`, {
-        path: "/socket.io",
+      const socket = io.connect(`http://49.50.167.217:8000/notification`, {
+        path: "/socket.io", cors: { origin: '*' }
       });
     </script>
     <script>
-      const roomSocket = io.connect(`http://localhost:8000/room`, {
-        path: "/socket.io",
+      const roomSocket = io.connect(`http://49.50.167.217:8000/room`, {
+        path: "/socket.io", cors: { origin: '*' }
       });
       let arr = [];
       $("input").bind("input", () => {

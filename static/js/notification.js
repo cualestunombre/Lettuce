@@ -1,5 +1,5 @@
-const socket = io.connect(`http://localhost:8000/notification`, {
-    path: "/socket.io",
+const socket = io.connect(`http://49.50.167.217:8000/notification`, {
+    path: "/socket.io", cors: { origin: '*' }
 });
 socket.on("notification", () => {
     document.querySelector(".notification").innerText = parseInt(document.querySelector(".notification").innerText) + 1;

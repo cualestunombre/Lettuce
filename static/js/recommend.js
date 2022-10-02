@@ -8,7 +8,7 @@ function follow(id) {
         method: "post",
         data: data,
     }).then((response) => {
-        window.location.href = `http://localhost:8000/`;
+        window.location.href = `http://49.50.167.217:8000/`;
     });
 }
 
@@ -22,7 +22,7 @@ function unfollow(id) {
         method: "post",
         data: data,
     }).then((response) => {
-        window.location.href = `http://localhost:8000/`;
+        window.location.href = `http://49.50.167.217:8000/`;
     });
 }
 

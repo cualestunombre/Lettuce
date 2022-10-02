@@ -76,8 +76,8 @@
   <script src="../static/js/notification.js"></script>
   <script src="../static/js/searchUser.js"></script>
   <script>
-    const chatSocket = io.connect(`http://localhost:8000/chat`, {
-      path: "/socket.io",
+    const chatSocket = io.connect(`http://49.50.167.217:8000/chat`, {
+      path: "/socket.io", cors: { origin: '*' }
     });
     chatSocket.on("room", (data) => {
       const list = document.querySelector(".roomContent");

@@ -283,7 +283,7 @@ div.commentPlace {
     margin: 10px;
     height: 40px;
     display: flex;
-    justify-content:space-around;
+    justify-content:space-between;
     align-items: center;
   }
   .likeProfile {
@@ -381,7 +381,7 @@ div.commentPlace {
 }
 
 #likeModal{
-    --bs-modal-width: 300px !important;
+    --bs-modal-width: 320px !important;
 }
 
 .videoPosting{

@@ -102,7 +102,7 @@
         <div>
           <a href="#" data-bs-toggle="modal" data-bs-target="#followModal" onclick="followList('following');">
             <div>
-              <span>팔로잉</span><span style="font-weight: bolder"> <%=data.following%></span>
+              <span>팔로잉</span><span id="following" style="font-weight: bolder"> <%=data.following%></span>
             </div>
           </a>
         </div>
@@ -228,15 +228,33 @@
         if (response.data[mode].length == 0) {
           html += `목록이 비어있습니다. 네트워킹을 시작하세요!`;
         } else {
+          if (mode == 'following' && response.data.id == id){
           for (var i = 0; i < followMode.length; i++) {
             html += `<div style="cursor: pointer">
-                      <div class="followUser" onclick="location.href='profile?id=${followMode[i].id}';">
-                        <img class="followProfile" src="${followMode[i].profile}" alt="">
-                        <span class="userName">${followMode[i].nickName}</span>
-                        <span class="userEmail">${followMode[i].email}</span>
+                      <div class="followingUser">
+                        <div style="height:100%; margin-right:10px;">
+                        <img class="followProfile" src="${followMode[i].profile}" onclick="location.href='profile?id=${followMode[i].id}';">
+                      </div>
+                        <span class="followUserName" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].nickName}</span>
+                        <span class="followUserEmail" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].email}</span>
+                        <button class="unfollowBtn" type="button" onclick="unfollowInList(${followMode[i].id});">언팔로우</button>
                       </div>
                     </div>`;
           }
+        }
+        else{
+          for (var i = 0; i < followMode.length; i++) {
+            html += `<div style="cursor: pointer">
+                      <div class="followerUser">
+                        <div style="height:100%; margin-right:10px;">
+                        <img class="followProfile" src="${followMode[i].profile}" onclick="location.href='profile?id=${followMode[i].id}';">
+                      </div>
+                        <span class="followUserName" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].nickName}</span>
+                        <span class="followUserEmail" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].email}</span>
+                      </div>
+                    </div>`;
+          }
+        }
         }
         modalBody.innerHTML = html;
       });
@@ -267,6 +285,20 @@
         data: data,
       }).then((response) => {
         window.location.href = `http://localhost:8000/profile?id=${id}`;
+      });
+    }
+
+    function unfollowInList(id) {
+      var data = {
+        id: id,
+      };
+      axios({
+        url: "/profile/unfollow",
+        method: "post",
+        data: data,
+      }).then((response) => {
+        followList('following');
+        $("#following").html(` ${response.data.following}`);
       });
     }
 

@@ -98,10 +98,18 @@
     margin-left: 201px;
 }
 
-.followUser {
+.followingUser {
     height: 40px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+.followerUser {
+    height: 40px;
+    width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .followProfile {
@@ -112,16 +120,23 @@
     left: 50px;
 }
 
-.userEmail {
+.followUserEmail {
     font-family: 'HallymGothic-Regular';
     color: rgb(140, 140, 140);
 }
 
-.userName {
+.followUserName {
     font-weight: bolder;
     font-family: 'HallymGothic-Regular';
 }
 
+.unfollowBtn{
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 5px 9px;
+    font-size: 11px;
+}
 .yeah {
     width: 430px;
     height: 430px;

@@ -5,7 +5,6 @@ const { User, Post, PostMedia, Follow, HashTag, Like, Comment } = require("../mo
 const { isLoggedIn } = require("./middlewares");
 
 router.get("/", async (req, res, next) => {
-    console.log(req.query.tag);
     if (req.query.tag) res.render("explore", { hash: req.query.tag });
     else res.render("explore", { hash: undefined });
 });
@@ -155,23 +154,6 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
         list[i].likeCnt = likeCnt;
         list[i].commentCnt = commentCnt
     }
-
-    console.log("LIST", list);
-    // 데이터 가공
-    /* 데이터 형식
-    {   
-        content:
-        createdAt:
-        id:
-        'User.id':
-        'User.nickName':
-        'User.profile':
-        likeCnt:
-        commentCnt:
-        src: [{src: , type},]
-    }
-
-    */
     if (list.length == 0) {
         res.send({ code: 400 });
     }

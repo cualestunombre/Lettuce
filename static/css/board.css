@@ -421,6 +421,11 @@ div.commentPlace {
     opacity: 1;
 }
 
+.comments {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
 @media (max-width: 769px) {
     .up, .down {
         display: none;

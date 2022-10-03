@@ -99,6 +99,14 @@ router.get("/board", isLoggedIn, async (req, res, next) => {
         if(data.length!=0){
             list[i].myPost="true";
         }
+        const Count  = await Comment.findAll({
+            raw:true,
+            attributes:["comment","createdAt","id"],
+            include:[{model:Post}],
+            where:{PostId:list[i].id},
+        });
+        list[i].commentCount= Count.length;
+
     }
     if (post.length == 0) {
         res.send({ code: 400 });
@@ -230,7 +238,6 @@ router.post("/unfollow", async (req, res) => {
 // 개인정보수정 페이지(마이페이지) 렌더링
 router.get("/mypage", isLoggedIn, async (req, res) => {
     var data = req.user;
-    console.log(data.provider);
     res.render('mypage', { data });
 })
 
@@ -254,7 +261,6 @@ router.post("/mypage/fileupload", isLoggedIn, upload.single("userfile"), async (
 
 // 개인정보수정
 router.post("/mypage/update", isLoggedIn, async (req, res) => {
-    console.log(req.body);
     let hash ;
     if(req.body.password.length==0){
         hash="";
@@ -374,20 +380,6 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
         list[i].commentCnt = commentCnt
     }
 
-    console.log("LIST", list);
-    // 데이터 가공
-    /* 데이터 형식
-    {   
-        id: ,
-        content: , 
-        createdAt: ,
-        'User.nickName': , 
-        'User.profile': ,
-        'User.id',
-        src: [{src: , type},]
-    }
-
-    */
     if (list.length == 0) {
         res.send({ code: 400 });
     }
@@ -397,7 +389,6 @@ router.get("/post", isLoggedIn, async (req, res, next) => {
 });
 router.post("/bookmark", async (req, res, next) => {
     const data = await BookMark.findAll({ raw: true, where: { UserId: req.user.id, PostId: req.body.postId } });
-    console.log(data);
     if (data.length != 0) {
         await BookMark.destroy({ where: { UserId: req.user.id, PostId: req.body.postId } });
         res.send({ code: 300 });

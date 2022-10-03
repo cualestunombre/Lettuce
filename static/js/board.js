@@ -117,14 +117,12 @@ function getItem(boardId) {
             }
             card.appendChild(carousel);
             card.innerHTML += `<div class="info">
-                               <div class="info_left">
-                                    <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>
-                                    <i class="far fa-comment" data-bs-toggle="modal" data-bs-target="#commentModal" value="${ele.id}"  onclick="commentlist(event)"></i>
-                                </div>
-                                <div class="info_right">
-                                  <i id="bookmark" url="${ele.id}" value="${value2}" class="bi ${flag2}" onclick="bookmark(event)"></i>
-                                </div>
-                            </div>`;
+            <div class="info_left">
+                <i value="${value}" style="color:#ff69b4"onclick="like(event)" url="${ele.id}" class="bi ${flag}"></i>                              </div>
+            <div class="info_right">
+              <i id="bookmark" url="${ele.id}" value="${value2}" class="bi ${flag2}" onclick="bookmark(event)"></i>
+            </div>
+        </div>`;
              //좋아요 목록
              card.innerHTML += `<div class="ll" id="like${ele.id}">${ele.likeCount} 
              <a href="#" data-bs-toggle="modal" data-bs-target="#likeModal" value="${ele.id}"  onclick="likeList(event)">
@@ -132,32 +130,33 @@ function getItem(boardId) {
            let result = [];
 
            if (ele.content) {
-             let spaceAdd = ele.content.replace(/#/gi, " #");
-             let content = spaceAdd.split(" ");
-             for (let i = 0; i < content.length; i++) {
-               var tag = content[i].substring(1);
-               if (content[i].includes("#")) {
-                 result.push(`<a href = "/explore?tag=${tag}" class="hash">#${tag}</a>`);
-               } else {
-                 result.push(content[i]);
-               }
-             }
-             result = result.join(" ");
-           }
-           card.innerHTML += ` 
-                       <div class="comment">
-                           ${result}
-                       </div>`;
-           card.innerHTML += `<div class="comment_form">
-                           <div class="comments" url="${ele.id}">
-                               <div style="margin-left:16px">댓글</div>
+            let spaceAdd = ele.content.replace(/#/gi, " #");
+            let content = spaceAdd.split(" ");
+            for (let i = 0; i < content.length; i++) {
+              var tag = content[i].substring(1);
+              if (content[i].includes("#")) {
+                result.push(`<a href = "/explore?tag=${tag}" class="hash">#${tag}</a>`);
+              } else {
+                result.push(content[i]);
+              }
+            }
+            result = result.join(" ");
+          }
+          card.innerHTML += ` 
+                      <div class="comment">
+                          ${result}
+                      </div>`;
+          
+            card.innerHTML += `<div class="comment_form">
+                          <div class="comments" url="${ele.id}">
+                              <div style="margin-left:16px" id = "cocount" url="${ele.id}">댓글<span class ="commentTime">${ele.commentCount}개의 댓글이 있습니다.</span></div>
 
-                           </div>  
-                           <div id="RegisterForm">
-                               <input id="re" type="text" placeholder="댓글 입력..">
-                               <button type="button" id="commentRegister" url="${ele.id}">등록</button>
-                           </div>
-                       </div>`;
+                          </div>  
+                          <div id="RegisterForm">
+                              <input id="re" type="text" placeholder="댓글 입력..">
+                              <button type="button" id="commentRegister" url="${ele.id}">등록</button>
+                          </div>
+                      </div>`;
             main.appendChild(card);
             let arr = document.querySelectorAll(`#boardModal div .comments`);
             for (const element of arr) {
@@ -200,12 +199,23 @@ function getItem(boardId) {
                             const res = await axios.get(
                                 `/comment/comments?PostId=${postId}`
                             );
+                            const co = await axios.get(
+                              `/comment/commentCount?PostId=${postId}`
+                            );
                             document.querySelectorAll(`#c${postId}`).forEach((c) => {
                                 c.remove();
                             });
                             const space = document.querySelector(
                                 `#boardModal div[url="${postId}"].comments`
                             );
+
+                            const coBody = document.querySelector(
+                              `div[url="${postId}"]#cocount`
+                            );
+                            coBody.innerHTML = "";
+                            let count = `댓글<span class ="commentTime">${co.data.length}개의 댓글이 있습니다.</span>`
+                            coBody.innerHTML += count;
+
                             res.data.forEach((res) => {
                                 let tag = `<a href="/profile?id=${res["User.id"]}"> <div class="come">
                                             <img src="${res["User.profile"]}"> ${res["User.nickName"]}</a>:${res.comment}
@@ -235,6 +245,11 @@ async function deleteComent(event) {
         const postId = event.target.getAttribute("url");
         const commentId = event.target.getAttribute("value");
         const res = await axios.get(`/comment/comments?PostId=${postId}`);
+        const co = await axios.get(`/comment/commentCount?PostId=${postId}`);
+        const coBody = document.querySelector(`div[url="${postId}"]#cocount`);
+        coBody.innerHTML = "";
+        let count = `댓글<span class ="commentTime">${co.data.length}개의 댓글이 있습니다.</span>`
+        coBody.innerHTML += count;
         document.querySelectorAll(`#c${postId}`).forEach((c) => {
             c.remove();
         });
@@ -294,15 +309,19 @@ function likeList(event) {
         modalBody.innerHTML = "";
         let html = "";
         let ListMode = response.data.data;
+        if(ListMode.length == 0){
+          html += `<div id="No">아직 좋아요가 없습니다.</div>`;
+          modalBody.innerHTML = html
+        }
         for (let i = 0; i < ListMode.length; i++) {
-            html += `<div class="likeUser">
-                      <div style="cursor: pointer"  onclick="location.href='profile?id=${ListMode[i].id}';" >
-                        <img class="likeProfile" src="${ListMode[i].profile}" alt="">
-                        <span class="userName">${ListMode[i].nickName}</span>
-                      </div>
-                        &nbsp;
-                        <span class="userEmail">${ListMode[i].email}</span>
-                      </div>`;
+          html += `<a href='profile?id=${ListMode[i].id}' class="userLink">
+                      <img class="likeProfile" src="${ListMode[i].profile}" alt="">
+                    </div>
+                    <div class="userInfo">
+                      <span class="userEmail">${ListMode[i].email}</span>
+                      <span class="userName">${ListMode[i].nickName}</span>
+                    </div>  
+                    </a>`;
         }
         modalBody.innerHTML = html;
     });
@@ -318,8 +337,15 @@ function commentlist(event) {
     }).then((response) => {
       let modalBody = document.querySelector("#clist");
       modalBody.innerHTML = "";
+      let commentBody = document.querySelector("#cocount");
       let html = "";
       let ListMode = response.data;
+
+      if(ListMode.length == 0){
+        html += `<div id="No">아직 작성된 게시글이 없습니다.</div>`;
+        modalBody.innerHTML = html
+      }
+
       for (let i = 0; i < ListMode.length; i++) {
         if (ListMode[i].me) {
           html += `<div class="commentPlace1">
@@ -333,7 +359,7 @@ function commentlist(event) {
                       </div>
                       <i id ="deleteComment" onclick="listDelete(event)" url="${postid}"value="${ListMode[i].id}" class="fa-solid fa-trash"></i>
                     </div>
-                  </div>`;
+                    </div>`;
         } else {
           html += `<div class="commentPlace1">
                       <div class="come1">
@@ -368,6 +394,7 @@ function commentlist(event) {
       }).then((response) => {
         let modalBody = document.querySelector("#clist");
         modalBody.innerHTML = "";
+        let commentBody = document.querySelector("#cocount");
         let html = "";
         let ListMode = response.data;
         for (let i = 0; i < ListMode.length; i++) {

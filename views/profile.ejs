@@ -184,7 +184,7 @@
 
   <!-- 팔로잉 모달 -->
   <div class="modal" id="followModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width: 370px;">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="follow-title"></h5>
@@ -237,25 +237,34 @@
           for (var i = 0; i < followMode.length; i++) {
             html += `<div style="cursor: pointer">
                       <div class="followingUser">
-                        <div style="height:100%; margin-right:10px;">
+                        <div style = "display: flex; gap: 10px;">
+                        <div>
                         <img class="followProfile" src="${followMode[i].profile}" onclick="location.href='profile?id=${followMode[i].id}';">
-                      </div>
-                        <span class="followUserName" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].nickName}</span>
+                        </div>
+                      <div class="followTextInfo">
                         <span class="followUserEmail" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].email}</span>
-                        <button class="unfollowBtn" type="button" onclick="unfollowInList(${followMode[i].id});">언팔로우</button>
+                        <span class="followUserName" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].nickName}</span>
                       </div>
+                    </div>
+                      <button class="unfollowBtn" type="button" onclick="unfollowInList(${followMode[i].id});">언팔로우</button>
+                    </div>
                     </div>`;
           }
         }
         else{
           for (var i = 0; i < followMode.length; i++) {
             html += `<div style="cursor: pointer">
-                      <div class="followerUser">
-                        <div style="height:100%; margin-right:10px;">
+                      <div class="followingUser">
+                        <div style = "display: flex; gap: 10px;">
+                        <div>
                         <img class="followProfile" src="${followMode[i].profile}" onclick="location.href='profile?id=${followMode[i].id}';">
-                      </div>
-                        <span class="followUserName" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].nickName}</span>
+                        </div>
+                      <div class="followTextInfo">
                         <span class="followUserEmail" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].email}</span>
+                        <span class="followUserName" onclick="location.href='profile?id=${followMode[i].id}';">${followMode[i].nickName}</span>
+                      </div>
+                    </div>
+                    <button class="visitBtn" type="button" onclick="location.href='profile?id=${followMode[i].id}';">프로필</button>
                       </div>
                     </div>`;
           }

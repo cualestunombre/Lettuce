@@ -221,7 +221,7 @@ function getItem(boardId) {
                     }
                 });
             }
-            cnt += 1;
+            
         }
         $("#boardModal").modal("show");
     });

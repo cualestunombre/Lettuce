@@ -142,7 +142,7 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
         delete list[i]['Postmedia.type'];
         delete list[i]['Postmedia.src'];
     }
-    for (let i = 0; i < del; i++) {
+    for (let i = 0; i <= del; i++) {
         list.shift();
     }
     while (list.length > 20) {

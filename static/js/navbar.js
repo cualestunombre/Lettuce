@@ -4,7 +4,8 @@ function posting() {
   const file = document.getElementById("postingFile");
   const content = $("#content").val();
   if (file.value == "") {
-    alert("사진을 등록해 주세요");
+    swal("","사진을 최소 한개 이상 올려주세요","warning");
+    return;
   }
   for (let i = 0; i < file.files.length; i++) {
     formData.append("files", file.files[i]);

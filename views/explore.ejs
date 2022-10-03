@@ -26,7 +26,7 @@
     ></a>
     <link rel="stylesheet" href="/static/css/board.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" />
-    <title>Document</title>
+    <title>Lettuce 게시글 전체 보기</title>
     <style>
       @font-face {
         font-family: "HallymGothic-Regular";
@@ -48,26 +48,29 @@
         display: none;
       }
 
-      .square {
-        border: 0;
-        width: 80px;
-        padding: 0px;
+      .square{
+        border:0;
+        width:80px;
+        padding:0px;
         margin-top: 40px;
         margin-left: calc(50% - 40px);
         margin-left: -webkit-calc(50% - 40px);
         margin-left: -moz-calc(50% - 40px);
+        background-color: rgb(255,255,255);
       }
-
+      
       .spin {
-        box-shadow: rgba(0, 0, 0, 0.1) 5px 4px 12px;
         height: 80px;
         width: 80px;
         border-radius: 50%;
-        border: dashed 5px #87c228;
+        box-shadow: rgba(0, 0, 0, 0.1)  5px 4px 12px;
+        border:dashed 5px #87C228;
         -webkit-animation-name: spin;
         -webkit-animation-duration: 1.5s;
         -webkit-animation-iteration-count: infinite;
         -webkit-animation-timing-function: linear;
+        background-color: rgb(255,255,255);
+        margin-bottom: 50px;
       }
 
       @-webkit-keyframes spin {
@@ -176,7 +179,11 @@
       }   
     </style>
   </head>
-
+  <style>
+    body{
+      overflow-y: scroll
+    }
+  </style>
   <body>
     <%-include('navbar.ejs') %>
 
@@ -208,7 +215,7 @@
       <div class="list"></div>
     </div>
 
-  <div class="more">
+  <div class="more" style="height: 30px; background-color: rgb(255, 255, 255)">
     <p class="virtual"></p>
     <div class="square dnone">
       <div class="spin"></div>
@@ -263,11 +270,12 @@
           } else {
             data = await axios.get(`/explore/list?tag=no&cnt=${cnt}`);
           }
-          cnt += 1;
+      
           resolve(data.data);
         }, 1000);
       }).then((data) => {
         if (data.code == 200) {
+          console.log(data);
           const html = data.data.map(
             (item) => ( item.src[0].type == "img" ? `
             <div class="imgWrap">
@@ -287,6 +295,7 @@
                   </div>`)
           );
           $list.innerHTML += html.join("");
+          cnt += 1;
         } else {
           intersectionObserver.unobserve(document.querySelector(".virtual"));
         }

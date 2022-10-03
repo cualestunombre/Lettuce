@@ -3,7 +3,7 @@ module.exports= class Post extends Sequelize.Model{
     static init(sequelize){
         return super.init({
             hashtag:{
-                type:Sequelize.STRING(20),
+                type:Sequelize.STRING(1000),
                 allowNull:false
             },
         },{
@@ -13,8 +13,8 @@ module.exports= class Post extends Sequelize.Model{
             modelName:'Hashtag',
             tableName:"hashtags",
             paranoid:false,
-            charset:"utf8",
-            collate:"utf8_general_ci"
+            charset: "utf8mb4",
+            collate: "utf8mb4_general_ci",
         });
     }
     static associate(db){

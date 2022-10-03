@@ -197,8 +197,13 @@ router.post("/chat",isLoggedIn,async (req,res,next)=>{
 
 });
 router.get("/chatnoti",async(req,res,next)=>{
-    const data = await Notification.findAll({raw:true,where:{type:"chat",reached:"false",receiver:req.user.id}});
-    res.send({cnt:data.length});
+    if(req.user){
+        const data = await Notification.findAll({raw:true,where:{type:"chat",reached:"false",receiver:req.user.id}});
+        res.send({cnt:data.length});
+    }
+    else{
+        res.send({cnt:0});
+    }
 });
 router.post("/image/:roomId",upload.single("image"),async(req,res,next)=>{
     console.log(req.body);

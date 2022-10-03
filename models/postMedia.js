@@ -3,7 +3,7 @@ module.exports= class Post extends Sequelize.Model{
     static init(sequelize){
         return super.init({
             src:{
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(1000),
                 allowNull: false,
             },
             type:{
@@ -17,8 +17,8 @@ module.exports= class Post extends Sequelize.Model{
             modelName:'Postmedia',
             tableName:"postmedia",
             paranoid:false,
-            charset:"utf8",
-            collate:"utf8_general_ci"
+            charset: "utf8mb4",
+        collate: "utf8mb4_general_ci",
         });
     }
     static associate(db){

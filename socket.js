@@ -36,19 +36,24 @@ module.exports = (server,app,sessionMiddleware)=>{
         }
         
         socket.on("disconnect",async()=>{
-            await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
-            const query = `select sessionSocketIdMap.socketId from sessionSocketIdMap inner join follow on sessionSocketIdMap.UserId
-            = follow.follower where follow.followed="${req.user.id}";
-            `;
-            const response = await SessionSocketIdMap.findAll({raw:true,where:{UserId:req.user.id}});
-            const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
-            if(response.length==0){
-                data.forEach(ele=>{
-                    if(response.length==0){
+            if(req.user){
+                if(req.user.id){
+                    await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
+                const query = `select sessionSocketIdMap.socketId from sessionSocketIdMap inner join follow on sessionSocketIdMap.UserId
+                = follow.follower where follow.followed="${req.user.id}";
+                `;
+                const response = await SessionSocketIdMap.findAll({raw:true,where:{UserId:req.user.id}});
+                const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
+                if(response.length==0){
+                    data.forEach(ele=>{
+                        if(response.length==0){
                         socket.to(ele.socketId).emit("inactive",{UserId:req.user.id});
-                    }
-                });
+                        }
+                    });
+                }
+                }
             }
+            
         }); 
     });
     chat.use(wrap(sessionMiddleware));
@@ -71,18 +76,20 @@ module.exports = (server,app,sessionMiddleware)=>{
         const req = socket.request;
         const {headers:{referer}} = req;
         socket.join(referer);
-        
-        room.to(referer).emit("enter",{id:req.user.id});
-        await SessionSocketIdMap.create({socketId:socket.id, sessionId:req.session.id,UserId:req.user.id, type:referer.split("/").pop()});
-        socket.on("onTyping",(data)=>{
-            room.to(referer).emit("onTyping",{data:req.user.id});
-            console.log(referer);
-        });
-        socket.on("disconnect",async()=>{
-            room.to(referer).emit("exit",{id:req.user.id});
-            await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
+        if(req.user){
+            room.to(referer).emit("enter",{id:req.user.id});
+            await SessionSocketIdMap.create({socketId:socket.id, sessionId:req.session.id,UserId:req.user.id, type:referer.split("/").pop()});
+            socket.on("onTyping",(data)=>{
+                room.to(referer).emit("onTyping",{data:req.user.id});
+                console.log(referer);
+            });
+            socket.on("disconnect",async()=>{
+                room.to(referer).emit("exit",{id:req.user.id});
+                await SessionSocketIdMap.destroy({where:{socketId:socket.id}});
+    
+            });
+        }
 
-        });
         
     });
 }

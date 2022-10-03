@@ -4,16 +4,16 @@ module.exports = class User extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
             email: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(500),
                 allowNull: false,
                 unique: true
             },
             password: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(1000),
                 allowNull: true
             },
             nickName: {
-                type: Sequelize.STRING(10),
+                type: Sequelize.STRING(1000),
                 allowNull: false,
             },
             birthday: {
@@ -26,7 +26,7 @@ module.exports = class User extends Sequelize.Model {
                 defaultValue: "/static/image/default.jpg"
             },
             comment: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(1000),
                 allowNull: true
             },
             provider: {
@@ -41,8 +41,8 @@ module.exports = class User extends Sequelize.Model {
             modelName: 'User',
             tableName: "users",
             paranoid: false,
-            charset: "utf8",
-            collate: "utf8_general_ci"
+            charset: "utf8mb4",
+            collate: "utf8mb4_general_ci",
         });
     }
     static associate(db) {

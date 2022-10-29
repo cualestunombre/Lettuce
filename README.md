@@ -60,5 +60,5 @@
 
 ## 🔗 링크
 
-- **웹 URL** - <a href="http://49.50.167.217:8000/">LETTUCE 로 이동</a>
+- **웹 URL** - <a href="http://49.50.167.217:8000/">LETTUCE로 이동</a>
 - **Notion** - <a href="https://www.notion.so/1-Lettuce-5735f374fb9243eaba03b49a003ffff3" >LETTUCE Notion으로 이동</a>

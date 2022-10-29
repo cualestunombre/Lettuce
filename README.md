@@ -1,5 +1,9 @@
 # [Lettuce] SNS 서비스 팀 프로젝트
 
+<p align="center">
+  <img width="100%" alt="Screen Shot 2022-10-29 at 8 34 00 PM" src="https://user-images.githubusercontent.com/101104214/198829285-8121c57b-dc5b-47d0-900b-1fad15b48118.png">
+</p>
+
 ## 🖥️ 프로젝트 소개
 온라인 사진 공유 및 소셜 네트워크 서비스를 제작하였습니다.
 <br>

@@ -6,6 +6,7 @@
 
 ## 🖥️ 프로젝트 소개
 온라인 사진 공유 및 소셜 네트워크 서비스를 제작하였습니다.
+
 <br>
 
 ## 🕰️ 개발 기간
@@ -28,6 +29,8 @@
 - **협업 툴** : Github + Git, Figma, Notion
 - **프레임워크 / 라이브러리 / API / 모듈** : Bootstrap 5, jQuery, 
 카카오 로그인 API, 네이버 로그인 API, passport, morgan, dotenv, soket, sequelize, express
+
+<br>
 
 ## 📌 주요 기능
 
@@ -52,6 +55,8 @@
 
 #### 개인 정보 페이지
 - 개인 프로필 및 정보 수정 기능 
+
+<br>
 
 ## 🔗 링크
 

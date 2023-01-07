@@ -43,8 +43,22 @@ router.get("/socket",async(req,res,next)=>{
 
 router.post("/room",async(req,res,next)=>{
     const result = await SessionSocketIdMap.findAll({raw:true,where:{UserId:req.body.id,type:"chat"}});
-    const query = `select rooms.time, rooms.id  from rooms inner join allocate on allocate.RoomId = rooms.id where allocate.UserId="${req.body.id}" or allocate.UserId="${req.body.user.id}" and rooms.type="one"`;
-    const data =  await sequelize.query(query,{type:QueryTypes.SELECT});
+    const query = `select rooms.time, rooms.id  from rooms inner join allocate on allocate.RoomId = rooms.id where allocate.UserId="${req.body.id}" or allocate.UserId="${req.body.user.id}" and rooms.type="one" `;
+    const re =  await sequelize.query(query,{type:QueryTypes.SELECT});
+    let data = [];
+    for (let i=0; i<re.length;i++){
+        const query = `select allocate.UserId from allocate where allocate.RoomId="${re[i].id}"`;
+        const temp =  await sequelize.query(query,{type:QueryTypes.SELECT});
+        if(temp.length==2){
+            if(temp[0].UserId==req.body.id&&temp[1].UserId==req.body.user.id){
+                data.push(re[i]);
+            }
+            if(temp[1].UserId==req.body.id&&temp[0].UserId==req.body.user.id){
+                data.push(re[i]);
+            }
+        }
+    }
+    
     const now = new Date().getTime();
   
         if(now-data[0].time.getTime()>3600*1000 && now-data[0].time.getTime()<3600*1000*24){

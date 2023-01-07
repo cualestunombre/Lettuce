@@ -101,7 +101,7 @@
       span2.innerText = data.email;
       const time = document.createElement("div");
       time.classList.add("roomTime");
-      time.innerText = data.time;
+      time.innerText = "0초전";
       const chatCnt = document.createElement("div");
       chatCnt.classList.add("roomCnt");
       chatCnt.innerText = "0";
@@ -114,6 +114,7 @@
     });
     chatSocket.on("chat", (data) => {
       const list = document.querySelector(".roomContent");
+      console.log(data.RoomId);
       document.querySelector(`.roomWrapper[url="${data.RoomId}"]`).remove();
       const room = document.createElement("div");
       room.classList.add("roomWrapper");

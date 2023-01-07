@@ -1,12 +1,17 @@
+const redis = require("redis");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const session = require("express-session");
+const RedisStore = require("connect-redis")(session);
 const dotenv = require("dotenv");
 const { sequelize } = require("./models");
 const port = 8000;
 const db = require("./models");
 dotenv.config(); //환경 변수용
+const redisClient = redis.createClient({url:`redis://${process.env.REDIS_HOST}`,
+password:process.env.REDIS_PASSWORD,    legacyMode: true,});
+redisClient.connect();
 const webSocket = require("./socket.js");
 const app = express();
 const sessionMiddleware = session({
@@ -18,6 +23,7 @@ const sessionMiddleware = session({
     secure: false,
     maxAge: 10000000000,
   },
+  store: new RedisStore({client:redisClient})
 });
 app.use(sessionMiddleware); // 세션객체 설정
 
@@ -55,7 +61,10 @@ sequelize
   .catch((err) => {
     console.error(err);
   }); // DB연결
-
+  app.use((req,res,next)=>{
+    console.log(req.user);
+    next();
+  });
 app.use("/", indexRouter); // index router 로 이동
 app.use("/auth", authRouter); // auth router 사용
 app.use("/profile", profileRouter);
